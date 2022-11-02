@@ -1,0 +1,55 @@
+{
+    "Records": [
+        {
+            "EventSource": "aws:sns",
+            "EventVersion": "1.0",
+            "EventSubscriptionArn": "arn:aws:sns:ap-southeast-2:853804063446:amazon-cloudwatch-alarm-formatted-email-rCwAlarmSns-fNPCjfuj8fU7:31693260-1adc-45fc-b7ca-075909705f26",
+            "Sns": {
+                "Type": "Notification",
+                "MessageId": "a7238d08-ce1f-5c68-957a-d6b61ebcb4e5",
+                "TopicArn": "arn:aws:sns:ap-southeast-2:853804063446:amazon-cloudwatch-alarm-formatted-email-rCwAlarmSns-fNPCjfuj8fU7",
+                "Subject": "ALARM: "123" in Asia Pacific (Sydney)",
+                "Message": {
+                    "AlarmName":"123",
+                    "AlarmDescription":null,
+                    "AWSAccountId":"853804063446",
+                    "AlarmConfigurationUpdatedTimestamp":"2022-10-11T02: 00: 44.795+0000",
+                    "NewStateValue":"ALARM",
+                    "NewStateReason":"Threshold Crossed: 1 out of the last 1 datapoints [1.0 (11/10/22 01: 56: 00)] was greater than or equal to the threshold (1.0) (minimum 1 datapoint for OK -> ALARM transition).",
+                    "StateChangeTime":"2022-10-11T02: 01: 07.029+0000",
+                    "Region":"Asia Pacific (Sydney)",
+                    "AlarmArn":"arn:aws:cloudwatch:ap-southeast-2: 853804063446:alarm: 123",
+                    "OldStateValue":"OK",
+                    "OKActions":[],
+                    "AlarmActions":["arn:aws:sns:ap-southeast-2: 853804063446:amazon-cloudwatch-alarm-formatted-email-rCwAlarmSns-fNPCjfuj8fU7"],
+                    "InsufficientDataActions":[],
+                    "Trigger":{
+                        "MetricName":"Errors",
+                        "Namespace":"AWS/Lambda",
+                        "StatisticType":"Statistic",
+                        "Statistic":"AVERAGE",
+                        "Unit":null,
+                        "Dimensions":[
+                            {
+                                "value":"dev-nick-test-error",
+                                "name":"FunctionName"
+                            }
+                        ],
+                        "Period":300,
+                        "EvaluationPeriods":1,
+                        "DatapointsToAlarm":1,
+                        "ComparisonOperator":"GreaterThanOrEqualToThreshold","Threshold":1.0,
+                        "TreatMissingData":"missing",
+                        "EvaluateLowSampleCountPercentile":""
+                    }
+                },
+                "Timestamp": "2022-10-11T02:01:07.083Z",
+                "SignatureVersion": "1",
+                "Signature": "m2RYfs7TxmofR/TGF22gDyVVKAVNWLZ0IirmGBKUVobIPmJ43N6YGjNE+SWAB/ThCjH26KGUYjykIm0+w9l8o6RjzNlnBiFXNBe+Via+8Usqbn/lyyYBglrc6bCEEkYwNTbtpRvpZJgfanVox2WS8XLN0zwBHlxpbzD7vLx0mpZJKeMO1Mjdr4Ev2IB69jqt0Kved6eZI6p1PEM4NJOoofvUk89bCVuFgZivZyXv1h2/UhS0I/8GQ+rPQRyKg7WiLcIG5yfoiEIkG7/T7msam4HsG9IV68/x95Uh2vcmWlKcKvb92TCSRhgy6KUMHKmyX5JnzA1mHKSLU1ykYnvgAQ==",
+                "SigningCertUrl": "https://sns.ap-southeast-2.amazonaws.com/SimpleNotificationService-56e67fcb41f6fec09b0196692625d385.pem",
+                "UnsubscribeUrl": "https://sns.ap-southeast-2.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:ap-southeast-2:853804063446:amazon-cloudwatch-alarm-formatted-email-rCwAlarmSns-fNPCjfuj8fU7:31693260-1adc-45fc-b7ca-075909705f26",
+                "MessageAttributes": {}
+            }
+        }
+    ]
+}
