@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a8ad39fec2a0065929fcc9941a14755",
+    "content-hash": "f0310046c468935aa6bd55c96b19a0ee",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1054,59 +1054,6 @@
                 }
             ],
             "time": "2022-06-20T21:43:03+00:00"
-        },
-        {
-            "name": "heydavid713/neo4jphp",
-            "version": "0.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/heydavid713/neo4jphp.git",
-                "reference": "30962925fb160a0efd7a021e4e5d0581404fac16"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/heydavid713/neo4jphp/zipball/30962925fb160a0efd7a021e4e5d0581404fac16",
-                "reference": "30962925fb160a0efd7a021e4e5d0581404fac16",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phing/phing": "2.6.*",
-                "phpunit/phpunit": "3.7.*",
-                "squizlabs/php_codesniffer": "1.5.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Everyman\\Neo4j": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Josh Adell",
-                    "email": "josh.adell@gmail.com",
-                    "homepage": "http://joshadell.com"
-                }
-            ],
-            "description": "Wrapper for the Neo4j graph database REST interface",
-            "homepage": "http://github.com/jadell/neo4jphp/wiki",
-            "keywords": [
-                "database",
-                "graph",
-                "neo4j"
-            ],
-            "support": {
-                "issues": "https://github.com/heydavid713/neo4jphp/issues",
-                "source": "https://github.com/heydavid713/neo4jphp/tree/0.1.2"
-            },
-            "time": "2015-12-30T15:32:55+00:00"
         },
         {
             "name": "kkszymanowski/traitor",
@@ -6563,79 +6510,6 @@
             "time": "2022-09-12T13:28:28+00:00"
         },
         {
-            "name": "ulobby/neoeloquent",
-            "version": "v7.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ulobby/NeoEloquent.git",
-                "reference": "0d55371ef652577b3b9577cfa224ab08e79c33ee"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ulobby/NeoEloquent/zipball/0d55371ef652577b3b9577cfa224ab08e79c33ee",
-                "reference": "0d55371ef652577b3b9577cfa224ab08e79c33ee",
-                "shasum": ""
-            },
-            "require": {
-                "heydavid713/neo4jphp": "0.1.*",
-                "illuminate/console": "^7.0",
-                "illuminate/database": "^7.0",
-                "illuminate/events": "^7.0",
-                "illuminate/pagination": "^7.0",
-                "illuminate/support": "^7.0",
-                "nesbot/carbon": "^2.0",
-                "php": ">=7.2"
-            },
-            "replace": {
-                "vinelab/neoeloquent": "1.4.7"
-            },
-            "require-dev": {
-                "codacy/coverage": "dev-master",
-                "mockery/mockery": "1.3.3",
-                "phpunit/phpunit": "~8.2.3"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Vinelab\\NeoEloquent\\NeoEloquentServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Vinelab\\NeoEloquent\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Abed Halawi",
-                    "email": "abed.halawi@vinelab.com"
-                },
-                {
-                    "name": "Ulobby",
-                    "email": "ulobby@ulobby.eu"
-                }
-            ],
-            "description": "Laravel wrapper for the Neo4j graph database REST interface",
-            "keywords": [
-                "database",
-                "graph",
-                "laravel",
-                "neo4j",
-                "neoeloquent"
-            ],
-            "support": {
-                "issues": "https://github.com/ulobby/NeoEloquent/issues",
-                "source": "https://github.com/ulobby/NeoEloquent/tree/v7.0.1"
-            },
-            "time": "2021-03-18T10:32:30+00:00"
-        },
-        {
             "name": "vlucas/phpdotenv",
             "version": "v4.3.0",
             "source": {
@@ -7118,16 +6992,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.14.5",
+            "version": "2.14.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "a63e5e8f26ebbebf8ed3c5c691637325512eb0dc"
+                "reference": "f7948baaa0330277c729714910336383286305da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/a63e5e8f26ebbebf8ed3c5c691637325512eb0dc",
-                "reference": "a63e5e8f26ebbebf8ed3c5c691637325512eb0dc",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/f7948baaa0330277c729714910336383286305da",
+                "reference": "f7948baaa0330277c729714910336383286305da",
                 "shasum": ""
             },
             "require": {
@@ -7177,7 +7051,7 @@
             ],
             "support": {
                 "issues": "https://github.com/filp/whoops/issues",
-                "source": "https://github.com/filp/whoops/tree/2.14.5"
+                "source": "https://github.com/filp/whoops/tree/2.14.6"
             },
             "funding": [
                 {
@@ -7185,7 +7059,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-07T12:00:00+00:00"
+            "time": "2022-11-02T16:23:29+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",

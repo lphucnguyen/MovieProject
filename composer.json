@@ -18,8 +18,7 @@
         "laravel/ui": "^2.0",
         "laudis/neo4j-php-client": "^2.7",
         "livewire/livewire": "^2.10",
-        "santigarcor/laratrust": "^6.1",
-        "ulobby/neoeloquent": "^7.0"
+        "santigarcor/laratrust": "^6.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
