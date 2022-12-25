@@ -86,6 +86,7 @@
                                         <button type="submit" class="btn btn-primary btn-round">Sửa</button>
                                         <button type="reset" class="btn btn-default btn-round btn-simple">Huỷ bỏ
                                         </button>
+                                        <a href={{route('dashboard.memberships.index')}} class="btn btn-second btn-round">Quay lại</a>
                                     </div>
                                 </div>
                             </form>

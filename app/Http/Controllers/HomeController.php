@@ -31,8 +31,8 @@ class HomeController extends Controller
     {
         $sliderFilms = Film::with('categories')->with('ratings')->limit(10)->latest()->get();
         $categoryFilms = Category::with(['films' => function($query){
-            $query->limit(10)->latest()->get();
-        }])->get();
+            $query->limit(35)->get();
+        }])->limit(3)->get();
 
         $user = auth()->guard('web')->user();
         $suggestedFilms = [];

@@ -60,8 +60,8 @@
                         <img src="{{$rating->film->poster}}" alt="" style="height: 150px">
                         <div class="mv-item-infor">
                             <h6><a href="{{url('movies/' . $rating->film->id)}}">{{$rating->film->name}} <span>({{$rating->film->year}})</span></a></h6>
-                            <p class="time sm-text" style="margin-bottom: 10px">your rate:</p>
-                            <p class="rate"><i class="ion-android-star"></i><span>{{$rating->rating }}</span> /5</p>
+                            {{-- <p class="time sm-text" style="margin-bottom: 10px">Đánh giá của bạn: </p> --}}
+                            <p class="rate">Đánh giá của bạn: <i class="ion-android-star"></i><span>{{$rating->rating }}</span> /5</p>
                         </div>
                     </div>
                     @endforeach

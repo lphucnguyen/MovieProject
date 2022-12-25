@@ -52,7 +52,7 @@ class ClientController extends Controller
 
         $user->update($attributes);
 
-        session()->flash('success', 'Profile Updated Successfully');
+        session()->flash('success', 'Hồ sơ cập nhật thành công');
         return redirect()->back();
     }
 
@@ -70,7 +70,7 @@ class ClientController extends Controller
 
         $user->update($attributes);
 
-        session()->flash('success', 'Password Updated Successfully');
+        session()->flash('success', 'Cập nhật mật khẩu thành công');
         return redirect()->back();
     }
 

@@ -1,34 +1,34 @@
-FROM php:7.4-fpm
+FROM webdevops/php-nginx:7.4-alpine
 
-# Arguments defined in docker-compose.yml
-ARG user
-ARG uid
+# Install Laravel framework system requirements (https://laravel.com/docs/8.x/deployment#optimizing-configuration-loading)
+RUN apk add oniguruma-dev postgresql-dev libxml2-dev
+RUN docker-php-ext-install \
+        bcmath \
+        ctype \
+        fileinfo \
+        json \
+        mbstring \
+        pdo_mysql \
+        pdo_pgsql \
+        tokenizer \
+        xml
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip
-
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
-
-# Get latest Composer
+# Copy Composer binary from the Composer official Docker image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Create system user to run Composer and Artisan Commands
-RUN useradd -G www-data,root -u 1000 -d /home/www www
-RUN mkdir -p /home/www/.composer && \
-    chown -R www:www /home/www
+ENV WEB_DOCUMENT_ROOT /app/public
+ENV APP_ENV production
+WORKDIR /app
+COPY . .
 
-# Set working directory
-WORKDIR /var/www
+RUN composer install --no-interaction --optimize-autoloader --no-dev
+# Optimizing Configuration loading
+RUN php artisan config:cache
+# Optimizing Route loading
+RUN php artisan route:cache
+# Optimizing View loading
+RUN php artisan view:cache
+# Create Symlink
+RUN php artisan storage:link
 
-USER $user
+RUN chown -R application:application .

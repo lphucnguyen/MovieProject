@@ -148,7 +148,7 @@
             <p><span style="color: orangered">Web Phim Online 2022</span></p>
         </div>
         <div class="backtotop">
-            <p><a href="#" id="back-to-top" style="color: #dd003f; font-weight: bold">Back to top <i
+            <p><a href="#" id="back-to-top" style="color: #dd003f; font-weight: bold">Lên đầu trang <i
                             class="ion-ios-arrow-thin-up"></i></a></p>
         </div>
     </div>

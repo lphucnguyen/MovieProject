@@ -5763,7 +5763,7 @@ ul {
 }
 
 .tabs .tab-content .active {
-    margin-left: -15px;
+    /* margin-left: -15px; */
 }
 
 .trailers {
@@ -7816,9 +7816,10 @@ ul {
 
 .userrate .sm-text {
     background-color: #233a50;
-    width: 75px;
-    text-align: center;
+    /* width: 75px; */
     -webkit-border-radius: 3px;
+    padding: 5px 10px;
+    text-align: left;
     -moz-border-radius: 3px;
     border-radius: 3px;
     margin-top: 15px;

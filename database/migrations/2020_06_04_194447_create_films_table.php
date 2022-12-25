@@ -15,7 +15,7 @@ class CreateFilmsTable extends Migration
     {
         Schema::create('films', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('year');
             $table->text('overview');
             $table->text('background_cover');

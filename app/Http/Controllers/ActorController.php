@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actor;
+use App\Film;
 use Illuminate\Http\Request;
 
 class ActorController extends Controller
@@ -17,6 +18,10 @@ class ActorController extends Controller
 
     public function show(Actor $actor){
         //
-        return view('actors.show', compact('actor'));
+        $films = $actor->films()
+                    ->latest()
+                    ->paginate(10);
+
+        return view('actors.show', compact('actor', 'films'));
     }
 }

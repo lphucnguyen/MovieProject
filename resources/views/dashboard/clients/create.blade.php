@@ -61,14 +61,14 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="text" name="first_name" class="form-control"
-                                                   placeholder="FirstName" value="{{ old('first_name', '') }}">
+                                                   placeholder="Họ" value="{{ old('first_name', '') }}">
                                             <span style="color: red; margin-left: 10px">{{ $errors->first('first_name') }}</span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="text" name="last_name" class="form-control"
-                                                   placeholder="LastName" value="{{ old('last_name', '') }}">
+                                                   placeholder="Tên" value="{{ old('last_name', '') }}">
                                             <span style="color: red;margin-left: 10px">{{ $errors->first('last_name') }}</span>
                                         </div>
                                     </div>
@@ -107,14 +107,14 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="password" name="password" class="form-control"
-                                                   placeholder="Password">
+                                                   placeholder="Mật khẩu">
                                             <span style="color: red; margin-left: 10px">{{ $errors->first('password') }}</span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="password" name="password_confirmation" class="form-control"
-                                                   placeholder="Password Confirmation">
+                                                   placeholder="Xác nhận mật khẩu">
                                         </div>
                                     </div>
                                 </div>
@@ -184,6 +184,7 @@
                                         <button type="submit" class="btn btn-primary btn-round">Thêm</button>
                                         <button type="reset" class="btn btn-default btn-round btn-simple">Huỷ bỏ
                                         </button>
+                                        <a href={{route('dashboard.clients.index')}} class="btn btn-second btn-round">Quay lại</a>
                                     </div>
                                 </div>
                             </form>

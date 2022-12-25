@@ -10,6 +10,7 @@ class UserSeeder extends Seeder
      *
      * @return void
      */
+
     public function run()
     {
         //
@@ -36,7 +37,7 @@ class UserSeeder extends Seeder
         //     \App\User::create($user);
         // }
 
-        factory(App\User::class, 10)
+        factory(App\User::class, 100)
             ->create();
             // ->each(function ($user) {
             //     $films = Film::select('id')

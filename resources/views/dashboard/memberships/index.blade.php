@@ -74,7 +74,8 @@
                                                 <td><span class="list-name">{{$membership->title}}</span></td>
                                                 <td><span class="list-name">{{$membership->price}}</span></td>
                                                 <td>
-                                                    @if(auth()->guard('admin')->user()->hasPermission('update_memberships'))
+
+                                                    @if(auth()->guard('admin')->user()->hasPermission('update_memberships') && config('membership')['id'] != $membership->id)
                                                         <a href="{{route('dashboard.memberships.edit', $membership)}}">
                                                             <button class="btn btn-icon btn-neutral btn-icon-mini"
                                                                     title="Chỉnh sửa">
@@ -144,6 +145,7 @@
                         showCancelButton: true,
                         confirmButtonColor: "#DD6B55",
                         confirmButtonText: "Xoá",
+                        cancelButtonText: "Huỷ bỏ",
                         closeOnConfirm: false
                     }, function () {
                         that.closest('form').submit();

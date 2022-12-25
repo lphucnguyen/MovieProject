@@ -23,9 +23,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api'], function () {
     //Accept => application/json
     //Authorization => Bearer TOKEN
 
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::get('/user', 'UserController@index');
 
     Route::apiResource('categories', 'CategoryController'); //all categories with movies
     Route::apiResource('movies', 'MovieController'); //show movie with reviews and actors

@@ -21,12 +21,13 @@
                             </div>
                         </div>
                     </li>
-                    <li class="active open">
+                    {{-- {{request()->routeIs('dashboard.admins.*')}} --}}
+                    <li class="{{request()->is('dashboard.home.*') ? "active": ""}}">
                         <a href="{{route('dashboard.home')}}"><i class="zmdi zmdi-home"></i><span>Bảng điều khiển</span></a>
                     </li>
 
                     @if(auth()->guard('admin')->user()->hasPermission('read_admins'))
-                        <li>
+                        <li class="{{request()->is('dashboard/admins*') ? "active": ""}}">
                             <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-account"></i><span>Admins</span>
                             </a>
                             <ul class="ml-menu">
@@ -39,7 +40,7 @@
                     @endif
 
                     @if(auth()->guard('admin')->user()->hasPermission('read_clients'))
-                        <li>
+                        <li class="{{request()->is('dashboard/clients*') ? "active": ""}}">
                             <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-account-circle"></i><span>Khách hàng</span>
                             </a>
                             <ul class="ml-menu">
@@ -52,7 +53,7 @@
                     @endif
 
                     @if(auth()->guard('admin')->user()->hasPermission('read_categories'))
-                        <li>
+                        <li class="open {{request()->route()->uri == 'dashboard/categories' ? "active": ""}}">
                             <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-view-list"></i><span>Danh mục</span>
                             </a>
                             <ul class="ml-menu">
@@ -65,7 +66,7 @@
                     @endif
 
                     @if(auth()->guard('admin')->user()->hasPermission('read_films'))
-                        <li>
+                        <li class="{{request()->is('dashboard/films*') ? "active": ""}}">
                             <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-movie"></i><span>Phim</span>
                             </a>
                             <ul class="ml-menu">
@@ -78,7 +79,7 @@
                     @endif
 
                     @if(auth()->guard('admin')->user()->hasPermission('read_actors'))
-                        <li>
+                        <li class="{{request()->is('dashboard/actors*') ? "active": ""}}">
                             <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-male"></i><span>Diễn viên</span>
                             </a>
                             <ul class="ml-menu">
@@ -91,7 +92,7 @@
                     @endif
 
                     @if(auth()->guard('admin')->user()->hasPermission('read_memberships'))
-                        <li>
+                        <li class="{{request()->is('dashboard/memberships*') ? "active": ""}}">
                             <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-account-circle"></i><span>Gói thành viên</span>
                             </a>
                             <ul class="ml-menu">
@@ -104,28 +105,28 @@
                     @endif
 
                     @if(auth()->guard('admin')->user()->hasPermission('read_ratings'))
-                        <li>
-                            <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-star"></i><span>Ratings</span>
+                        <li class="{{request()->is('dashboard/ratings*') ? "active": ""}}">
+                            <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-star"></i><span>Đánh giá</span>
                             </a>
                             <ul class="ml-menu">
-                                <li><a href="{{route('dashboard.ratings.index')}}">Tất cả rating</a></li>
+                                <li><a href="{{route('dashboard.ratings.index')}}">Tất cả đánh giá</a></li>
                             </ul>
                         </li>
                     @endif
 
                     @if(auth()->guard('admin')->user()->hasPermission('read_reviews'))
-                        <li>
-                            <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-comment-list"></i><span>Reviews</span>
+                        <li class="{{request()->is('dashboard/reviews*') ? "active": ""}}">
+                            <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-comment-list"></i><span>Bình luận</span>
                             </a>
                             <ul class="ml-menu">
-                                <li><a href="{{route('dashboard.reviews.index')}}">Tất cả review</a></li>
+                                <li><a href="{{route('dashboard.reviews.index')}}">Tất cả bình luận</a></li>
                             </ul>
                         </li>
                     @endif
 
                     @if(auth()->guard('admin')->user()->hasPermission('read_messages'))
-                        <li>
-                            <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-email"></i><span>Messages</span>
+                        <li class="{{request()->is('dashboard/messages*') ? "active": ""}}">
+                            <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-email"></i><span>Tin nhắn</span>
                             </a>
                             <ul class="ml-menu">
                                 <li><a href="{{route('dashboard.messages.index')}}">Tất cả tin nhắn</a></li>

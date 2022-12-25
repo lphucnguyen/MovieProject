@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Auth::routes(['reset' => FALSE]);
-Route::any('logout', 'Auth\LoginController@logout')->name('logout');
+Route::any('logout', 'Auth\LoginController@logout')->name('web.logout');
 
 Route::get('/', 'HomeController@index');
 Route::get('/search', 'HomeController@search');

@@ -86,7 +86,7 @@ class FilmController extends Controller
         //
         $attributes = $request->validate([
             'name' => 'required|string|max:50|min:1|unique:films',
-            'year' => 'required|string|max:4|min:4',
+            'year' => 'required|string|min:4',
             'overview' => 'required|string',
             'background_cover' => 'required|image',
             'poster' => 'required|image',
@@ -111,7 +111,7 @@ class FilmController extends Controller
             'url' => $attributes['url'],
             'api_url' => $attributes['api_url'],
             'is_free' => $attributes['is_free'],
-            'memberships_can_see' => implode($attributes['memberships_can_see'])
+            'memberships_can_see' => implode(',', $attributes['memberships_can_see'])
         ]);
         $film->categories()->sync($attributes['categories']);
         $film->actors()->sync($attributes['actors']);
@@ -126,6 +126,7 @@ class FilmController extends Controller
         }, $attributes['url'], $attributes['api_url']);
 
         $film->episodes()->insert($episodes);
+        dd("Hello");
 
         session()->flash('success', 'Phim thêm thành công');
         return redirect()->route('dashboard.films.index');
@@ -171,7 +172,7 @@ class FilmController extends Controller
         //
         $attributes = $request->validate([
             'name' => ['required', 'string', 'max:50', 'min:1', Rule::unique('films')->ignore($film)],
-            'year' => 'required|string|max:4|min:4',
+            'year' => 'required|string|min:4',
             'overview' => 'required|string',
             'background_cover' => 'nullable|image',
             'poster' => 'nullable|image',

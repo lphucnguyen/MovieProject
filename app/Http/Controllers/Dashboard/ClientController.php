@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -61,10 +62,10 @@ class ClientController extends Controller
     {
         //
         $attributes = $request->validate([
-            'username' => 'required|string|max:20|min:3',
-            'email' => 'required|string|email|unique:users',
             'first_name' => 'required|string|max:15|min:3',
             'last_name' => 'required|string|max:15|min:3',
+            'email' => 'required|string|email',
+            'username' => 'required|unique:users|string|max:15|min:3',
             'avatar' => 'image',
             'password' => 'required|string|confirmed|min:6',
         ]);
@@ -74,12 +75,13 @@ class ClientController extends Controller
         }
 
         $result = User::create([
-            'username' => $attributes['username'],
-            'email' => $attributes['email'],
             'first_name' => $attributes['first_name'],
             'last_name' => $attributes['last_name'],
+            'username' => $attributes['username'],
+            'email' => $attributes['email'],
             'avatar' => $attributes['avatar'] ?? NULL,
             'password' => bcrypt($attributes['password']),
+            'expired_at' => Carbon::now()->toDateString()
         ]);
 
         session()->flash('success', 'Khách hàng thêm thành công');

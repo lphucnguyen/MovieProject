@@ -26,24 +26,40 @@ class ReviewController extends Controller
     public function index(Request $request)
     {
         //
+        // $reviews = Review::with('user')->with('film')
+        //     ->where(function ($query) use ($request) {
+        //         $query->when($request->client, function ($q) use ($request) {
+        //             return $q->whereHas('user', function ($q2) use ($request) {
+        //                 $q2->whereIn('id', (array)$request->client);
+        //             });
+        //         });
+        //         $query->when($request->film, function ($q) use ($request) {
+        //             return $q->whereHas('film', function ($q2) use ($request) {
+        //                 $q2->whereIn('id', (array)$request->film);
+        //             });
+        //         });
+        //     })
+        //     ->latest()->paginate(10);
         $reviews = Review::with('user')->with('film')
             ->where(function ($query) use ($request) {
-                $query->when($request->client, function ($q) use ($request) {
+                $query->when($request->search, function ($q) use ($request) {
                     return $q->whereHas('user', function ($q2) use ($request) {
-                        $q2->whereIn('id', (array)$request->client);
+                        $q2->where('username', 'LIKE', "%{$request->search}%");
                     });
                 });
-                $query->when($request->film, function ($q) use ($request) {
+            })
+            ->orWhere(function ($query) use ($request) {
+                $query->when($request->search, function ($q) use ($request) {
                     return $q->whereHas('film', function ($q2) use ($request) {
-                        $q2->whereIn('id', (array)$request->film);
+                        $q2->where('name', 'LIKE', "%{$request->search}%");
                     });
                 });
             })
             ->latest()->paginate(10);
-        $clients = User::all();
-        $films = Film::all();
+        // $clients = User::all();
+        // $films = Film::all();
 
-        return view('dashboard.reviews.index', compact('reviews', 'clients', 'films'));
+        return view('dashboard.reviews.index', compact('reviews'));
     }
 
     /**

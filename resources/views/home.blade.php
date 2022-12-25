@@ -68,7 +68,7 @@
                                     <img alt="" 
                                     height="437" 
                                     style="height: 400px;" 
-                                    src="{{$film->background_cover}}"
+                                    src="{{$film->poster}}"
                                     width="285">
                                 </a>
                             </div>
@@ -131,6 +131,7 @@
                     </div>
                     @endif
                     @foreach($categoryFilms as $category)
+                        {{$category->films->count()}}
                         <div class="title-hd">
                             <h2>{{$category->name}}</h2>
                             <a class="viewall" href="{{url('movies?category=' . $category->name)}}">Tất cả <i

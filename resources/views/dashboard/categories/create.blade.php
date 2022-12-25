@@ -55,6 +55,7 @@
                                         <button type="submit" class="btn btn-primary btn-round">Thêm</button>
                                         <button type="reset" class="btn btn-default btn-round btn-simple">Huỷ bỏ
                                         </button>
+                                        <a href={{route('dashboard.categories.index')}} class="btn btn-second btn-round">Quay lại</a>
                                     </div>
                                 </div>
                             </form>

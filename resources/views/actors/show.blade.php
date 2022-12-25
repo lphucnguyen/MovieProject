@@ -34,7 +34,7 @@
                             <ul class="tab-links tabs-mv">
                                 <li class="active"><a href="#overviewceb">Giới thiệu</a></li>
                                 <li><a href="#biography"> Tiểu sử</a></li>
-                                <li><a href="#filmography">Bộ phim</a></li>
+                                {{-- <li><a href="#filmography">Bộ phim</a></li> --}}
                             </ul>
                             <div class="tab-content">
                                 <div class="tab active" id="overviewceb">
@@ -60,6 +60,34 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="rv-hd mt-5">
+                                            <div>
+                                                <h3>Các bộ phim đã diễn của</h3>
+                                                <h2>{{$actor->name}}</h2>
+                                            </div>
+
+                                        </div>
+                                        <div class="topbar-filter">
+                                            <p>Tìm thấy <span>{{$actor->films->count()}}</span> phim</p>
+                                        </div>
+                                        <!-- movie cast -->
+                                        <div class="mvcast-item">
+                                            @foreach($films as $film)
+                                                <div class="cast-it">
+                                                    <div class="cast-left cebleb-film">
+                                                        <img alt="" src="{{$film->poster}}" style="height: 75px">
+                                                        <div>
+                                                            <a href="{{url('movies/' . $film->id)}}">{{$film->name}} </a>
+                                                        </div>
+
+                                                    </div>
+                                                    <p>... {{$film->year}}</p>
+                                                </div>
+                                            @endforeach
+                                            {{$films->appends(request()->query())->links()}}
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="tab" id="biography">
                                     <div class="row">
@@ -72,7 +100,7 @@
                                         <p style="word-break: break-all">{{$actor->biography}}</p>
                                     </div>
                                 </div>
-                                <div class="tab" id="filmography">
+                                {{-- <div class="tab" id="filmography">
                                     <div class="row">
                                         <div class="rv-hd">
                                             <div>
@@ -86,7 +114,7 @@
                                         </div>
                                         <!-- movie cast -->
                                         <div class="mvcast-item">
-                                            @foreach($actor->films as $film)
+                                            @foreach($films as $film)
                                                 <div class="cast-it">
                                                     <div class="cast-left cebleb-film">
                                                         <img alt="" src="{{$film->poster}}" style="height: 75px">
@@ -98,9 +126,10 @@
                                                     <p>... {{$film->year}}</p>
                                                 </div>
                                             @endforeach
+                                            {{$films->appends(request()->query())->links()}}
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

@@ -56,6 +56,7 @@ class MovieController extends Controller
                     ORDER BY jaccard DESC, recommendation DESC, toFloat(f2.year) DESC
                     LIMIT 10';
         $param = ['filmId' => $film->id];
+        // dd($query);
         $results = $client->run($query, $param);
         foreach ($results as $result) {
             $node = $result->get('f2');

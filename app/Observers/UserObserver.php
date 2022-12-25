@@ -23,7 +23,7 @@ class UserObserver
                         username: "'. $user->username .'",
                         email: "'. $user->email .'",
                         first_name: "'. $user->first_name .'",
-                        last_name: "'. $user->last_name .'",
+                        last_name: "'. $user->last_name .'"
                     })';
         $param = [
             'userId' => $user->id,
@@ -68,7 +68,7 @@ class UserObserver
     {
         $connection = new Connection();
         $client = $connection->getClient();
-        
+
         $query = 'MATCH (u:Users{id: $userId})
                     DETACH DELETE u';
         $param = [

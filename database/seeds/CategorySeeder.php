@@ -16,7 +16,9 @@ class CategorySeeder extends Seeder
         $categories = [
             ['name' => 'Hành động'],
             ['name' => 'Tình cảm'],
-            ['name' => 'Hài hước']
+            ['name' => 'Hài hước'],
+            ['name' => 'Kinh dị'],
+            ['name' => 'Chiến tranh']
         ];
 
         foreach ($categories as $category) {

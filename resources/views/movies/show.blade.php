@@ -107,7 +107,7 @@
                             <div class="tabs">
                                 <ul class="tab-links tabs-mv" style="margin-top: 30px">
                                     <li class="active"><a href="#overview">Tổng quan</a></li>
-                                    <li><a href="#reviews"> Đánh giá</a></li>
+                                    <li><a href="#reviews">  Bình luận</a></li>
                                     <li><a href="#actor"> Diễn viên </a></li>
                                 </ul>
                                 <div class="tab-content">
@@ -180,7 +180,7 @@
 
                                         <div class="blog-detail-ct" id="write_review">
                                             <div class="comment-form" style="padding-top: 75px!important;">
-                                                <h4>Viết đánh giá</h4>
+                                                <h4>Viết bình luận</h4>
                                                 <form action="{{url('user/review/' . $film->id)}}" method="POST">
                                                     @csrf
                                                     <div class="row">
@@ -207,7 +207,7 @@
                                                             @enderror
                                                         </div>
                                                     </div>
-                                                    <button class="submit" type="submit"> Đánh giá</button>
+                                                    <button class="submit" type="submit"> Bình luận</button>
                                                 </form>
                                             </div>
                                         </div>

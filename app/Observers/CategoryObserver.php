@@ -59,8 +59,10 @@ class CategoryObserver
         $connection = new Connection();
         $client = $connection->getClient();
         
+        // dd($category);
+
         $query = 'MATCH (c:Categories{id: $categoryId})
-                    DETACH DELETE f';
+                    DETACH DELETE c';
         $param = [
             'categoryId' => $category->id,
         ];

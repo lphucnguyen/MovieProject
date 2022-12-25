@@ -200,6 +200,7 @@
                         showCancelButton: true,
                         confirmButtonColor: "#DD6B55",
                         confirmButtonText: "Xoá",
+                        cancelButtonText: "Huỷ bỏ",
                         closeOnConfirm: false
                     }, function () {
                         that.closest('form').submit();

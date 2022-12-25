@@ -17,24 +17,13 @@ class RatingFilmObserver
     {
         $connection = new Connection();
         $client = $connection->getClient();
-        
-        $query = 'MATCH (u:Users{id: '. $rating->user_id .'})-[r:RATED]->(f:Films{id: '. $rating->film_id .'})
-                        DELETE r';
-                        
+
+        $query = 'MATCH (u:Users{id: $userId})-[r:RATED]->(f:Films{id: $filmId})
+                    SET r.rating = '. $rating->rating. '
+                    RETURN r';
         $param = [
             'filmId' => $rating->film_id,
-            'userId' => $rating->user_id
-        ];
-        $client->run($query, $param);
-
-        $query = 'MERGE (u1:Users{id: $userId})
-                    MERGE (f1:Films{id: $filmId})
-                    MERGE (u1)-[r1:RATED {user_id: '. $rating->user_id .', film_id: '. $rating->film_id .', rating: '. $rating .'}]->(f1)
-                    RETURN type(r1)';               
-
-        $param = [
-            'filmId' => $rating->film_id,
-            'userId' => $rating->user_id
+            'userId' => $rating->user_id,
         ];
         $client->run($query, $param);
     }
@@ -49,15 +38,15 @@ class RatingFilmObserver
     {
         $connection = new Connection();
         $client = $connection->getClient();
-        
-        $query = 'MATCH (u:Users{id: $userId})-[r:RATED]->(f:Films{id: $filmId})
-                    SET r.rating = '. $rating->rating. '
-                    RETURN r';
-        $param = [
-            'filmId' => $rating->film_id,
-            'userId' => $rating->user_id,
-        ];
-        $client->run($query, $param);
+
+        $query = 'MATCH (u:Users{id: '. $rating->user_id .'})-[r:RATED]->(f:Films{id: '. $rating->film_id .'}) DELETE r';
+        $client->run($query);
+        $query = 'MERGE (u1:Users{id: '. $rating->user_id .'})
+                    MERGE (f1:Films{id: '. $rating->film_id .'})
+                    MERGE (u1)-[r1:RATED {user_id: '. $rating->user_id .', film_id: '. $rating->film_id .', rating: '. intval($rating->rating) .'}]->(f1)
+                    RETURN type(r1)';               
+        $client->run($query);
+
     }
 
     /**

@@ -39,7 +39,7 @@ class FilmCategorySeeder extends Seeder
             foreach($films as $film){
                 $categories = Category::select('id')
                     ->inRandomOrder()
-                    ->limit(2)
+                    ->limit(3)
                     ->get()
                     ->toArray();
         

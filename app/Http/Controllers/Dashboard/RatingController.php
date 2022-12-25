@@ -27,16 +27,38 @@ class RatingController extends Controller
     public function index(Request $request)
     {
         //
+        // $ratings = Rating::with('user')->with('film')
+        //     ->where(function ($query) use ($request) {
+        //         $query->when($request->client, function ($q) use ($request) {
+        //             return $q->whereHas('user', function ($q2) use ($request) {
+        //                 $q2->whereIn('id', (array)$request->client);
+        //             });
+        //         });
+        //         $query->when($request->film, function ($q) use ($request) {
+        //             return $q->whereHas('film', function ($q2) use ($request) {
+        //                 $q2->whereIn('id', (array)$request->film);
+        //             });
+        //         });
+        //         $query->when($request->rating, function ($q) use ($request) {
+        //             return $q->where('rating', (array)$request->rating);
+        //         });
+        //     })
+        //     ->latest()->paginate(10);
         $ratings = Rating::with('user')->with('film')
             ->where(function ($query) use ($request) {
-                $query->when($request->client, function ($q) use ($request) {
+                $query->when($request->search, function ($q) use ($request) {
                     return $q->whereHas('user', function ($q2) use ($request) {
-                        $q2->whereIn('id', (array)$request->client);
+                        $q2->where('username', 'LIKE', "%{$request->search}%");
                     });
                 });
-                $query->when($request->film, function ($q) use ($request) {
+                $query->when($request->rating, function ($q) use ($request) {
+                    return $q->where('rating', (array)$request->rating);
+                });
+            })
+            ->orWhere(function ($query) use ($request) {
+                $query->when($request->search, function ($q) use ($request) {
                     return $q->whereHas('film', function ($q2) use ($request) {
-                        $q2->whereIn('id', (array)$request->film);
+                        $q2->where('name', 'LIKE', "%{$request->search}%");
                     });
                 });
                 $query->when($request->rating, function ($q) use ($request) {
@@ -44,10 +66,10 @@ class RatingController extends Controller
                 });
             })
             ->latest()->paginate(10);
-        $clients = User::all();
-        $films = Film::all();
+        // $clients = User::all();
+        // $films = Film::all();
 
-        return view('dashboard.ratings.index', compact('ratings', 'clients', 'films'));
+        return view('dashboard.ratings.index', compact('ratings'));
     }
 
     /**

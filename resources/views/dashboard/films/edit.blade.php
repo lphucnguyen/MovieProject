@@ -100,7 +100,7 @@
                                         </div>
                                         <div class="form-group">
                                             <textarea name="overview" rows="4" class="form-control no-resize"
-                                                      placeholder="Film Overview">{{ $film->overview }}</textarea>
+                                                      placeholder="Mô tả phim">{{ $film->overview }}</textarea>
                                             <span style="color: red; margin-left: 10px">{{ $errors->first('overview') }}</span>
                                         </div>
                                     </div>
@@ -225,6 +225,7 @@
                                         <button type="submit" class="btn btn-primary btn-round">Sửa</button>
                                         <button type="reset" class="btn btn-default btn-round btn-simple">Huỷ bỏ
                                         </button>
+                                        <a href={{route('dashboard.films.index')}} class="btn btn-second btn-round">Quay lại</a>
                                     </div>
                                 </div>
                             </form>

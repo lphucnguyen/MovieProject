@@ -64,7 +64,7 @@
                                         <thead>
                                         <tr>
                                             <th>Tên</th>
-                                            <th>Các mối quan hệ kahc1</th>
+                                            <th>Các mối quan hệ khác</th>
                                             <th>Hành động</th>
                                         </tr>
                                         </thead>
@@ -146,6 +146,7 @@
                         showCancelButton: true,
                         confirmButtonColor: "#DD6B55",
                         confirmButtonText: "Xoá",
+                        cancelButtonText: "Huỷ bỏ",
                         closeOnConfirm: false
                     }, function () {
                         that.closest('form').submit();

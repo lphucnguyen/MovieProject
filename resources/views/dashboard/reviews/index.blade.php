@@ -35,7 +35,7 @@
                         </div>
                         <div class="body">
                             <form action="{{ route('dashboard.reviews.index') }}" method="GET">
-                                <div class="row clearfix">
+                                {{-- <div class="row clearfix">
                                     <div class="col-4">
                                         <select name="client" class="form-control z-index show-tick"
                                                 data-live-search="true">
@@ -55,7 +55,17 @@
                                         </select>
                                     </div>
                                 </div>
-                                <button style="margin-top: 10px" type="submit" class="btn btn-primary">Search</button>
+                                <button style="margin-top: 10px" type="submit" class="btn btn-primary">Search</button> --}}
+
+                                <div class="row clearfix">
+                                    <div class="input-group" style="margin-bottom: 0px">
+                                        <input type="text" class="form-control" placeholder="Tìm kiếm..."
+                                                name="search" value="{{ request()->search }}">
+                                        <button class="input-group-addon" type="submit">
+                                            <i class="zmdi zmdi-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
 
                             <div class="tab-content m-t-10">
@@ -141,6 +151,7 @@
                         showCancelButton: true,
                         confirmButtonColor: "#DD6B55",
                         confirmButtonText: "Xoá",
+                        cancelButtonText: "Huỷ bỏ",
                         closeOnConfirm: false
                     }, function () {
                         that.closest('form').submit();

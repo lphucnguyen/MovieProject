@@ -54,7 +54,7 @@
                 </div>
                 <div class="col-md-9 col-sm-12 col-xs-12">
                     <div class="topbar-filter">
-                        <p>Tìm thấy <span>{{$reviews->count()}}</span> đánh giá</p>
+                        <p>Tìm thấy <span>{{$reviews->count()}}</span> bình luận</p>
                     </div>
                     @foreach($reviews as $review)
                         <div class="movie-item-style-2 userrate">
@@ -73,13 +73,12 @@
                                             border-style: unset;
                                             border-color: unset;
                                             border-image: unset;">
-                                        <i class="fa fa-trash"> Remove Review</i>
+                                        <i class="fa fa-trash"> Xoá bình luận</i>
                                     </button>
                                 </form>
-                                <p class="time sm-text" style="margin-bottom: 10px">your reviews:</p>
-                                <h6>{{$review->title}}</h6>
+                                <h6 style="margin-top: 10px">Tiêu đề: {{$review->title}}</h6> 
+                                <p class="time sm-text" style="margin-bottom: 10px">Nội dung: {{$review->review}}</p>
                                 <p class="time sm">{{date('d F Y',strtotime($review->created_at))}}</p>
-                                <p>“{{$review->review}}”</p>
                             </div>
                         </div>
                     @endforeach
