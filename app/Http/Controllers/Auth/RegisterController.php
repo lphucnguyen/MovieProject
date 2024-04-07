@@ -73,8 +73,7 @@ class RegisterController extends Controller
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'password' => bcrypt($data['password']),
-            'expired_at' => Carbon::now()->toDateTimeString(),
-            'membership_id' => 2
+            'expired_at' => Carbon::now()->toDateTimeString()
         ]);
     }
 }

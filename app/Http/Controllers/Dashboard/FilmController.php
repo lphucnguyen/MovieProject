@@ -6,14 +6,12 @@ use App\Actor;
 use App\Category;
 use App\Film;
 use App\Http\Controllers\Controller;
-use App\Membership;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class FilmController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware(['permission:create_films,guard:admin'])->only(['create', 'store']);
@@ -37,19 +35,19 @@ class FilmController extends Controller
                     ->orWhere('year', 'like', '%' . $request->search . '%');
             });
             $query->when($request->category, function ($q) use ($request) {
-                return $q->whereHas('categories', function ($q2) use ($request){
+                return $q->whereHas('categories', function ($q2) use ($request) {
                     return $q2->whereIn('category_id', (array)$request->category)
                         ->orWhereIn('name', (array)$request->category);
                 });
             });
             $query->when($request->actor, function ($q) use ($request) {
-                return $q->whereHas('actors', function ($q2) use ($request){
+                return $q->whereHas('actors', function ($q2) use ($request) {
                     return $q2->whereIn('actor_id', (array)$request->actor)
                         ->orWhereIn('name', (array)$request->actor);
                 });
             });
             $query->when($request->favorite, function ($q) use ($request) {
-                return $q->whereHas('favorites', function ($q2) use ($request){
+                return $q->whereHas('favorites', function ($q2) use ($request) {
                     return $q2->whereIn('user_id', (array)$request->favorite);
                 });
             });
@@ -67,12 +65,10 @@ class FilmController extends Controller
      */
     public function create()
     {
-        //
         $categories = Category::all();
         $actors = Actor::all();
-        $memberships = Membership::all();
 
-        return view('dashboard.films.create', compact('categories', 'actors', 'memberships'));
+        return view('dashboard.films.create', compact('categories', 'actors'));
     }
 
     /**
@@ -96,7 +92,6 @@ class FilmController extends Controller
             'categories' => 'required|array|max:3|exists:categories,id',
             'actors' => 'required|array|max:10|exists:actors,id',
             'is_free' => 'required|boolean',
-            'memberships_can_see' => 'required|array|max:10|exists:memberships,id'
         ]);
 
         $attributes['background_cover'] = $request->background_cover->store('film_background_covers');
@@ -111,16 +106,15 @@ class FilmController extends Controller
             'url' => $attributes['url'],
             'api_url' => $attributes['api_url'],
             'is_free' => $attributes['is_free'],
-            'memberships_can_see' => implode(',', $attributes['memberships_can_see'])
         ]);
         $film->categories()->sync($attributes['categories']);
         $film->actors()->sync($attributes['actors']);
 
         $id = $film->id;
-        $episodes = array_map(function($a, $b) use($id) {
+        $episodes = array_map(function ($a, $b) use ($id) {
             return [
-                'url' => $a ? $a : '', 
-                'api_url' => $b ? $b : '', 
+                'url' => $a ? $a : '',
+                'api_url' => $b ? $b : '',
                 'film_id' => $id
             ];
         }, $attributes['url'], $attributes['api_url']);
@@ -151,13 +145,9 @@ class FilmController extends Controller
      */
     public function edit(Film $film)
     {
-        //
         $categories = Category::all();
         $actors = Actor::all();
-        $memberships = Membership::all();
-        $memberships_can_see = explode(',', $film->memberships_can_see);
-        // dd($memberships_can_see);
-        return view('dashboard.films.edit', compact('film', 'categories', 'actors', 'memberships', 'memberships_can_see'));
+        return view('dashboard.films.edit', compact('film', 'categories', 'actors'));
     }
 
     /**
@@ -182,12 +172,8 @@ class FilmController extends Controller
             'categories' => 'required|array|max:3|exists:categories,id',
             'actors' => 'required|array|max:10|exists:actors,id',
             'is_free' => 'required|boolean',
-            'memberships_can_see' => 'required|array|max:10|exists:memberships,id'
         ]);
 
-        // dd($attributes['memberships_can_see']);
-        $attributes['memberships_can_see'] = implode(',', $attributes['memberships_can_see']);
-        // dd($attributes);
         if ($request->background_cover) {
             Storage::delete($film->getAttributes()['background_cover']);
             $attributes['background_cover'] = $request->background_cover->store('film_background_covers');
@@ -202,10 +188,10 @@ class FilmController extends Controller
         $film->actors()->sync($attributes['actors']);
 
         $id = $film->id;
-        $episodes = array_map(function($a, $b) use($id) {
+        $episodes = array_map(function ($a, $b) use ($id) {
             return [
-                'url' => $a ? $a : '', 
-                'api_url' => $b ? $b : '', 
+                'url' => $a ? $a : '',
+                'api_url' => $b ? $b : '',
                 'film_id' => $id
             ];
         }, $attributes['url'], $attributes['api_url']);

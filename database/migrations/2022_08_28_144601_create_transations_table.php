@@ -14,15 +14,13 @@ class CreateTransationsTable extends Migration
     public function up()
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('trans_id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('membership_id');
             $table->string('method_payment');
             $table->timestamp('expired_at');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignUuid('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

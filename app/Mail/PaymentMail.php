@@ -10,7 +10,8 @@ use Illuminate\Queue\SerializesModels;
 
 class PaymentMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     protected Transaction $transaction;
 
@@ -19,7 +20,7 @@ class PaymentMail extends Mailable
      *
      * @return void
      */
-    public function __construct(Transaction $transaction, String $title)
+    public function __construct($transaction, $title)
     {
         $this->transaction = $transaction;
         $this->subject($title);

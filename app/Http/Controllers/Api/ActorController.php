@@ -16,6 +16,6 @@ class ActorController extends Controller
             'status' => 'success',
             'code' => '200',
             'message' => 'Show one movie',
-        ]);;
+        ]);
     }
 }

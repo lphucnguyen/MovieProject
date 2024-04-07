@@ -17,13 +17,13 @@ class UserObserver
     {
         $connection = new Connection();
         $client = $connection->getClient();
-        
+
         $query = 'CREATE (u:Users{
                         id: $userId,
-                        username: "'. $user->username .'",
-                        email: "'. $user->email .'",
-                        first_name: "'. $user->first_name .'",
-                        last_name: "'. $user->last_name .'"
+                        username: "' . $user->username . '",
+                        email: "' . $user->email . '",
+                        first_name: "' . $user->first_name . '",
+                        last_name: "' . $user->last_name . '"
                     })';
         $param = [
             'userId' => $user->id,
@@ -43,15 +43,18 @@ class UserObserver
         $client = $connection->getClient();
 
         $fieldsUpdated = $user->getChanges();
-        foreach($fieldsUpdated as $key => $value) {
+        foreach ($fieldsUpdated as $key => $value) {
             $fileds[] = $key;
         }
         $array_same = array_intersect($fileds, $user->getFillable());
-        if(count($array_same) === 0) return;
+
+        if (count($array_same) === 0) {
+            return;
+        }
 
         $query = 'MATCH (u:Users{id: $userId})
-                    SET u.first_name="'. $user->first_name .'",
-                        u.last_name="'. $user->last_name .'"';
+                    SET u.first_name="' . $user->first_name . '",
+                        u.last_name="' . $user->last_name . '"';
         $param = [
             'userId' => $user->id
         ];

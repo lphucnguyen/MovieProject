@@ -8,7 +8,18 @@ class Episode extends Model
 {
     protected $table = 'episode';
 
+    protected $keyType = 'string';
+
     protected $fillable = ['url', 'api_url'];
+
+    protected static function booted()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->id = str()->uuid();
+        });
+    }
 
     public function film()
     {

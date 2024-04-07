@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Membership;
 use App\Transaction;
 use App\User;
 use Carbon\Carbon;
@@ -12,30 +11,22 @@ use Illuminate\Validation\Rule;
 
 class ClientController extends Controller
 {
-    //
     public function profile(){
-        //
         $user = auth()->guard('web')->user();
         $transaction = $user->transactions->last();
 
-        $basicMembership = config('membership');
-
-        $isPast = Carbon::parse($user->expired_at)->isPast();
-        $membershipOfUser = !$isPast ? $user->membership->title : $basicMembership['title'];
-        $priceOfMembership = !$isPast ? $user->membership->price : $basicMembership['price'];
-        $desciptionOfMembership = !$isPast ? $user->membership->description : $basicMembership['description'];
-        $memberships = Membership::where('price', '>', $priceOfMembership)
-                        ->get();
-
-        return view('clients.profile', compact('user', 'memberships', 'isPast', 'transaction', 'membershipOfUser', 'basicMembership', 'desciptionOfMembership'));
+        return view(
+            'clients.profile', compact(
+                'user',
+                'transaction',
+            )
+        );
     }
 
-    public function updateProfile(Request $request, User $user){
-        //
-        // dd($request);
+    public function updateProfile(Request $request, User $user)
+    {
+
         $attributes = $request->validate([
-            // 'username' => 'required|string|max:20|min:3',
-            // 'email' => ['required', 'string', 'email', Rule::unique('users')->ignore($user)],
             'first_name' => 'required|string|max:15|min:3',
             'last_name' => 'required|string|max:15|min:3',
             'avatar' => 'image',
@@ -56,13 +47,14 @@ class ClientController extends Controller
         return redirect()->back();
     }
 
-    public function changePasswordForm(){
-        //
+    public function changePasswordForm()
+    {
         $user = auth()->user();
         return view('clients.change_password', compact('user'));
     }
 
-    public function changePassword(Request $request, User $user){
+    public function changePassword(Request $request, User $user)
+    {
         $attributes = $request->validate([
             'password' => 'required|confirmed|string|min:6',
         ]);
@@ -74,7 +66,8 @@ class ClientController extends Controller
         return redirect()->back();
     }
 
-    public function favorites() {
+    public function favorites()
+    {
         $user = auth()->user();
         $favorites = $user->favorites()->latest()->paginate(10);
         return view('clients.favorites', compact('user', 'favorites'));

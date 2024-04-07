@@ -17,16 +17,15 @@ class FilmObserver
     {
         $connection = new Connection();
         $client = $connection->getClient();
-        
+
         $fileNameOfBackgoudCover = basename($film->background_cover);
         $fileNameOfPoster = basename($film->poster);
         $query = 'CREATE (f:Films{
                         id: $filmId,
-                        background_cover: "/film_background_covers/'. $fileNameOfBackgoudCover .'",
-                        memberships_can_see: "'. $film->memberships_can_see .'",
-                        name: "'. $film->name .'",
-                        overview: "'. $film->overview .'", 
-                        poster: "/film_posters/'. $fileNameOfPoster .'"
+                        background_cover: "/film_background_covers/' . $fileNameOfBackgoudCover . '",
+                        name: "' . $film->name . '",
+                        overview: "' . $film->overview . '",
+                        poster: "/film_posters/' . $fileNameOfPoster . '"
                     })';
         $param = [
             'filmId' => $film->id,
@@ -48,16 +47,14 @@ class FilmObserver
         $fileNameOfBackgoudCover = basename($film->background_cover);
         $fileNameOfPoster = basename($film->poster);
         $query = 'MATCH (f:Films{id: $filmId})
-                    SET f.background_cover="/film_background_covers/'. $fileNameOfBackgoudCover .'",
-                        f.memberships_can_see="'. $film->memberships_can_see .'",
-                        f.name="'. $film->name .'",
-                        f.overview="'. $film->overview .'", 
-                        f.poster="/film_posters/'. $fileNameOfPoster .'"';
+                    SET f.background_cover="/film_background_covers/' . $fileNameOfBackgoudCover . '",
+                        f.name="' . $film->name . '",
+                        f.overview="' . $film->overview . '",
+                        f.poster="/film_posters/' . $fileNameOfPoster . '"';
         $param = [
             'filmId' => $film->id
         ];
         $client->run($query, $param);
-        // dd($param);
     }
 
     /**
@@ -70,7 +67,7 @@ class FilmObserver
     {
         $connection = new Connection();
         $client = $connection->getClient();
-        
+
         $query = 'MATCH (f:Films{id: $filmId})
                     DETACH DELETE f';
         $param = [

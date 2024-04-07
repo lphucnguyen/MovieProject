@@ -50,70 +50,10 @@
                 <div class="col-md-9 col-sm-12 col-xs-12">
                     <div action="#" class="form-style-1 user-pro">
                         <h4>Thông tin chi tiết</h4>
-                        <div class="col-md-12 form-it p-0">
-                            <label>Loại thành viên: 
-                                <strong style="color: white; font-size: 20px;">
-                                    {{ $membershipOfUser }}
-                                </strong>
-
-                                @if(count($memberships) > 0)
-                                <a 
-                                    style="color: rgb(255, 253, 115); font-size: 15px;" 
-                                    data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"
-                                >(Nâng cấp)</a>
-                                @endif
-                            </label>
-                            <p>
-                                {{ $desciptionOfMembership }}
-                            </p>
-                            @if(count($memberships) > 0)
-                            <div class="collapse w-100" id="collapseExample">
-                                <div class="card card-body" style="background-color: transparent;">
-                                    <form action="{{url('user/upgrade')}}" method="POST">
-                                        @csrf
-
-                                        <input type="hidden" value="{{$user->id}}" name="idUser" />
-                                        <label class="flex-grow-1 m-0 mx-2">
-                                            Lựa chọn membership:
-                                        </label>
-                                        <select name="idMembership" class="form-control mt-2">
-                                            @foreach($memberships as $membership)
-                                            @if($membership->title != $membershipOfUser)
-                                            <option value="{{$membership->id}}">{{$membership->title}}</option>
-                                            @endif
-                                            @endforeach
-                                        </select>
-                                        <div class="row mt-3">
-                                        <div class="col-md-6 col-sm-12 col-12">
-                                            <div class="d-flex align-items-center p-2 shadow-lg bg-white rounded">
-                                                <input id="momo" name="payment" type="radio" value="momo">
-                                                <label for="momo" class="flex-grow-1 m-0 mx-2">
-                                                    <img src="/web_files/images/momo.png" class="mx-2" style="width: 40px; height: 40px;" /> Momo
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-12 col-12">
-                                            <div class="d-flex align-items-center p-2 shadow-lg bg-white rounded">
-                                                <input id="vnpay" name="payment" type="radio" value="vnpay">
-                                                <label for="vnpay" class="flex-grow-1 m-0 mx-2">
-                                                    <img src="/web_files/images/vnpay.png" class="mx-2" style="width: 40px; height: 40px;" />VNPay
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 col-sm-12 col-12">
-                                            <input style="border-radius: 0px !important;" class="submit mt-4" type="submit" value="Thanh toán">
-                                        </div>
-                                    </form>
-                                  </div>
-                                </div>
-                            </div>
-                            @endif
-                        </div>
                         <form action="{{url('user/profile/' . $user->id)}}" method="POST" class="user"
                               enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            
                             <div class="row">
                                 <div class="col-md-6 form-it">
                                     <label>Tài khoản</label>

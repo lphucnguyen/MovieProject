@@ -15,12 +15,10 @@ class CreateFilmCategoryTable extends Migration
     {
         Schema::create('film_category', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('film_id');
-            $table->unsignedBigInteger('category_id');
             $table->timestamps();
 
-            $table->foreign('film_id')->references('id')->on('films')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreignUuid('film_id')->references('id')->on('films')->onDelete('cascade');
+            $table->foreignUuid('category_id')->references('id')->on('categories')->onDelete('cascade');
 
             $table->unique(['film_id', 'category_id']);
         });

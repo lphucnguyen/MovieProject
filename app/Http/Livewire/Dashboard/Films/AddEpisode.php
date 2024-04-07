@@ -16,20 +16,25 @@ class AddEpisode extends Component
         "episodes.*.api_url" => "required",
     ];
 
-    public function addEpisode() {
+    public function addEpisode()
+    {
         $newEpisode = Episode::make();
 
         $this->episodes[] = $newEpisode;
     }
 
-    public function updatedTypeFilm($type) {
-        if($type == 2){
+    public function updatedTypeFilm($type)
+    {
+        if ($type == 2) {
             $this->episodes = array($this->episodes[0]);
         }
     }
 
-    public function removeEpisode($index) {
-        if(!isset($this->episodes[$index])) return;
+    public function removeEpisode($index)
+    {
+        if (!isset($this->episodes[$index])) {
+            return;
+        }
 
         array_splice($this->episodes, $index, 1);
     }
@@ -39,12 +44,13 @@ class AddEpisode extends Component
         return view('livewire.dashboard.films.add-episode');
     }
 
-    public function mount($id) {
-        try{
+    public function mount($id)
+    {
+        try {
             $film = Film::findOrFail($id);
 
             $this->episodes = $film->episodes->all();
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             $this->addEpisode();
         }
     }

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\ExtendedModel;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
@@ -9,7 +10,9 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, ExtendedModel;
+    use HasApiTokens;
+    use Notifiable;
+    use ExtendedModel;
 
     /**
      * The attributes that are mass assignable.
@@ -17,8 +20,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'first_name', 'last_name', 'email', 'avatar', 'password', 'expired_at', 'membership_id'
+        'username',
+        'first_name',
+        'last_name',
+        'email',
+        'avatar',
+        'password',
+        'expired_at',
     ];
+
+    protected $keyType = 'string';
 
     /**
      * The attributes that should be hidden for arrays.
@@ -26,7 +37,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -40,12 +52,18 @@ class User extends Authenticatable
 
     protected static function booted()
     {
+        parent::boot();
+
         // When the client is being deleted, delete the avatar as well.
         static::deleting(function (User $user) {
             $attributes = $user->getAttributes();
             if (isset($attributes['avatar']) && $attributes['avatar']) {
                 Storage::delete($attributes['avatar']);
             }
+        });
+
+        static::creating(function ($model) {
+            $model->id = str()->uuid();
         });
     }
 
@@ -67,11 +85,6 @@ class User extends Authenticatable
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
-    }
-
-    public function membership()
-    {
-        return $this->belongsTo(Membership::class);
     }
 
     public function transactions()

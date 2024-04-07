@@ -297,20 +297,6 @@ a {
                                                             Hình thức thanh toán: {{$transaction->method_payment}}
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <table class="invoice-items" cellpadding="0" cellspacing="0">
-                                                                <tbody><tr>
-                                                                    <td>Nâng cấp thành viên {{$transaction->membership->title}}</td>
-                                                                    <td class="alignright">VND {{number_format($transaction->membership->price, 0, "", ".")}}</td>
-                                                                </tr>
-                                                                <tr class="total">
-                                                                    <td class="alignright" width="50%">Tổng cộng</td>
-                                                                    <td class="alignright">VND {{number_format($transaction->membership->price, 0, "", ".")}}</td>
-                                                                </tr>
-                                                            </tbody></table>
-                                                        </td>
-                                                    </tr>
                                                 </tbody></table>
                                             </td>
                                         </tr>

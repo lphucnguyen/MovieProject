@@ -25,8 +25,7 @@ $factory->define(User::class, function (Faker $faker) {
         'last_name' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
-        'password' => bcrypt('123456'), // password
-        'membership_id' => \App\Membership::all()->random()->id,
+        'password' => bcrypt('123456'),
         'expired_at' => Carbon::now()->toDateTimeString(),
         'remember_token' => Str::random(10),
     ];

@@ -11,12 +11,12 @@ use App\Message;
 use App\Rating;
 use App\Review;
 use App\User;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     //
-    public function index(){
+    public function index()
+    {
         $admins = Admin::whereRoleIs('admin')->count();
         $clients = User::count();
         $films = Film::count();

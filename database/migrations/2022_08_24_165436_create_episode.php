@@ -14,13 +14,13 @@ class CreateEpisode extends Migration
     public function up()
     {
         Schema::create('episode', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('film_id');
+            $table->uuid('id')->primary();
+            // $table->unsignedBigInteger('film_id');
             $table->text('url');
             $table->text('api_url');
             $table->timestamps();
 
-            $table->foreign('film_id')->references('id')->on('films')->onDelete('cascade');
+            $table->foreignUuid('film_id')->references('id')->on('films')->onDelete('cascade');
         });
 
     }

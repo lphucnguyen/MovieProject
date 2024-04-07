@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 
-Auth::routes(['reset' => FALSE]);
+Auth::routes(['reset' => false]);
 Route::any('logout', 'Auth\LoginController@logout')->name('web.logout');
 
 Route::get('/', 'HomeController@index');
@@ -47,10 +47,4 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/user/review/{film}', 'ReviewController@store');
     Route::delete('/user/review/{film}', 'ReviewController@destroy');
-
-    Route::post('/user/upgrade', 'PaymentController@processPayment');
-
-    Route::get('/process/return-payment/momo/{encryptedInformation}', 'PaymentController@processMoMoSuccessfully');
-    Route::get('/process/return-payment/vnpay/{encryptedInformation}', 'PaymentController@processVNPaySuccessfully');
-
 });

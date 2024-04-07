@@ -66,7 +66,6 @@
                             @foreach($transactions as $transaction)
                                 <tr>
                                     <td>{{$transaction->created_at}}</td>
-                                    <td>{{$transaction->membership->title}}</td>
                                     <td>{{$transaction->method_payment}}</td>
                                 </tr>
                             @endforeach

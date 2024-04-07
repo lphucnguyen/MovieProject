@@ -8,16 +8,15 @@ use Illuminate\Http\Request;
 
 class ActorController extends Controller
 {
-    //
-    public function index(){
-        //
+    public function index()
+    {
         $actors = Actor::latest()->paginate(10);
 
         return view('actors.index', compact('actors'));
     }
 
-    public function show(Actor $actor){
-        //
+    public function show(Actor $actor)
+    {
         $films = $actor->films()
                     ->latest()
                     ->paginate(10);

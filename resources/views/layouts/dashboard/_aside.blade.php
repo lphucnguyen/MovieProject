@@ -91,19 +91,6 @@
                         </li>
                     @endif
 
-                    @if(auth()->guard('admin')->user()->hasPermission('read_memberships'))
-                        <li class="{{request()->is('dashboard/memberships*') ? "active": ""}}">
-                            <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-account-circle"></i><span>Gói thành viên</span>
-                            </a>
-                            <ul class="ml-menu">
-                                <li><a href="{{route('dashboard.memberships.index')}}">Tất cả gói thành viên</a></li>
-                                @if(auth()->guard('admin')->user()->hasPermission('create_actors'))
-                                    <li><a href="{{route('dashboard.memberships.create')}}">Thêm gói thành viên</a></li>
-                                @endif
-                            </ul>
-                        </li>
-                    @endif
-
                     @if(auth()->guard('admin')->user()->hasPermission('read_ratings'))
                         <li class="{{request()->is('dashboard/ratings*') ? "active": ""}}">
                             <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-star"></i><span>Đánh giá</span>

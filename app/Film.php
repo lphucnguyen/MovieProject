@@ -2,24 +2,44 @@
 
 namespace App;
 
+use App\Traits\ExtendedModel;
+use App\Traits\Favoritable;
+use App\Traits\Rateable;
+use App\Traits\Reviewable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class Film extends Model
 {
-    //
-    use favoritable, rateable, reviewable, ExtendedModel;
+    use Favoritable;
+    use Rateable;
+    use Reviewable;
+    use ExtendedModel;
 
     protected $table = 'films';
 
-    protected $fillable = ['name', 'year', 'overview', 'background_cover', 'poster', 'is_free', 'memberships_can_see'];
+    protected $keyType = 'string';
+
+    protected $fillable = [
+        'name',
+        'year',
+        'overview',
+        'background_cover',
+        'poster'
+    ];
 
     protected static function booted()
     {
+        parent::boot();
+
         static::deleting(function (Film $film) {
             $attributes = $film->getAttributes();
             Storage::delete($attributes['background_cover']);
             Storage::delete($attributes['poster']);
+        });
+
+        static::creating(function ($model) {
+            $model->id = str()->uuid();
         });
     }
 

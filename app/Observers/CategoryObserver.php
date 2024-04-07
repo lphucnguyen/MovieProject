@@ -17,10 +17,10 @@ class CategoryObserver
     {
         $connection = new Connection();
         $client = $connection->getClient();
-        
+
         $query = 'CREATE (c:Categories{
                         id: $categoryId,
-                        name: "'. $category->name .'"
+                        name: "' . $category->name . '"
                     })';
         $param = [
             'categoryId' => $category->id,
@@ -40,7 +40,7 @@ class CategoryObserver
         $client = $connection->getClient();
 
         $query = 'MATCH (c:Categories{id: $categoryId})
-                    SET c.name="'. $category->name .'"';
+                    SET c.name="' . $category->name . '"';
 
         $param = [
             'categoryId' => $category->id,
@@ -58,8 +58,6 @@ class CategoryObserver
     {
         $connection = new Connection();
         $client = $connection->getClient();
-        
-        // dd($category);
 
         $query = 'MATCH (c:Categories{id: $categoryId})
                     DETACH DELETE c';

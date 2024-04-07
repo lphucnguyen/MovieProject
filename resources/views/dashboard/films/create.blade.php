@@ -133,33 +133,6 @@
                                     </select>
                                     <span style="color: red; margin-left: 10px">{{ $errors->first('is_free') }}</span>
                                 </div>
-
-                                <div class="row clearfix">
-                                    <div class="col-sm-12">
-                                        <div class="header col-lg-12 col-md-12 col-sm-12">
-                                            <h2>Thành viên xem được phim:</h2>
-                                        </div>
-                                    </div>
-                                    <select class="form-control show-tick" name="memberships_can_see[]" multiple>
-                                        @foreach($memberships as $membership)
-                                        <option value="{{$membership->id}}">
-                                            {{$membership->title}}
-                                        </option>
-                                        @endforeach
-                                    </select>                                    
-                                    <span style="color: red; margin-left: 10px">{{ $errors->first('memberships_can_see') }}</span>
-                                </div>
-
-                                {{-- <div class="row clearfix">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <textarea name="api_url" rows="4" class="form-control no-resize"
-                                                      placeholder="API URL">{{ old('api_url', '') }}</textarea>
-                                            <span style="color: red; margin-left: 10px">{{ $errors->first('api_url') }}</span>
-                                        </div>
-                                    </div>
-                                </div> --}}
-
                                 <div class="form-group last mt-5">
                                     <div class="fileinput fileinput-new" data-provides="fileinput">
                                         <div class="fileinput-new thumbnail"

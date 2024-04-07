@@ -15,17 +15,21 @@ class ShowMovies extends Component
         return view('livewire.movies.show-movies');
     }
 
-    public function selectEpisode($index) {
+    public function selectEpisode($index)
+    {
         $currentEps = $this->episodes->get($index);
-        
-        if($currentEps == null) return;
+
+        if ($currentEps == null) {
+            return;
+        }
 
         $this->currentEpisode = $currentEps;
 
         $this->dispatchBrowserEvent('initEmbed', ['url' => $currentEps->url]);
     }
 
-    public function mount($id) {
+    public function mount($id)
+    {
         $this->episodes = collect();
 
         $film = Film::findOrFail($id);

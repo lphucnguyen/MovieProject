@@ -4,11 +4,12 @@ namespace App\Neo4j;
 
 use NeoEloquent;
 
-class CategoryNeo extends NeoEloquent {
+class CategoryNeo extends NeoEloquent
+{
     use TraitConnection;
 
     protected $label = 'Categories';
-    
+
 
     public function films()
     {

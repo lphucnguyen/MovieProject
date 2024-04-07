@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class RateController extends Controller
 {
-    //
     public function store(Film $film, Request $request)
     {
         $result = $film->rate(auth()->user(), $request->rating);

@@ -9,7 +9,18 @@ class Review extends Model
     //
     protected $table = 'reviews';
 
+    protected $keyType = 'string';
+
     protected $fillable = ['user_id', 'film_id', 'title', 'review'];
+
+    protected static function booted()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->id = str()->uuid();
+        });
+    }
 
     public function user()
     {

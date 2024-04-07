@@ -149,28 +149,9 @@
                                     </select>
                                     <span style="color: red; margin-left: 10px">{{ $errors->first('is_free') }}</span>
                                 </div>
-
-                                <div class="row clearfix">
-                                    <div class="col-sm-12">
-                                        <div class="header col-lg-12 col-md-12 col-sm-12">
-                                            <h2>Thành viên xem được phim:</h2>
-                                        </div>
-                                    </div>
-                                    <select class="form-control show-tick" name="memberships_can_see[]" multiple>
-                                        @foreach($memberships as $membership)
-                                        <option value="{{$membership->id}}"
-                                                {{in_array($membership->id, $memberships_can_see) ? 'selected' : ''}}>
-                                            {{$membership->title}}
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                    <span style="color: red; margin-left: 10px">{{ $errors->first('memberships_can_see') }}</span>
-                                </div>
-
                                 <div class="header col-lg-12 col-md-12 col-sm-12">
                                     <h2>Hình ảnh về phim</h2>
                                 </div>
-                                
                                 <div class="form-group last">
                                     <div class="fileinput fileinput-new" data-provides="fileinput">
                                         <div class="fileinput-new thumbnail"

@@ -4,17 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Film;
 use App\Neo4j\Connection;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller
 {
-    //
-    public function index(Request $request){
-        //
+    public function index(Request $request)
+    {
         $films = Film::where(function ($query) use ($request) {
             $query->when($request->category, function ($q) use ($request) {
-                return $q->whereHas('categories', function ($q2) use ($request){
+                return $q->whereHas('categories', function ($q2) use ($request) {
                     return $q2->whereIn('name', (array)$request->category);
                 });
             });
@@ -23,22 +21,10 @@ class MovieController extends Controller
         return view('movies.index', compact('films'));
     }
 
-    public function show(Film $film){
-        //
+    public function show(Film $film)
+    {
         $user = auth()->guard('web')->user();
         $reviews = $film->reviews()->latest()->paginate(10);
-        // dd(auth()->guard('web')->user());
-
-        $basicMembership = config('membership');
-        $isPast = $user ? Carbon::parse($user->expired_at)->isPast() : false;
-        $membershipIdOfUser = !$isPast && $user ? $user->membership->id : $basicMembership['id'];
-        
-        if($film->is_free){
-            $isCanSee = true;
-        }else{
-            $memberships_can_see = explode(',', $film->memberships_can_see);
-            $isCanSee = !$isPast && in_array($membershipIdOfUser, $memberships_can_see);
-        }
 
         $suggestedFilms = [];
         $ratings = [];
@@ -56,14 +42,14 @@ class MovieController extends Controller
                     ORDER BY jaccard DESC, recommendation DESC, toFloat(f2.year) DESC
                     LIMIT 10';
         $param = ['filmId' => $film->id];
-        // dd($query);
         $results = $client->run($query, $param);
+
         foreach ($results as $result) {
             $node = $result->get('f2');
             $ratings[] = $result->get('recommendation');
             $suggestedFilms[] = $node;
         }
 
-        return view('movies.show', compact('film', 'reviews', 'isCanSee', 'suggestedFilms', 'ratings'));
+        return view('movies.show', compact('film', 'reviews', 'suggestedFilms', 'ratings'));
     }
 }

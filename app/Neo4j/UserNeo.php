@@ -4,7 +4,8 @@ namespace App\Neo4j;
 
 use NeoEloquent;
 
-class UserNeo extends NeoEloquent {
+class UserNeo extends NeoEloquent
+{
     use TraitConnection;
 
     protected $label = 'Users';
