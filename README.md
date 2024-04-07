@@ -1,3 +1,14 @@
+### Planning Steps:
+1. Upgrade Laravel 7 to Laravel 10 - Done
+1. Building Infrastruct as code in AWS - Doing
+1. Building Dockerfile for this repo - Doing
+1. Refactoring code - Doing
+1.1. Seperating bussiness logic to Service class
+1.1. Seperating Repository class to handle database access
+
+
+<hr>
+
 ### Setup Steps:
 1. composer install & composer update
 1. add database info in .env
