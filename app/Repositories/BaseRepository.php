@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseRepository implements IRepository
 {
+    protected $perPage = 10;
+
     public function __construct(
         private Model $model
     ) {

@@ -7,18 +7,18 @@ use App\Repositories\IRepository;
 class BaseService implements IService
 {
     public function __construct(
-        private IRepository $model
+        private IRepository $repository
     ) {
     }
 
     public function get($uuid)
     {
-        return;
+        return $this->repository->get($uuid);
     }
 
     public function paginate($perPage)
     {
-        return;
+        return $this->repository->paginate($perPage);
     }
 
     public function search($keyword, $sort, $order, $perPage)
@@ -28,16 +28,16 @@ class BaseService implements IService
 
     public function create($data)
     {
-        return;
+        return $this->repository->create($data);
     }
 
     public function update($uuid, $data)
     {
-        return;
+        return $this->repository->update($uuid, $data);
     }
 
     public function delete($uuid)
     {
-        return;
+        return $this->repository->delete($uuid);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,8 +28,11 @@ Route::get('/contact-us', 'HomeController@contact');
 
 Route::get('/movies', 'MovieController@index');
 Route::get('/movies/{film}', 'MovieController@show');
-Route::get('/actors', 'ActorController@index');
-Route::get('/actors/{actor:name}', 'ActorController@show');
+
+Route::group(['name' => 'actors', 'prefix' => 'actors'], function () {
+    Route::get('/', \App\Http\Controllers\Actor\ShowController::class);
+    Route::get('/{uuid}', \App\Http\Controllers\Actor\GetController::class);
+});
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/profile', 'ClientController@profile');

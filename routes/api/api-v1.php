@@ -28,7 +28,4 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api'], function () {
     Route::apiResource('categories', 'CategoryController'); //all categories with movies
     Route::apiResource('movies', 'MovieController'); //show movie with reviews and actors
     Route::apiResource('actors', 'ActorController'); //show actor
-
 });
-
-

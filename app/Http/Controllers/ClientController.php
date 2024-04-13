@@ -2,21 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Transaction;
+use App\Services\Contracts\IUserService;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 
 class ClientController extends Controller
 {
-    public function profile(){
+    public function __construct(
+        private IUserService $userService
+    ) {
+    }
+
+    public function profile()
+    {
         $user = auth()->guard('web')->user();
-        $transaction = $user->transactions->last();
+        $transaction = $this->userService->getTransactions(
+            $user->uuid
+        );
 
         return view(
-            'clients.profile', compact(
+            'clients.profile',
+            compact(
                 'user',
                 'transaction',
             )
@@ -34,6 +41,7 @@ class ClientController extends Controller
 
         if ($request->avatar) {
             $clientAvatar = $user->getAttributes()['avatar'];
+
             if (isset($clientAvatar) && $clientAvatar) {
                 Storage::delete($clientAvatar);
             }
@@ -56,7 +64,7 @@ class ClientController extends Controller
     public function changePassword(Request $request, User $user)
     {
         $attributes = $request->validate([
-            'password' => 'required|confirmed|string|min:6',
+            'password' => 'required|confirmed|string|min:8',
         ]);
         $attributes['password'] = bcrypt($attributes['password']);
 

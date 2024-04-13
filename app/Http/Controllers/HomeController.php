@@ -42,7 +42,7 @@ class HomeController extends Controller
         //                 WHERE NOT (c1)-[:RATED]->(f2)
         //                 WITH f2, collect(r) as ratings ,c2, c1
         //                 WITH f2, c2, REDUCE(s=0,i in ratings | s+i.rating) / SIZE(ratings) as recommendation, c1
-        //                 RETURN f2, recommendation 
+        //                 RETURN f2, recommendation
         //                 ORDER BY recommendation DESC
         //                 LIMIT 10';
         //     $param = ['userId' => $user->id];

@@ -6,4 +6,5 @@ use App\Services\IService;
 
 interface IActorService extends IService
 {
+    public function getActorWithFilms($uuid);
 }
