@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    //
     public function index()
     {
         return CategoryResource::collection(Category::paginate(10))->additional([

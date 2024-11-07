@@ -13,10 +13,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="hero-ct">
-                        <h1>actor <span> {{request()->search ? ' : " ' . request()->search . ' "' : ''}}</span></h1>
+                        <h1>{{ __('Diễn viên') }} <span> {{request()->search ? ' : " ' . request()->search . ' "' : ''}}</span></h1>
                         <ul class="breadcumb">
-                            <li class="active"><a href="/">Home</a></li>
-                            <li> <span class="ion-ios-arrow-right"></span> actor listing</li>
+                            <li class="active"><a href="/">{{ __('Home') }}</a></li>
+                            <li> <span class="ion-ios-arrow-right"></span> {{ __('Danh sách diễn viên') }}</li>
                         </ul>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
             <div class="row ipad-width2">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="topbar-filter">
-                        <p>Tìm thấy <span>{{$actors->count()}}</span> diễn viên</p>
+                        <p>{{ __('Tìm thấy') }} <span>{{$actors->count()}}</span> {{ __('Diễn viên') }}</p>
                     </div>
                     <div class="celebrity-items">
                         @foreach($actors as $actor)
@@ -37,7 +37,7 @@
                                 <a href="{{url('actors/' . $actor->id)}}"><img src="{{$actor->avatar}}" style="height: 250px;" alt=""></a>
                                 <div class="ceb-infor">
                                     <h2><a href="{{url('actors/' . $actor->name)}}">{{$actor->name}}</a></h2>
-                                    <span>Diễn viên</span>
+                                    <span>{{ __('Diễn viên') }}</span>
                                 </div>
                             </div>
                         @endforeach
@@ -47,6 +47,5 @@
             </div>
         </div>
     </div>
-    <!--end of celebrity grid v1 section-->
 
 @endsection

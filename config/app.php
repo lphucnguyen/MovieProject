@@ -14,6 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'perPage' => env('PER_PAGE', 10),
 
     /*
     |--------------------------------------------------------------------------
@@ -174,8 +175,9 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\CommandBusServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        // Vinelab\NeoEloquent\NeoEloquentServiceProvider::class,
+        Vinelab\NeoEloquent\NeoEloquentServiceProvider::class,
     ],
 
     /*

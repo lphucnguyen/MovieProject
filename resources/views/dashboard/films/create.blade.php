@@ -12,8 +12,7 @@
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-7 col-md-5 col-sm-12">
-                    <h2>Thêm phim
-                        {{-- <small>Welcome to Films</small> --}}
+                    <h2>Thêm Phim
                     </h2>
                 </div>
                 <div class="col-lg-5 col-md-7 col-sm-12">
@@ -99,40 +98,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{-- <div class="row clearfix">
-                                    <div class="header col-lg-12 col-md-12 col-sm-12">
-                                        <h2>Video phim</h2>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <textarea name="url" rows="4" class="form-control no-resize"
-                                                      placeholder="Embed Code From JWPlayer Server">{{ old('url', '') }}</textarea>
-                                            <span style="color: red; margin-left: 10px">{{ $errors->first('url') }}</span>
-                                        </div>
-                                    </div>
-                                </div> --}}
-
                                 @livewire(
-                                    'dashboard.films.add-episode', 
-                                    ['id' => 0]
+                                    'dashboard.films.add-episode',
+                                    ['id' => null]
                                 )
-
-                                <div class="row clearfix">
-                                    <div class="col-sm-12">
-                                        <div class="header col-lg-12 col-md-12 col-sm-12">
-                                            <h2>Phim miễn phí:</h2>
-                                        </div>
-                                    </div>
-                                    <select class="form-control show-tick" name="is_free">
-                                        <option value="0">
-                                            Có phí
-                                        </option>
-                                        <option value="1" selected="selected">
-                                            Miễn phí
-                                        </option>
-                                    </select>
-                                    <span style="color: red; margin-left: 10px">{{ $errors->first('is_free') }}</span>
-                                </div>
                                 <div class="form-group last mt-5">
                                     <div class="fileinput fileinput-new" data-provides="fileinput">
                                         <div class="fileinput-new thumbnail"

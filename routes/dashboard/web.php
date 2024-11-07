@@ -11,7 +11,6 @@ Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard'], function () 
     Route::any('logout', 'AuthController@logout')->name('dashboard.logout');
 
     Route::group(['middleware' => 'adminAuth:admin', 'as' => 'dashboard.'], function () {
-
         Route::get('/', 'HomeController@index')->name('home');
 
         Route::resource('admins', 'AdminController')->except(['show']);

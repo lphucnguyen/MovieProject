@@ -29,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        //
+        \App\Actor::observe(\App\Observers\ActorObserver::class);
+        \App\Admin::observe(\App\Observers\AdminObserver::class);
+        \App\Film::observe(\App\Observers\FilmObserver::class);
+        \App\User::observe(\App\Observers\UserObserver::class);
     }
 }

@@ -2,16 +2,23 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
 {
-    //
+    use HasUuids;
+
     protected $table = 'reviews';
 
     protected $keyType = 'string';
 
-    protected $fillable = ['user_id', 'film_id', 'title', 'review'];
+    protected $fillable = [
+        'user_id',
+        'film_id',
+        'title',
+        'review'
+    ];
 
     protected static function booted()
     {

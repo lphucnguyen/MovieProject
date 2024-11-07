@@ -91,7 +91,6 @@
                                 </div>
 
                                 <br>
-                                <br>
 
                                 <div class="row clearfix">
                                     <div class="col-sm-12">
@@ -106,9 +105,12 @@
                                     </div>
                                 </div>
                                 @livewire(
-                                    'dashboard.films.add-episode', 
+                                    'dashboard.films.add-episode',
                                     ['id' => $film->id]
                                 )
+                                <span style="color: red;margin-left: 10px">{{ $errors->first('api_url') }}</span>
+                                <br>
+                                <span style="color: red;margin-left: 10px">{{ $errors->first('url') }}</span>
                                 <div class="row clearfix">
                                     {{-- <div class="col-sm-12">
                                         <div class="header col-lg-12 col-md-12 col-sm-12">
@@ -131,24 +133,6 @@
                                     </div> --}}
                                 </div>
 
-                                <div class="row clearfix">
-                                    <div class="col-sm-12">
-                                        <div class="header col-lg-12 col-md-12 col-sm-12">
-                                            <h2>Phim miễn phí:</h2>
-                                        </div>
-                                    </div>
-                                    <select class="form-control show-tick" name="is_free">
-                                            <option value="0"
-                                                    {{!$film->is_free ? 'selected' : ''}}>
-                                                Có phí
-                                            </option>
-                                            <option value="1"
-                                            {{$film->is_free ? 'selected' : ''}}>
-                                                Miễn phí
-                                            </option>
-                                    </select>
-                                    <span style="color: red; margin-left: 10px">{{ $errors->first('is_free') }}</span>
-                                </div>
                                 <div class="header col-lg-12 col-md-12 col-sm-12">
                                     <h2>Hình ảnh về phim</h2>
                                 </div>

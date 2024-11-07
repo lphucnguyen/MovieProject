@@ -2,15 +2,21 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Favorite extends Model
 {
+    use HasUuids;
+
     protected $table = 'favorites';
 
     protected $keyType = 'string';
 
-    protected $fillable = ['user_id', 'film_id'];
+    protected $fillable = [
+        'user_id',
+        'film_id'
+    ];
 
     protected static function booted()
     {

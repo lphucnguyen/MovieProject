@@ -6,8 +6,8 @@ use App\Traits\ExtendedModel;
 use App\Traits\Favoritable;
 use App\Traits\Rateable;
 use App\Traits\Reviewable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class Film extends Model
 {
@@ -15,6 +15,7 @@ class Film extends Model
     use Rateable;
     use Reviewable;
     use ExtendedModel;
+    use HasUuids;
 
     protected $table = 'films';
 
@@ -31,16 +32,6 @@ class Film extends Model
     protected static function booted()
     {
         parent::boot();
-
-        static::deleting(function (Film $film) {
-            $attributes = $film->getAttributes();
-            Storage::delete($attributes['background_cover']);
-            Storage::delete($attributes['poster']);
-        });
-
-        static::creating(function ($model) {
-            $model->id = str()->uuid();
-        });
     }
 
     public function getPosterAttribute($value)
@@ -83,7 +74,7 @@ class Film extends Model
         return $this->hasMany(Episode::class);
     }
 
-    public function users_rated()
+    public function ratedUsers()
     {
         return $this->belongsToMany(User::class, 'ratings', 'film_id', 'user_id')
                     ->withPivot('rating');

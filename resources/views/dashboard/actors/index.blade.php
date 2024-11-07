@@ -10,9 +10,7 @@
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-7 col-md-5 col-sm-12">
-                    <h2>Tất cả diễn viên
-                        {{-- <small class="text-muted">Welcome to Films</small> --}}
-                    </h2>
+                    <h2>{{ __('Tất cả diễn viên') }}</h2>
                 </div>
                 <div class="col-lg-5 col-md-7 col-sm-12">
                     @if(auth()->guard('admin')->user()->hasPermission('create_actors'))
@@ -30,10 +28,9 @@
                         </button>
                     @endif
                     <ul class="breadcrumb float-md-right">
-                        <li class="breadcrumb-item"><a href="{{url('dashboard')}}"><i class="zmdi zmdi-home"></i> Films</a>
-                        </li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Diên viên</a></li>
-                        <li class="breadcrumb-item active">Tất cả diễn viên</li>
+                        <li class="breadcrumb-item"><a href="{{url('dashboard')}}"><i class="zmdi zmdi-home"></i> {{ __('Phim') }}</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ __('Diên viên') }}</a></li>
+                        <li class="breadcrumb-item active">{{ __('Tất cả diễn viên') }}</li>
                     </ul>
                 </div>
             </div>
@@ -43,15 +40,15 @@
                 <div class="col-md-12">
                     <div class="card patients-list">
                         <div class="header">
-                            <h2><strong>Diễn viên </strong><span>({{$actors->total()}})</span></h2>
+                            <h2><strong>{{ __('Diễn viên') }} </strong><span>({{$actors->total()}})</span></h2>
                         </div>
                         <div class="body">
 
                             <div class="col-5" style="padding-left: 0px">
                                 <form action="{{ route('dashboard.admins.index') }}" method="GET">
                                     <div class="input-group" style="margin-bottom: 0px">
-                                        <input type="text" class="form-control" placeholder="Tìm kiếm..."
-                                               name="search" value="{{ request()->search }}">
+                                        <input type="text" class="form-control" placeholder="{{ __('Tìm kiếm') }}..."
+                                               name="searchKey" value="{{ request()->searchKey }}">
                                         <button class="input-group-addon" type="submit">
                                             <i class="zmdi zmdi-search"></i>
                                         </button>
@@ -64,13 +61,13 @@
                                     <table class="table m-b-0 table-hover">
                                         <thead>
                                         <tr>
-                                            <th>Avatar</th>
-                                            <th>Tên</th>
-                                            <th>Ngày sinh</th>
-                                            <th>Tổng quan về diễn viên</th>
-                                            <th>Tiểu sử</th>
-                                            <th>Các mối quan hệ khác</th>
-                                            <th>Hành động</th>
+                                            <th>{{ __('Avatar') }}</th>
+                                            <th>{{ __('Tên') }}</th>
+                                            <th>{{ __('Ngày sinh') }}</th>
+                                            <th>{{ __('Tổng quan về diễn viên') }}</th>
+                                            <th>{{ __('Tiểu sử') }}</th>
+                                            <th>{{ __('Các mối quan hệ khác') }}</th>
+                                            <th>{{ __('Hành động') }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -102,23 +99,23 @@
                                                 <td>
                                                     @if(auth()->guard('admin')->user()->hasPermission('read_films'))
                                                         <a href="{{ route('dashboard.films.index', ['actor' => $actor->name]) }}"
-                                                           class="btn btn-info btn-sm">Phim</a>
+                                                           class="btn btn-info btn-sm">{{ __('Phim') }}</a>
                                                     @else
-                                                        <button class="btn btn-info btn-sm disabled" style="cursor: no-drop">Phim</button>
+                                                        <button class="btn btn-info btn-sm disabled" style="cursor: no-drop">{{ __('Phim') }}</button>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     @if(auth()->guard('admin')->user()->hasPermission('update_actors'))
                                                         <a href="{{route('dashboard.actors.edit', $actor)}}">
                                                             <button class="btn btn-icon btn-neutral btn-icon-mini"
-                                                                    title="Chỉnh sửa">
+                                                                    title="{{ __('Chỉnh sửa') }}">
                                                                 <i class="zmdi zmdi-edit"></i>
                                                             </button>
                                                         </a>
                                                     @else
                                                         <button class="btn btn-icon btn-neutral btn-icon-mini disabled"
                                                                 style="cursor: no-drop"
-                                                                title="Chỉnh sửa">
+                                                                title="{{ __('Chỉnh sửa') }}">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
                                                     @endif
@@ -131,14 +128,14 @@
 
                                                             <button type="submit"
                                                                     class="btn btn-icon btn-neutral btn-icon-mini remove_actor"
-                                                                    title="Xoá" value="{{$actor->id}}">
+                                                                    title="{{ __('Xoá') }}" value="{{$actor->id}}">
                                                                 <i class="zmdi zmdi-delete"></i>
                                                             </button>
                                                         </form>
                                                     @else
                                                         <button class="btn btn-icon btn-neutral btn-icon-mini remove_admin disabled"
                                                                 style="cursor: no-drop"
-                                                                title="Xoá">
+                                                                title="{{ __('Xoá') }}">
                                                             <i class="zmdi zmdi-delete"></i>
                                                         </button>
                                                     @endif
@@ -146,7 +143,7 @@
                                             </tr>
                                         @empty
                                             <tr class="text-center">
-                                                <td colspan="6">Không có dữ liệu...</td>
+                                                <td colspan="6">{{ __('Không có dữ liệu') }}...</td>
                                             </tr>
                                         @endforelse
                                         </tbody>
@@ -172,13 +169,13 @@
 
                     var id = $(this).val();
                     swal({
-                        title: "Xác nhận?",
-                        text: "Bạn sẽ không thể khôi phục lại!",
+                        title: {{ __('Xác nhận') }} + '?',
+                        text: {{ __('Bạn sẽ không thể khôi phục lại') }} + '!',
                         type: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Xoá!",
-                        cancelButtonText: "Huỷ bỏ",
+                        confirmButtonText: {{ __('Xoá') }} + "!",
+                        cancelButtonText: {{ __('Huỷ bỏ') }},
                         closeOnConfirm: false
                     }, function () {
                         that.closest('form').submit();

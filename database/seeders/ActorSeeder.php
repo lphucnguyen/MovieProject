@@ -16,6 +16,7 @@ class ActorSeeder extends Seeder
         //
         $actors = [
             [
+                'id'   => str()->uuid(),
                 'name' => 'Keanu Reeves',
                 'dob' => '1964-09-02',
                 'overview' => 'Keanu Charles Reeves là một diễn viên, đạo diễn, nhà sản xuất và nhạc sĩ người Canada',
@@ -24,6 +25,7 @@ class ActorSeeder extends Seeder
                 'background_cover' => 'actor_background_covers/cover.jpg',
             ],
             [
+                'id'   => str()->uuid(),
                 'name' => 'Tom Cruise',
                 'dob' => '1998-12-07',
                 'overview' => 'Thomas Cruise Mapother IV là một nam diễn viên và nhà sản xuất phim người Mỹ. Anh bắt đầu sự nghiệp của mình ở tuổi 19 với bộ phim Endless Love. ',
@@ -32,6 +34,7 @@ class ActorSeeder extends Seeder
                 'background_cover' => 'actor_background_covers/cover.jpg',
             ],
             [
+                'id'   => str()->uuid(),
                 'name' => 'Johny Depp',
                 'dob' => '1999-06-15',
                 'overview' => 'John Christopher Depp II là một nam diễn viên, nhà sản xuất điện ảnh và nhạc sĩ người Mỹ. ',

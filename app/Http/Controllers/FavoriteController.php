@@ -2,19 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Film;
+use App\Commands\Film\AddToFavoriteCommand;
+use App\Commands\Film\RemoveFromFavoriteCommand;
+use Illuminate\Support\Facades\Bus;
 
 class FavoriteController extends Controller
 {
-    public function store(Film $film)
+    public function store(string $uuid)
     {
-        $result = $film->addToFavorite(auth()->user());
+        $addToFavoriteCommand = new AddToFavoriteCommand($uuid);
+        $result = Bus::dispatch($addToFavoriteCommand);
+
         return $result;
     }
 
-    public function destroy(Film $film)
+    public function destroy(string $uuid)
     {
-        $result = $film->removeFromFavorite(auth()->user());
+        $removeFromFavoriteCommand = new RemoveFromFavoriteCommand($uuid);
+        $result = Bus::dispatch($removeFromFavoriteCommand);
+
         return $result;
     }
 }

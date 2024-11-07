@@ -16,10 +16,10 @@ $factory->define(Film::class, function (Faker $faker) {
     $randomFilePoster = $files[rand(0, count($files) - 1)];
 
     return [
+        'id'   => str()->uuid(),
         'name' => $faker->unique()->name,
         'year' => $faker->numberBetween(1996, 2020),
         'overview' => $faker->text('255'),
-        'is_free' => false,
         'background_cover' => 'film_background_covers/' . $randomFileBackground,
         'poster' => 'film_posters/' . $randomFilePoster
     ];

@@ -8,11 +8,13 @@ trait Favoritable
     {
         if ($user != null) {
             $favorites = $user->favorites;
+
             foreach ($favorites as $favorite) {
                 if ($favorite->user_id == $user->id && $favorite->film_id == $this->id) {
                     return true;
                 }
             }
+
             return false;
         }
     }
@@ -26,6 +28,7 @@ trait Favoritable
             ]);
             return true;
         }
+
         return false;
     }
 
@@ -35,6 +38,7 @@ trait Favoritable
             $this->favorites()->where('user_id', $user->id)->delete();
             return true;
         }
+
         return false;
     }
 }

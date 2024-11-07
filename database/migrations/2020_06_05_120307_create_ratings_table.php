@@ -15,8 +15,6 @@ class CreateRatingsTable extends Migration
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            // $table->string('user_id');
-            // $table->string('film_id');
             $table->integer('rating');
             $table->timestamps();
 

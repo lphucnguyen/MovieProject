@@ -16,11 +16,11 @@ class CategorySeeder extends Seeder
     {
         //
         $categories = [
-            ['name' => 'Hành động'],
-            ['name' => 'Tình cảm'],
-            ['name' => 'Hài hước'],
-            ['name' => 'Kinh dị'],
-            ['name' => 'Chiến tranh']
+            ['id'        => str()->uuid(), 'name' => 'Hành động'],
+            ['id'        => str()->uuid(), 'name' => 'Tình cảm'],
+            ['id'        => str()->uuid(), 'name' => 'Hài hước'],
+            ['id'        => str()->uuid(), 'name' => 'Kinh dị'],
+            ['id'        => str()->uuid(), 'name' => 'Chiến tranh']
         ];
 
         foreach ($categories as $category) {
@@ -31,7 +31,6 @@ class CategorySeeder extends Seeder
                 //             ->limit(10)
                 //             ->get()
                 //             ->toArray();
-                    
                 //     $idFilms = array_map(function ($film) {
                 //         return $film['id'];
                 //     }, $films);
@@ -41,6 +40,5 @@ class CategorySeeder extends Seeder
                 //     );
                 // });
         }
-
     }
 }

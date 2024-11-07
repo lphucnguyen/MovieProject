@@ -15,8 +15,8 @@ class UserSeeder extends Seeder
 
     public function run()
     {
-        factory(User::class, 100)
-            ->create();
+        // factory(User::class, 100)
+        //     ->create();
             // ->each(function ($user) {
             //     $films = Film::select('id')
             //             ->inRandomOrder()
@@ -35,5 +35,42 @@ class UserSeeder extends Seeder
             //         ]
             //     );
             // });
+
+        $users = [
+            [
+                'id'   => str()->uuid(),
+                'username' => 'testUser1',
+                'first_name' => 'testUser1',
+                'last_name' => 'testUser1',
+                'email' => 'testUser1@gmail.com',
+                'email_verified_at' => now(),
+                'password' => bcrypt('123456'),
+                'remember_token' => str()->random(10),
+            ],
+            [
+                'id'   => str()->uuid(),
+                'username' => 'testUser2',
+                'first_name' => 'testUser2',
+                'last_name' => 'testUser2',
+                'email' => 'testUser2@gmail.com',
+                'email_verified_at' => now(),
+                'password' => bcrypt('123456'),
+                'remember_token' => str()->random(10),
+            ],
+            [
+                'id'   => str()->uuid(),
+                'username' => 'testUser3',
+                'first_name' => 'testUser3',
+                'last_name' => 'testUser3',
+                'email' => 'testUser3@gmail.com',
+                'email_verified_at' => now(),
+                'password' => bcrypt('123456'),
+                'remember_token' => str()->random(10),
+            ]
+        ];
+
+        foreach ($users as $user) {
+            \App\User::create($user);
+        }
     }
 }

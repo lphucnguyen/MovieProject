@@ -53,23 +53,23 @@
                                 <div class="row clearfix">
                                     <div class="col-5">
                                         <div class="form-group">
-                                            <input type="text" name="search" class="form-control"
-                                                   placeholder="Tìm kiếm..." value="{{ request()->search }}">
+                                            <input type="text" name="searchKey" class="form-control"
+                                                   placeholder="Tìm kiếm..." value="{{ request()->searchKey }}">
                                         </div>
                                     </div>
                                     <div class="col-3">
-                                        <select name="category" class="form-control z-index show-tick" data-live-search="true">
+                                        <select name="searchKeyCategory" class="form-control z-index show-tick" data-live-search="true">
                                             <option value="">- Tất cả danh mục -</option>
                                             @foreach($categories as $category)
-                                                <option value="{{$category->id}}" {{request()->category == $category->id ? 'selected' : ''}}>{{$category->name}}</option>
+                                                <option value="{{$category->id}}" {{request()->searchKeyCategory == $category->id ? 'selected' : ''}}>{{$category->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="col-3">
-                                        <select name="actor" class="form-control z-index show-tick" data-live-search="true">
+                                        <select name="searchKeyActor" class="form-control z-index show-tick" data-live-search="true">
                                             <option value="">- Tất cả diễn viên -</option>
                                             @foreach($actors as $actor)
-                                                <option value="{{$actor->id}}" {{request()->actor == $actor->id ? 'selected' : ''}}>{{$actor->name}}</option>
+                                                <option value="{{$actor->id}}" {{request()->searchKeyActor == $actor->id ? 'selected' : ''}}>{{$actor->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>

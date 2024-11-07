@@ -2,40 +2,32 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Storage;
 use Laratrust\Traits\LaratrustUserTrait;
 
 class Admin extends Authenticatable
 {
     use LaratrustUserTrait;
     use Notifiable;
+    use HasUuids;
 
     protected $table = 'admins';
 
     protected $keyType = 'string';
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
     protected $fillable = [
-        'name', 'email', 'password', 'avatar',
+        'name',
+        'email',
+        'password',
+        'avatar',
     ];
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+
     protected $hidden = [
         'password', 'remember_token',
     ];
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -44,16 +36,16 @@ class Admin extends Authenticatable
     {
         parent::boot();
 
-        static::deleting(function (Admin $admin) {
-            $attributes = $admin->getAttributes();
-            if (isset($attributes['avatar']) && $attributes['avatar']) {
-                Storage::delete($attributes['avatar']);
-            }
-        });
+        // static::deleting(function (Admin $admin) {
+        //     $attributes = $admin->getAttributes();
+        //     if (isset($attributes['avatar']) && $attributes['avatar']) {
+        //         Storage::delete($attributes['avatar']);
+        //     }
+        // });
 
-        static::creating(function ($model) {
-            $model->id = str()->uuid();
-        });
+        // static::creating(function ($model) {
+        //     $model->id = str()->uuid();
+        // });
     }
 
     public function getAvatarAttribute($value)

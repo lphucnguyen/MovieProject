@@ -19,10 +19,10 @@
                 <div class="flex-child-ft item1">
                     <div class="blog-detail-ct">
                         <div class="comment-form">
-                            <h4 style="text-align: center; font-size: 30px;">Liên hệ với chúng tôi</h4>
-                            <img alt="" class="logo" 
-                                style="width: 100%;" 
-                                src="{{asset('web_files/images/logo1.png')}}" 
+                            <h4 style="text-align: center; font-size: 30px;">{{ __('Liên hệ với chúng tôi') }}</h4>
+                            <img alt="" class="logo"
+                                style="width: 100%;"
+                                src="{{asset('web_files/images/logo1.png')}}"
                             >
                             <form action="{{url('message')}}" method="POST">
                                 @csrf
@@ -38,16 +38,16 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
-                                <input name="title" placeholder="Tiêu đề" type="text" required>
+                                <input name="title" placeholder="{{ __('Tiêu đề') }}" type="text" required>
 
                                 @error('message')
                                 <span class="invalid-feedback" style="color: red; font-size: 12px" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
-                                <textarea name="message" id="" placeholder="Tin nhắn" style="margin: 0px 0px 30px; resize: none" required></textarea>
+                                <textarea name="message" id="" placeholder="{{ __('Tin nhắn') }}" style="margin: 0px 0px 30px; resize: none" required></textarea>
 
-                                <button style="width: 100%;" class="submit" type="submit"> Gửi</button>
+                                <button style="width: 100%;" class="submit" type="submit">{{ __('Gửi') }}</button>
                             </form>
                         </div>
                     </div>

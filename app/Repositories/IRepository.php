@@ -4,6 +4,10 @@ namespace App\Repositories;
 
 interface IRepository
 {
+    public function all();
+
+    public function count();
+
     public function get($uuid);
 
     public function paginate($perPage);

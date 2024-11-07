@@ -6,11 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseRepository implements IRepository
 {
-    protected $perPage = 10;
-
     public function __construct(
         private Model $model
     ) {
+    }
+
+    public function all()
+    {
+        return $this->model->all();
+    }
+
+    public function count()
+    {
+        return $this->model->count();
     }
 
     public function get($uuid)
@@ -18,8 +26,11 @@ class BaseRepository implements IRepository
         return $this->model->findOrFail($uuid);
     }
 
-    public function paginate($perPage)
+    public function paginate($perPage = null)
     {
+        if ($perPage === null) {
+            $perPage = config('app.perPage');
+        }
         return $this->model->latest()->paginate($perPage);
     }
 
