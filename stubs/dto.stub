@@ -1,0 +1,10 @@
+<?php
+
+namespace {{ NAMESPACE }};
+
+use App\DTOs\BaseDTO;
+
+class {{ DTO_NAME }} extends BaseDTO
+{
+
+}

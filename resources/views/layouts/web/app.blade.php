@@ -11,7 +11,7 @@
 
 <head>
     <!-- Basic need -->
-    <title>Xem Phim Online | Trực Tuyến</title>
+    <title>{{ __('Xem Phim Online') }} | {{ __('Trực Tuyến') }}</title>
     <meta charset="UTF-8">
     <meta content="" name="description">
     <meta content="" name="keywords">
@@ -79,23 +79,23 @@
                     </li>
                     <li class="dropdown first">
                         <a class="btn btn-default lv1" href="/">
-                            Trang chủ
+                            {{ __('Trang chủ') }}
                         </a>
 
                     </li>
                     <li class="dropdown first">
                         <a class="btn btn-default lv1" href="/movies">
-                            Phim
+                            {{ __('Phim') }}
                         </a>
                     </li>
                     <li class="dropdown first">
                         <a class="btn btn-default lv1" href="/actors">
-                            Diễn viên
+                            {{ __('Diễn viên') }}
                         </a>
                     </li>
                     <li class="dropdown first">
                         <a class="btn btn-default lv1" href="/contact-us">
-                            Liên hệ
+                            {{ __('Liên hệ') }}
                         </a>
                     </li>
                 </ul>
@@ -107,16 +107,16 @@
                             {{auth()->user()->username}} &ensp;<i aria-hidden="true" class="fa fa-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu level1" style="background-color: #020d18;">
-                            <li class="menu-hover"><a href="{{url('user/profile')}}">Hồ sơ</a></li>
-                            <li class="menu-hover"><a href="{{url('user/favorites')}}">Danh sách phim yêu thích</a></li>
-                            <li class="menu-hover"><a href="{{url('user/ratings')}}">Xếp hạng của bạn</a></li>
-                            <li class="menu-hover"><a href="{{url('user/reviews')}}">Đánh giá của bạn</a></li>
+                            <li class="menu-hover"><a href="{{url('user/profile')}}">{{ __('Hồ sơ') }}</a></li>
+                            <li class="menu-hover"><a href="{{url('user/favorites')}}">{{ __('Danh sách phim yêu thích') }}</a></li>
+                            <li class="menu-hover"><a href="{{url('user/ratings')}}">{{ __('Xếp hạng của bạn') }}</a></li>
+                            <li class="menu-hover"><a href="{{url('user/reviews')}}">{{ __('Đánh giá của bạn') }}</a></li>
                         </ul>
                     </li>
-                        <li class="btn signupLink"><a href="{{route('logout')}}">Đăng xuất</a></li>
+                        <li class="btn signupLink"><a href="{{route('logout')}}">{{ __('Đăng xuất') }}</a></li>
                     @else
-                        <li class="loginLink"><a href="{{route('login')}}">Đăng nhập</a></li>
-                        <li class="btn signupLink"><a href="{{route('register')}}">Đăng kí</a></li>
+                        <li class="loginLink"><a href="{{route('login')}}">{{ __('Đăng nhập') }}</a></li>
+                        <li class="btn signupLink"><a href="{{route('register')}}">{{ __('Đăng kí') }}</a></li>
                     @endauth
 
                 </ul>
@@ -128,11 +128,11 @@
         <div class="top-search">
             <form action="/search" method="GET">
                 <select name="search_category">
-                    <option {{request()->search_category == 'movies' ? 'selected' : ''}} value="movies">Phim</option>
-                    <option {{request()->search_category == 'actors' ? 'selected' : ''}} value="actors">Diễn viên</option>
+                    <option {{ request()->search_category == 'film' ? 'selected' : '' }} value="film">{{ __('Phim') }}</option>
+                    <option {{ request()->search_category == 'actor' ? 'selected' : '' }} value="actor">{{ __('Diễn viên') }}</option>
                 </select>
-                <input name="search" value="{{request()->search}}" placeholder="Tìm kiếm phim, diễn viên" type="text">
-                <button type="submit" style="background-color: #dd003f!important; color: white; font-weight: bold; padding: 11px 25px; white-space: nowrap;">Tìm kiếm</button>
+                <input name="search" value="{{ request()->search }}" placeholder="{{ __('Tìm kiếm phim, diễn viên') }}" type="text">
+                <button type="submit" style="background-color: #dd003f!important; color: white; font-weight: bold; padding: 11px 25px; white-space: nowrap;">{{ __('Tìm kiếm') }}</button>
             </form>
         </div>
     </div>
@@ -145,10 +145,10 @@
 <footer id="contact_us">
     <div class="ft-copyright">
         <div class="ft-left">
-            <p><span style="color: orangered">Web Phim Online 2022</span></p>
+            <p><span style="color: orangered">{{ __('Web Phim Online 2022') }}</span></p>
         </div>
         <div class="backtotop">
-            <p><a href="#" id="back-to-top" style="color: #dd003f; font-weight: bold">Lên đầu trang <i
+            <p><a href="#" id="back-to-top" style="color: #dd003f; font-weight: bold">{{ __('Lên đầu trang') }} <i
                             class="ion-ios-arrow-thin-up"></i></a></p>
         </div>
     </div>

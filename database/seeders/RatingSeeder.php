@@ -25,6 +25,7 @@ class RatingSeeder extends Seeder
 
                 $ratings = array_map(function ($user) use ($film) {
                     $rating = new \App\Rating();
+                    $rating->id = str()->uuid();
                     $rating->user_id = $user['id'];
                     $rating->film_id = $film->id;
                     $rating->rating = rand(1, 5);

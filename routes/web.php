@@ -27,28 +27,26 @@ Route::post('/message', 'HomeController@message');
 Route::get('/contact-us', 'HomeController@contact');
 
 Route::get('/movies', 'MovieController@index');
-Route::get('/movies/{film}', 'MovieController@show');
+Route::get('/movies/{uuid}', 'MovieController@show');
 
 Route::group(['name' => 'actors', 'prefix' => 'actors'], function () {
-    Route::get('/', \App\Http\Controllers\Actor\ShowController::class);
-    Route::get('/{uuid}', \App\Http\Controllers\Actor\GetController::class);
+    // Route::get('/', \App\Http\Controllers\Actor\ShowController::class);
+    Route::get('/{uuid}', \App\Http\Controllers\Actor\GetActorController::class);
 });
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/user/profile', 'ClientController@profile');
-    Route::put('/user/profile/{user}', 'ClientController@updateProfile');
-    Route::get('/user/change_password', 'ClientController@changePasswordForm');
-    Route::put('/user/change_password/{user}', 'ClientController@changePassword');
-    Route::get('/user/favorites', 'ClientController@favorites');
-    Route::get('/user/ratings', 'ClientController@ratings');
-    Route::get('/user/reviews', 'ClientController@reviews');
-    Route::get('/user/transactions', 'ClientController@transactions');
-
-    Route::post('/user/addToFavorite/{film}', 'FavoriteController@store');
-    Route::post('/user/removeFromFavorite/{film}', 'FavoriteController@destroy');
-
-    Route::post('/user/rate/{film}', 'RateController@store');
-
-    Route::post('/user/review/{film}', 'ReviewController@store');
-    Route::delete('/user/review/{film}', 'ReviewController@destroy');
+    // User Routes
+    Route::get('/user/profile', \App\Http\Controllers\User\ShowProfileController::class);
+    Route::put('/user/profile/{uuid}', \App\Http\Controllers\User\UpdateProfileController::class);
+    Route::get('/user/change_password', \App\Http\Controllers\User\ShowChangePasswordController::class);
+    Route::put('/user/change_password/{uuid}', \App\Http\Controllers\User\ChangePasswordController::class);
+    Route::get('/user/favorites', \App\Http\Controllers\User\ShowFavoritesController::class);
+    Route::get('/user/ratings', \App\Http\Controllers\User\ShowRatingsController::class);
+    Route::get('/user/reviews', \App\Http\Controllers\User\ShowReviewsController::class);
+    Route::get('/user/transactions', \App\Http\Controllers\User\ShowTransactionsController::class);
+    Route::post('/user/addToFavorite/{uuid}', 'FavoriteController@store');
+    Route::post('/user/removeFromFavorite/{uuid}', 'FavoriteController@destroy');
+    Route::post('/user/rate/{uuid}', 'RateController@store');
+    Route::post('/user/review/{uuid}', 'ReviewController@store');
+    Route::delete('/user/review/{uuid}', 'ReviewController@destroy');
 });

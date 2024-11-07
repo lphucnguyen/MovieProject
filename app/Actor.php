@@ -2,11 +2,13 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class Actor extends Model
 {
+    use HasUuids;
+
     protected $table = 'actors';
 
     protected $keyType = 'string';
@@ -23,16 +25,6 @@ class Actor extends Model
     protected static function booted()
     {
         parent::boot();
-
-        static::deleting(function (Actor $actor) {
-            $attributes = $actor->getAttributes();
-            Storage::delete($attributes['background_cover']);
-            Storage::delete($attributes['avatar']);
-        });
-
-        static::creating(function ($model) {
-            $model->id = str()->uuid();
-        });
     }
 
     public function getAvatarAttribute($value)

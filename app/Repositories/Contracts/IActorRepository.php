@@ -6,5 +6,7 @@ use App\Repositories\IRepository;
 
 interface IActorRepository extends IRepository
 {
-    public function getActorWithFilms($uuid);
+    public function getFilms(string $uuid);
+
+    public function getActorsByQueryParams(array $queryParams);
 }

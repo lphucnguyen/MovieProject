@@ -14,9 +14,10 @@ class AdminSeeder extends Seeder
     public function run()
     {
         $admin = \App\Admin::create([
+            'id'        => str()->uuid(),
             'name'      => 'Super Admin',
             'email'     => 'super_admin@app.com',
-            'password'  => bcrypt(123456)
+            'password'  => bcrypt('123456')
         ]);
 
         $admin->attachRole('super_admin');

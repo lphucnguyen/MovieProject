@@ -58,7 +58,7 @@
                                 <p>Đánh giá phim: </p>
                                 <form class="rating">
                                     @php
-                                        $userrate =0;
+                                        $userrate = 0;
                                         if(auth()->user() != NULL)
                                             $userrate = auth()->user()->ratings->where('film_id', $film->id)->first();
                                         if($userrate != NULL)
@@ -121,15 +121,9 @@
                                             </div>
                                             <div class="col-md-12 col-sm-12 col-xs-12">
                                             @if(auth()->user())
-                                                @if($film->is_free || $isCanSee)
                                                 @livewire('movies.show-movies', ['id' => $film->id])
-                                                @elseif(!$isCanSee)
-                                                <p class="text-white">Bạn không có quyền xem phim này. Hãy nâng cấp tài khoản. 
-                                                    <a href="/user/profile">(Tại đây)</a>
-                                                </p>
-                                                @endif
                                             @else
-                                            <p class="text-white">Vui lòng đăng nhập</p>
+                                                <p class="text-white">Vui lòng đăng nhập</p>
                                             @endif
                                             </div>
                                         </div>

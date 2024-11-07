@@ -12,10 +12,10 @@ trait StaticCreateable
         $dto = new static();
 
         foreach ($values as $key => $value) {
-            $camelKey = str()->camel($key);
+            // $camelKey = str()->camel($key);
 
             if (property_exists($dto, $key)) {
-                $dto->$camelKey = $value;
+                $dto->$key = $value;
             }
         }
 

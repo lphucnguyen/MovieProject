@@ -13,35 +13,26 @@ use Illuminate\Support\Facades\Mail;
 
 class SendPaymentEmail implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
-    protected Array $emailContent;
-    protected Transaction $transaction;
-
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct(Array $emailContent, Transaction $transaction)
-    {
-        $this->emailContent = $emailContent;
-        $this->transaction = $transaction;
+    public function __construct(
+        private array $emailContent,
+        private Transaction $transaction
+    ) {
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
         $title = $this->emailContent['title'];
         $email = $this->emailContent['email'];
         $emailPayment = new PaymentMail(
-            $this->transaction, 
+            $this->transaction,
             $title
         );
+
         Mail::to($email)->send($emailPayment);
     }
 }

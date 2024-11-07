@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquents;
 use App\Actor;
 use App\Repositories\BaseRepository;
 use App\Repositories\Contracts\IActorRepository;
+use Illuminate\Pipeline\Pipeline;
 
 class ActorRepository extends BaseRepository implements IActorRepository
 {
@@ -14,13 +15,28 @@ class ActorRepository extends BaseRepository implements IActorRepository
         parent::__construct($model);
     }
 
-    public function getActorWithFilms($uuid)
+    public function getFilms($uuid)
     {
-        $actor = $this->model->findOrFail($uuid);
+        $films = $this->get($uuid)
+                        ->films()
+                        ->latest()
+                        ->paginate(config('app.perPage'));
 
-        return [
-            'actor' => $actor,
-            'films' => $actor->films()->latest()->paginate(10)
-        ];
+        return $films;
+    }
+
+    public function getActorsByQueryParams(array $queryParams)
+    {
+        $query = $this->makeQuery();
+
+        return app(Pipeline::class)
+            ->send($query)
+            ->through([
+                new \App\QueryFilters\Actor\FilterByName($queryParams),
+                new \App\QueryFilters\Actor\FilterByFilm($queryParams),
+            ])
+            ->thenReturn()
+            ->latest()
+            ->paginate(config('app.perPage'));
     }
 }

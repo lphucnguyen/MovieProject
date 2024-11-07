@@ -283,7 +283,7 @@ a {
                                     <table width="100%" cellpadding="0" cellspacing="0">
                                         <tbody><tr>
                                             <td class="content-block">
-                                                <h2>Hoá đơn thanh toán</h2>
+                                                <h2>{{ __('Hoá đơn thanh toán') }}</h2>
                                             </td>
                                         </tr>
                                         <tr>
@@ -291,10 +291,10 @@ a {
                                                 <table class="invoice">
                                                     <tbody><tr>
                                                         <td>
-                                                            Tên: {{$transaction->user->first_name . ' ' . $transaction->user->last_name}}<br>
-                                                            Mã hoá đơn: #{{$transaction->trans_id}}<br>
-                                                            Ngày xuất hoá đơn: {{$transaction->created_at}}<br>
-                                                            Hình thức thanh toán: {{$transaction->method_payment}}
+                                                            {{ __('Tên') }}: {{$transaction->user->first_name . ' ' . $transaction->user->last_name}}<br>
+                                                            {{ __('Mã hoá đơn') }}: #{{$transaction->trans_id}}<br>
+                                                            {{ __('Ngày xuất hoá đơn') }}: {{$transaction->created_at}}<br>
+                                                            {{ __('Hình thức thanh toán') }}: {{$transaction->method_payment}}
                                                         </td>
                                                     </tr>
                                                 </tbody></table>
@@ -303,13 +303,13 @@ a {
                                         <tr>
                                             <td class="content-block">
                                                 <a href={{env('APP_URL')}}>
-                                                    Truy cập trang chủ
+                                                    {{ __('Truy cập trang chủ') }}
                                                 </a>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="content-block">
-                                                Web Xem Phim Online 2022
+                                                {{ __('Web Xem Phim Online 2022') }}
                                             </td>
                                         </tr>
                                     </tbody></table>
@@ -319,7 +319,7 @@ a {
                         <div class="footer">
                             <table width="100%">
                                 <tbody><tr>
-                                    <td class="aligncenter content-block">Liện hệ email: <a href="mailto:">nguyenb1805794@student.ctu.edu.vn</a></td>
+                                    <td class="aligncenter content-block">{{ __('Liện hệ email') }}: <a href="mailto:">abc@gmail.com</a></td>
                                 </tr>
                             </tbody></table>
                         </div></div>

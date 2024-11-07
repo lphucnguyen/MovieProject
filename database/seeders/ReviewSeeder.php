@@ -25,6 +25,7 @@ class ReviewSeeder extends Seeder
 
                 $reviews = array_map(function ($user) {
                     $review = new \App\Review();
+                    $review->id = str()->uuid();
                     $review->user_id = $user['id'];
                     $review->title = fake()->sentence(3);
                     $review->review = fake()->paragraph(2);

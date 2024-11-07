@@ -67,7 +67,7 @@
                                 <div class="row clearfix">
                                     <div class="input-group" style="margin-bottom: 0px">
                                         <input type="text" class="form-control" placeholder="Tìm kiếm..."
-                                                name="search" value="{{ request()->search }}">
+                                                name="searchKey" value="{{ request()->searchKey }}">
                                         <button class="input-group-addon" type="submit">
                                             <i class="zmdi zmdi-search"></i>
                                         </button>
@@ -91,10 +91,10 @@
                                         @forelse($ratings as $rating)
                                             <tr>
                                                 <td>
-                                                    <a href="{{route('dashboard.clients.index', ['search' => $rating->user->username])}}">{{$rating->user->username}}</a>
+                                                    <a href="{{route('dashboard.clients.index', ['searchKey' => $rating->user->username])}}">{{$rating->user->username}}</a>
                                                 </td>
                                                 <td>
-                                                    <a href="{{route('dashboard.films.index', ['search' => $rating->film->name])}}">{{$rating->film->name}}</a>
+                                                    <a href="{{route('dashboard.films.index', ['searchKey' => $rating->film->name])}}">{{$rating->film->name}}</a>
                                                 </td>
                                                 <td><i class="zmdi zmdi-star"></i> {{$rating->rating}}</td>
                                                 <td>

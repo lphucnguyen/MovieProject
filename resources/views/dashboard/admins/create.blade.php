@@ -10,16 +10,14 @@
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-7 col-md-5 col-sm-12">
-                    <h2>Thêm Admins
-                        {{-- <small>Chào mừng đến với phim</small> --}}
-                    </h2>
+                    <h2>{{ __('Thêm ban quản trị') }}</h2>
                 </div>
                 <div class="col-lg-5 col-md-7 col-sm-12">
                     <ul class="breadcrumb float-md-right">
-                        <li class="breadcrumb-item"><a href="{{ url('dashboard') }}"><i class="zmdi zmdi-home"></i>
-                                Bảng điều khiển</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Admin</a></li>
-                        <li class="breadcrumb-item active">Thêm Admin</li>
+                        <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">
+                            <i class="zmdi zmdi-home"></i>{{ __('Bảng điều khiển') }}</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ __('Ban quản trị') }}</a></li>
+                        <li class="breadcrumb-item active">{{ __('Thêm ban quản trị') }}</li>
                     </ul>
                 </div>
             </div>
@@ -29,7 +27,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2><strong>Thêm</strong> Admin</h2>
+                            <h2><strong>{{ __('Thêm ban quản trị') }}</strong></h2>
                         </div>
 
                         <div class="body">
@@ -38,21 +36,21 @@
                                 @csrf
 
                                 <div class="header col-lg-12 col-md-12 col-sm-12">
-                                    <h2>Thông tin chính</h2>
+                                    <h2>{{ __('Thông tin chính') }}</h2>
                                 </div>
 
                                 <div class="row clearfix">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="text" name="name" class="form-control"
-                                                   placeholder="Name" value="{{ old('name', '') }}">
+                                                   placeholder="{{ __('Tên') }}" value="{{ old('name', '') }}">
                                             <span style="color: red; margin-left: 10px">{{ $errors->first('name') }}</span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="email" name="email" class="form-control"
-                                                   placeholder="Email" value="{{ old('email', '') }}">
+                                                   placeholder="{{ __('Email') }}" value="{{ old('email', '') }}">
                                             <span style="color: red;margin-left: 10px">{{ $errors->first('email') }}</span>
                                         </div>
                                     </div>
@@ -69,14 +67,13 @@
                                         </div>
                                         <div>
                                                 <span class="btn btn-dark btn-file">
-                                                    <span class="fileinput-new"> Chọn Avatar </span>
-                                                    <span class="fileinput-exists"> Thay đổi </span>
+                                                    <span class="fileinput-new"> {{ __('Chọn Avatar') }} </span>
+                                                    <span class="fileinput-exists"> {{ __('Thay đổi') }} </span>
                                                     <input type="file" name="avatar"
                                                            value="{{ old('avatar', '') }}">
                                                 </span>
                                             <a href="" class="btn btn-danger fileinput-exists"
-                                               data-dismiss="fileinput">
-                                                Xoá </a>
+                                               data-dismiss="fileinput">{{ __('Xoá') }}</a>
                                         </div>
                                         <span style="color: red; margin-left: 10px">{{ $errors->first('avatar') }}</span>
                                     </div>
@@ -84,28 +81,28 @@
 
                                 <hr>
                                 <div class="header col-lg-12 col-md-12 col-sm-12">
-                                    <h2>Thông tin đăng nhập</h2>
+                                    <h2>{{ __('Thông tin đăng nhập') }}</h2>
                                 </div>
 
                                 <div class="row clearfix">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="password" name="password" class="form-control"
-                                                   placeholder="Mật khẩu">
+                                                   placeholder="{{ __('Mật khẩu') }}">
                                             <span style="color: red; margin-left: 10px">{{ $errors->first('password') }}</span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="password" name="password_confirmation" class="form-control"
-                                                   placeholder="Xác nhận mật khẩu">
+                                                   placeholder="{{ __('Xác nhận mật khẩu') }}">
                                         </div>
                                     </div>
                                 </div>
 
                                 <hr>
                                 <div class="header col-lg-12 col-md-12 col-sm-12">
-                                    <h2>Thông tin quyền truy cập</h2>
+                                    <h2>{{ __('Thông tin quyền truy cập') }}</h2>
                                 </div>
 
                                 @php
@@ -173,10 +170,9 @@
 
                                 <div class="row clearfix">
                                     <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-primary btn-round">Thêm</button>
-                                        <button type="reset" class="btn btn-default btn-round btn-simple">Huỷ bỏ
-                                        </button>
-                                        <a href={{route('dashboard.admins.index')}} class="btn btn-second btn-round">Quay lại</a>
+                                        <button type="submit" class="btn btn-primary btn-round">{{ __('Thêm') }}</button>
+                                        {{-- <button type="reset" class="btn btn-default btn-round btn-simple">{{ __('Huỷ bỏ') }}</button> --}}
+                                        <a href={{route('dashboard.admins.index')}} class="btn btn-second btn-round">{{ __('Quay lại') }}</a>
                                     </div>
                                 </div>
                             </form>

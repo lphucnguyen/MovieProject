@@ -2,98 +2,26 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Commands\Message\DeleteMessageCommand;
+use App\Commands\Message\GetMessagesCommand;
 use App\Http\Controllers\Controller;
-use App\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Bus;
 
 class MessageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
-        //
-        $messages = Message::where(function ($query) use ($request) {
-                $query->when($request->search, function ($q) use ($request) {
-                    return $q->where('email', 'like', '%' . $request->search . '%')
-                        ->orWhere('title', 'like', '%' . $request->search . '%');
-                });
-            })
-            ->latest()->paginate(10);
+        $getMessagesCommand = new GetMessagesCommand($request->searchKey);
+        $messages = Bus::dispatch($getMessagesCommand);
 
         return view('dashboard.messages.index', compact('messages'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function destroy(string $uuid)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Message $message)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Message $message)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Message $message)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Message $message
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
-     */
-    public function destroy(Message $message)
-    {
-        //
-        $message->delete();
+        $deleteMessageCommand = new DeleteMessageCommand($uuid);
+        Bus::dispatch($deleteMessageCommand);
 
         session()->flash('success', 'Tin nhắn xoá thành công');
         return redirect()->route('dashboard.messages.index');

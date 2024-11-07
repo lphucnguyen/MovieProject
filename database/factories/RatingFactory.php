@@ -20,6 +20,7 @@ $factory->define(Rating::class, function (Faker $faker) {
         ->id;
 
     return [
+        'id'   => str()->uuid(),
         'user_id' => $idUser,
         'film_id' => $idFilm,
         'rating' => rand(1, 5)

@@ -10,16 +10,15 @@
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-7 col-md-5 col-sm-12">
-                    <h2>Thêm khách hàng
-                        {{-- <small>Chào mừng đến với phim</small> --}}
-                    </h2>
+                    <h2>{{ __('Thêm khách hàng') }}</h2>
                 </div>
                 <div class="col-lg-5 col-md-7 col-sm-12">
                     <ul class="breadcrumb float-md-right">
-                        <li class="breadcrumb-item"><a href="{{ url('dashboard') }}"><i class="zmdi zmdi-home"></i>
-                                Bảng điều khiển</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Khách hàng</a></li>
-                        <li class="breadcrumb-item active">Thêm khách hàng</li>
+                        <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">
+                            <i class="zmdi zmdi-home"></i>{{ __('Bảng điều khiển') }}</a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ __('Khách hàng') }}</a></li>
+                        <li class="breadcrumb-item active">{{ __('Thêm khách hàng') }}</li>
                     </ul>
                 </div>
             </div>
@@ -29,7 +28,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2><strong>Thêm</strong> Khách hàng</h2>
+                            <h2><strong>{{ __('Thêm khách hàng') }}</strong></h2>
                         </div>
 
                         <div class="body">
@@ -38,21 +37,21 @@
                                 @csrf
 
                                 <div class="header col-lg-12 col-md-12 col-sm-12">
-                                    <h2>Thông tin chính</h2>
+                                    <h2>{{ __('Thông tin chính') }}</h2>
                                 </div>
 
                                 <div class="row clearfix">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="text" name="username" class="form-control"
-                                                   placeholder="UserName" value="{{ old('username', '') }}">
+                                                   placeholder="{{ __('UserName') }}" value="{{ old('username', '') }}">
                                             <span style="color: red; margin-left: 10px">{{ $errors->first('username') }}</span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="email" name="email" class="form-control"
-                                                   placeholder="Email" value="{{ old('email', '') }}">
+                                                   placeholder="{{ __('Email') }}" value="{{ old('email', '') }}">
                                             <span style="color: red;margin-left: 10px">{{ $errors->first('email') }}</span>
                                         </div>
                                     </div>
@@ -61,14 +60,14 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="text" name="first_name" class="form-control"
-                                                   placeholder="Họ" value="{{ old('first_name', '') }}">
+                                                   placeholder="{{ __('Họ') }}" value="{{ old('first_name', '') }}">
                                             <span style="color: red; margin-left: 10px">{{ $errors->first('first_name') }}</span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="text" name="last_name" class="form-control"
-                                                   placeholder="Tên" value="{{ old('last_name', '') }}">
+                                                   placeholder="{{ __('Tên') }}" value="{{ old('last_name', '') }}">
                                             <span style="color: red;margin-left: 10px">{{ $errors->first('last_name') }}</span>
                                         </div>
                                     </div>
@@ -85,14 +84,14 @@
                                         </div>
                                         <div>
                                                 <span class="btn btn-dark btn-file">
-                                                    <span class="fileinput-new"> Chọn Avatar </span>
-                                                    <span class="fileinput-exists"> Thay đổi </span>
+                                                    <span class="fileinput-new"> {{ __('Chọn Avatar') }} </span>
+                                                    <span class="fileinput-exists"> {{ __('Thay đổi') }} </span>
                                                     <input type="file" name="avatar"
                                                            value="{{ old('avatar', '') }}">
                                                 </span>
                                             <a href="" class="btn btn-danger fileinput-exists"
                                                data-dismiss="fileinput">
-                                                Xoá </a>
+                                                {{ __('Xoá') }} </a>
                                         </div>
                                         <span style="color: red; margin-left: 10px">{{ $errors->first('avatar') }}</span>
                                     </div>
@@ -100,91 +99,30 @@
 
                                 <hr>
                                 <div class="header col-lg-12 col-md-12 col-sm-12">
-                                    <h2>Thông tin đăng nhập</h2>
+                                    <h2>{{ __('Thông tin đăng nhập') }}</h2>
                                 </div>
 
                                 <div class="row clearfix">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="password" name="password" class="form-control"
-                                                   placeholder="Mật khẩu">
+                                                   placeholder="{{ __('Mật khẩu') }}">
                                             <span style="color: red; margin-left: 10px">{{ $errors->first('password') }}</span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="password" name="password_confirmation" class="form-control"
-                                                   placeholder="Xác nhận mật khẩu">
+                                                   placeholder="{{ __('Xác nhận mật khẩu') }}">
                                         </div>
                                     </div>
                                 </div>
-
-                                {{--<hr>--}}
-
-                                {{--<div class="header col-lg-12 col-md-12 col-sm-12">--}}
-                                    {{--<h2>Permission Information</h2>--}}
-                                {{--</div>--}}
-
-                                {{--@php--}}
-                                    {{--$models = ['admins', 'users'];--}}
-                                    {{--$cruds = ['create', 'read', 'update', 'delete'];--}}
-                                {{--@endphp--}}
-
-                                {{--<div class="row clearfix">--}}
-                                    {{--<ul class="nav nav-tabs" id="myTab" role="tablist">--}}
-                                        {{--@foreach($models as $index=>$model)--}}
-                                            {{--<li class="nav-item">--}}
-                                                {{--<a class="nav-link {{$index==0 ? 'active' : ''}}" data-toggle="tab" href="#{{$model}}"--}}
-                                                   {{--role="tab" aria-controls="home" aria-selected="true">{{$model}}</a>--}}
-                                            {{--</li>--}}
-                                        {{--@endforeach--}}
-                                    {{--</ul>--}}
-                                {{--</div>--}}
-                                {{--<div class="row clearfix" style="margin-left: 10px">--}}
-
-                                    {{--<div class="tab-content">--}}
-                                        {{--@foreach($models as $index=>$model)--}}
-                                            {{--<div class="tab-pane fade show {{ $index==0 ? 'active' : '' }}" id="{{ $model }}" >--}}
-                                                {{--<div class="checkbox">--}}
-                                                    {{--@foreach($cruds as $crud)--}}
-                                                        {{--<input id="{{$crud . '_' . $model }}" type="checkbox" name="permissions[]" value="{{$crud . '_' . $model }}">--}}
-                                                        {{--<label style="margin-left: 10px" for="{{$crud . '_' . $model }}">--}}
-                                                            {{--{{$crud}}--}}
-                                                        {{--</label>--}}
-                                                    {{--@endforeach--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                        {{--@endforeach--}}
-                                        {{--<div class="tab-pane fade" id="profile" role="tabpanel"--}}
-                                             {{--aria-labelledby="profile-tab">--}}
-                                            {{--<div class="checkbox">--}}
-                                                {{--<input id="checkbox1" type="checkbox">--}}
-                                                {{--<label for="checkbox1">--}}
-                                                    {{--Unchecked--}}
-                                                {{--</label>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="tab-pane fade" id="contact" role="tabpanel"--}}
-                                             {{--aria-labelledby="contact-tab">--}}
-                                            {{--<div class="checkbox">--}}
-                                                {{--<input id="checkbox1" type="checkbox">--}}
-                                                {{--<label for="checkbox1">--}}
-                                                    {{--Unchecked--}}
-                                                {{--</label>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-
-                                {{--<br>--}}
                                 <br>
-
                                 <div class="row clearfix">
                                     <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-primary btn-round">Thêm</button>
-                                        <button type="reset" class="btn btn-default btn-round btn-simple">Huỷ bỏ
-                                        </button>
-                                        <a href={{route('dashboard.clients.index')}} class="btn btn-second btn-round">Quay lại</a>
+                                        <button type="submit" class="btn btn-primary btn-round">{{ __('Thêm') }}</button>
+                                        <button type="reset" class="btn btn-default btn-round btn-simple">{{ __('Huỷ bỏ') }}</button>
+                                        <a href={{route('dashboard.clients.index')}} class="btn btn-second btn-round">{{ __('Quay lại') }}</a>
                                     </div>
                                 </div>
                             </form>

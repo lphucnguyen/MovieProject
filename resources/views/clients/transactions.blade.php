@@ -16,8 +16,8 @@
                     <div class="hero-ct">
                         <h1>{{$user->first_name . ' ' . $user->last_name}}</h1>
                         <ul class="breadcumb">
-                            <li class="active"><a href="#">Trang chủ</a></li>
-                            <li><span class="ion-ios-arrow-right"></span>Hồ sơ</li>
+                            <li class="active"><a href="#">{{ __('Trang chủ') }}</a></li>
+                            <li><span class="ion-ios-arrow-right"></span>{{ __('Hồ sơ') }}</li>
                         </ul>
                     </div>
                 </div>
@@ -34,20 +34,20 @@
                                              style="width: 150px; height: 150px; border-radius: 50%"><br></a>
                         </div>
                         <div class="user-fav">
-                            <p>Chi tiết tài khoản</p>
+                            <p>{{ __('Chi tiết tài khoản') }}</p>
                             <ul>
-                                <li ><a href="{{url('user/profile')}}">Hồ sơ</a></li>
-                                <li><a href="{{url('user/favorites')}}">Phim yêu thích</a></li>
-                                <li><a href="{{url('user/ratings')}}">Phim đã đánh giá</a></li>
-                                <li><a href="{{url('user/reviews')}}">Phim đã bình luận</a></li>
-                                <li class="active"><a href="{{url('user/transactions')}}">Lịch sử giao dịch</a></li>
+                                <li ><a href="{{url('user/profile')}}">{{ __('Hồ sơ') }}</a></li>
+                                <li><a href="{{url('user/favorites')}}">{{ __('Phim yêu thích') }}</a></li>
+                                <li><a href="{{url('user/ratings')}}">{{ __('Phim đã đánh giá') }}</a></li>
+                                <li><a href="{{url('user/reviews')}}">{{ __('Phim đã bình luận') }}</a></li>
+                                <li class="active"><a href="{{url('user/transactions')}}">{{ __('Lịch sử giao dịch') }}</a></li>
                             </ul>
                         </div>
                         <div class="user-fav">
-                            <p>Cài đặt</p>
+                            <p>{{ __('Cài đặt') }}</p>
                             <ul>
-                                <li><a href="{{url('user/change_password/')}}">Thay đổi mật khẩu</a></li>
-                                <li><a href="{{route('logout')}}">Đăng xuất</a></li>
+                                <li><a href="{{url('user/change_password/')}}">{{ __('Thay đổi mật khẩu') }}</a></li>
+                                <li><a href="{{route('logout')}}">{{ __('Đăng xuất') }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -58,9 +58,9 @@
                     </div> --}}
                     <table style="color: white;">
                         <thead>
-                            <th>Ngày giao dịch</th>
-                            <th>Loại thành viên</th>
-                            <th>Hình thức</th>
+                            <th>{{ __('Ngày giao dịch') }}</th>
+                            <th>{{ __('Loại thành viên') }}</th>
+                            <th>{{ __('Hình thức') }}</th>
                         </thead>
                         <tbody>
                             @foreach($transactions as $transaction)

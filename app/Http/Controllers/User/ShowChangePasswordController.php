@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class ShowChangePasswordController extends Controller
 {
-    //
+    public function __invoke()
+    {
+        $user = auth()->user();
+        return view('clients.change_password', compact('user'));
+    }
 }

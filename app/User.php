@@ -3,9 +3,9 @@
 namespace App;
 
 use App\Traits\ExtendedModel;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
@@ -13,12 +13,10 @@ class User extends Authenticatable
     use HasApiTokens;
     use Notifiable;
     use ExtendedModel;
+    use HasUuids;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    protected $keyType = 'string';
+
     protected $fillable = [
         'username',
         'first_name',
@@ -26,26 +24,13 @@ class User extends Authenticatable
         'email',
         'avatar',
         'password',
-        'expired_at',
     ];
 
-    protected $keyType = 'string';
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -53,18 +38,6 @@ class User extends Authenticatable
     protected static function booted()
     {
         parent::boot();
-
-        // When the client is being deleted, delete the avatar as well.
-        static::deleting(function (User $user) {
-            $attributes = $user->getAttributes();
-            if (isset($attributes['avatar']) && $attributes['avatar']) {
-                Storage::delete($attributes['avatar']);
-            }
-        });
-
-        static::creating(function ($model) {
-            $model->id = str()->uuid();
-        });
     }
 
     public function getAvatarAttribute($value)
@@ -92,7 +65,7 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class);
     }
 
-    public function rated_films()
+    public function ratedFilms()
     {
         return $this->belongsToMany(Film::class, 'ratings', 'user_id', 'film_id')
                     ->withPivot('rating');

@@ -2,90 +2,59 @@
 
 namespace App\Http\Controllers;
 
-use App\Actor;
-use App\Category;
-use App\Film;
-use App\Message;
-use App\Neo4j\Connection;
-use Illuminate\Http\Request;
+use App\Commands\Actor\GetActorsCommand;
+use App\Commands\Film\GetMoviesCommand;
+use App\Commands\Home\GetDataHomeCommand;
+use App\Commands\Home\SendMessageCommand;
+use App\DTOs\Film\GetMoviesDTO;
+use App\DTOs\Home\SendMessageDTO;
+use App\Enums\Home\SearchCategory;
+use App\Http\Requests\Home\SearchRequest;
+use App\Http\Requests\Home\SendMessageRequest;
+use Illuminate\Support\Facades\Bus;
 
 class HomeController extends Controller
 {
-    public function __construct()
-    {
-    }
-
     public function index()
     {
-        $sliderFilms = Film::with('categories')->with('ratings')->limit(10)->latest()->get();
-        $categoryFilms = Category::with(['films' => function ($query) {
-            $query->limit(35)->get();
-        }])->limit(3)->get();
+        $getDataHomeCommand = new GetDataHomeCommand();
+        $data = Bus::dispatch($getDataHomeCommand);
 
-        $user = auth()->guard('web')->user();
-        $suggestedFilms = [];
-        $ratings = [];
+        $categoryFilms = $data->categoryFilms;
+        $suggestedFilms = $data->suggestedFilms;
+        $ratings = $data->ratings;
+        $user = $data->user;
 
-        // if ($user != null) {
-        //     $connection = new Connection();
-        //     $client = $connection->getClient();
-        //     $query = 'MATCH (c1:Users {id:$userId})-[r1:RATED]->(f:Films)<-[r2:RATED]-(c2:Users)
-        //                 WITH
-        //                     SUM(r1.rating*r2.rating) as dot_product,
-        //                     SQRT( REDUCE(x=0.0, a IN COLLECT(r1.rating) | x + a^2) ) as r1_length,
-        //                     SQRT( REDUCE(y=0.0, b IN COLLECT(r2.rating) | y + b^2) ) as r2_length,
-        //                     c1,c2
-        //                 MERGE (c1)-[s:SIMILARITY]-(c2)
-        //                 SET s.similarity = dot_product / (r1_length * r2_length)
-        //                 WITH 1 as neighbours
-        //                 MATCH (c1)-[:SIMILARITY]->(c2)-[r:RATED]->(f2:Films)
-        //                 WHERE NOT (c1)-[:RATED]->(f2)
-        //                 WITH f2, collect(r) as ratings ,c2, c1
-        //                 WITH f2, c2, REDUCE(s=0,i in ratings | s+i.rating) / SIZE(ratings) as recommendation, c1
-        //                 RETURN f2, recommendation
-        //                 ORDER BY recommendation DESC
-        //                 LIMIT 10';
-        //     $param = ['userId' => $user->id];
-        //     $results = $client->run($query, $param);
-        //     foreach ($results as $result) {
-        //         $node = $result->get('f2');
-        //         $ratings[] = $result->get('recommendation');
-        //         $suggestedFilms[] = $node;
-        //     }
-        // }
-
-        return view('home', compact('sliderFilms', 'categoryFilms', 'suggestedFilms', 'ratings'));
+        return view('home', compact('data'));
     }
 
-    public function search(Request $request)
+    public function search(SearchRequest $request)
     {
         switch ($request->search_category) {
-            case 'movies':
-                $films = Film::where('name', 'like', '%' . $request->search . '%')->paginate(10);
+            case SearchCategory::FILM->value:
+                $getFilmsCommand = new GetMoviesCommand(GetMoviesDTO::fromRequest($request));
+                $films = Bus::dispatch($getFilmsCommand);
+
                 return view('movies.index', compact('films'));
                 break;
-            case 'actors':
-                $actors = Actor::where('name', 'like', '%' . $request->search . '%')->paginate(10);
+            case SearchCategory::ACTOR->value:
+                $getActorsCommand = new GetActorsCommand($request->search, null);
+                $actors = Bus::dispatch($getActorsCommand);
+
                 return view('actors.index', compact('actors'));
                 break;
             default:
                 return redirect()->back();
+                break;
         }
     }
 
-    public function message(Request $request)
+    public function message(SendMessageRequest $request)
     {
-        $attributes = $request->validate([
-            'email' =>  'required|email',
-            'title' =>  'required|string',
-            'message' =>  'required|string|max:250'
-        ]);
-
-        Message::create([
-           'email' => $attributes['email'],
-           'title' => $attributes['title'],
-           'message' => $attributes['message'],
-        ]);
+        $sendMessageCommand = new SendMessageCommand(
+            SendMessageDTO::fromRequest($request)
+        );
+        Bus::dispatch($sendMessageCommand);
 
         session()->flash('success', 'Cám ơn bạn đã liên hệ');
         return redirect()->back();

@@ -10,16 +10,16 @@
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-7 col-md-5 col-sm-12">
-                    <h2>Thêm diễn viên
+                    <h2>{{ __('Thêm diễn viên') }}
                         {{-- <small>Welcome to Films</small> --}}
                     </h2>
                 </div>
                 <div class="col-lg-5 col-md-7 col-sm-12">
                     <ul class="breadcrumb float-md-right">
                         <li class="breadcrumb-item"><a href="{{ url('dashboard') }}"><i class="zmdi zmdi-home"></i>
-                                Films</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Diễn viên</a></li>
-                        <li class="breadcrumb-item active">Thêm</li>
+                                {{ __('Phim') }}</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">{{ __('Diễn viên') }}</a></li>
+                        <li class="breadcrumb-item active">{{ __('Thêm') }}</li>
                     </ul>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2><strong>Thêm</strong> Diễn viên</h2>
+                            <h2><strong>{{ __('Thêm diễn viên') }}</strong></h2>
                         </div>
 
                         <div class="body">
@@ -38,21 +38,21 @@
                                 @csrf
 
                                 <div class="header col-lg-12 col-md-12 col-sm-12">
-                                    <h2>Thông tin chính</h2>
+                                    <h2>{{ __('Thông tin chính') }}</h2>
                                 </div>
 
                                 <div class="row clearfix">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="text" name="name" class="form-control"
-                                                   placeholder="Tên" value="{{ old('name', '') }}">
+                                                   placeholder="{{ __('Tên') }}" value="{{ old('name', '') }}">
                                             <span style="color: red; margin-left: 10px">{{ $errors->first('name') }}</span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="text" name="dob" class="form-control"
-                                                   placeholder="Ngày sinh" value="{{ old('dob', '') }}"
+                                                   placeholder="{{ __('Ngày sinh') }}" value="{{ old('dob', '') }}"
                                                    onfocus="(this.type='date')"
                                                    onblur="(this.type='text')"
                                                    style="text-align: left">
@@ -65,7 +65,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <textarea name="overview" rows="4" class="form-control no-resize"
-                                                      placeholder="Tổng quan về diễn viên">{{ old('overview', '') }}</textarea>
+                                                      placeholder="{{ __('Tổng quan về diễn viên') }}">{{ old('overview', '') }}</textarea>
                                             <span style="color: red; margin-left: 10px">{{ $errors->first('overview') }}</span>
                                         </div>
                                     </div>
@@ -74,7 +74,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <textarea name="biography" rows="4" class="form-control no-resize"
-                                                      placeholder="Tiểu sử của diễn viên">{{ old('biography', '') }}</textarea>
+                                                      placeholder="{{ __('Tiểu sử của diễn viên') }}">{{ old('biography', '') }}</textarea>
                                             <span style="color: red; margin-left: 10px">{{ $errors->first('biography') }}</span>
                                         </div>
                                     </div>
@@ -92,14 +92,14 @@
                                         </div>
                                         <div>
                                                 <span class="btn btn-dark btn-file">
-                                                    <span class="fileinput-new"> Chon avatar diễn viên </span>
-                                                    <span class="fileinput-exists"> Thay đổi </span>
+                                                    <span class="fileinput-new">{{ __('Chon avatar diễn viên')}} </span>
+                                                    <span class="fileinput-exists">{{ __('Thay đổi') }}</span>
                                                     <input type="file" name="avatar"
                                                            value="{{ old('avatar', '') }}">
                                                 </span>
                                             <a href="" class="btn btn-danger fileinput-exists"
                                                data-dismiss="fileinput">
-                                                Xoá </a>
+                                                {{ __('Xoá') }} </a>
                                         </div>
                                         <span style="color: red; margin-left: 10px">{{ $errors->first('avatar') }}</span>
                                     </div>
@@ -117,14 +117,13 @@
                                         </div>
                                         <div>
                                                 <span class="btn btn-dark btn-file">
-                                                    <span class="fileinput-new"> Chọn ảnh nền diễn viên </span>
-                                                    <span class="fileinput-exists"> Thay đổi </span>
+                                                    <span class="fileinput-new">{{ __('Chọn ảnh nền diễn viên')}}</span>
+                                                    <span class="fileinput-exists">{{ __('Thay đổi') }}</span>
                                                     <input type="file" name="background_cover"
                                                            value="{{ old('background_cover', '') }}">
                                                 </span>
                                             <a href="" class="btn btn-danger fileinput-exists"
-                                               data-dismiss="fileinput">
-                                                Xoá </a>
+                                               data-dismiss="fileinput">{{ __('Xoá') }}</a>
                                         </div>
                                         <span style="color: red; margin-left: 10px">{{ $errors->first('background_cover') }}</span>
                                     </div>
@@ -132,10 +131,9 @@
 
                                 <div class="row clearfix">
                                     <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-primary btn-round">Thêm</button>
-                                        <button type="reset" class="btn btn-default btn-round btn-simple">Huỷ bỏ
-                                        </button>
-                                        <a href={{route('dashboard.actors.index')}} class="btn btn-second btn-round">Quay lại</a>
+                                        <button type="submit" class="btn btn-primary btn-round">{{ __('Thêm') }}</button>
+                                        {{-- <button type="reset" class="btn btn-default btn-round btn-simple">{{ __('Huỷ bỏ') }}</button> --}}
+                                        <a href={{route('dashboard.actors.index')}} class="btn btn-second btn-round">{{ __('Quay lại') }}</a>
                                     </div>
                                 </div>
                             </form>

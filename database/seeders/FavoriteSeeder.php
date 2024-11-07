@@ -24,6 +24,7 @@ class FavoriteSeeder extends Seeder
 
                 $ratings = array_map(function ($user) use ($film) {
                     $rating = new \App\Favorite();
+                    $rating->id = str()->uuid();
                     $rating->user_id = $user['id'];
                     $rating->film_id = $film->id;
 
