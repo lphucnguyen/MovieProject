@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="hero-ct">
-                        <h1> {{ __('Phim') }} <span> {{request()->search ? ' : " ' . request()->search . ' "' : ''}} {{request()->category ? ' : " ' . request()->category . ' "' : ''}}</span></h1>
+                        <h1> {{ __('Phim') }} <span> {{ request()->search ? ' : " ' . request()->search . ' "' : ''}} {{request()->category ? ' : " ' . request()->category . ' "' : ''}}</span></h1>
                         <ul class="breadcumb">
                             <li class="active"><a href="/"><b>{{ __('Trang chủ') }}</b></a></li>
                             <li><span class="ion-ios-arrow-right"></span><b>{{ __('Danh sách phim') }}</b></li>
@@ -27,12 +27,12 @@
             <div class="row ipad-width">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="topbar-filter">
-                        <p>{{ __('Tìm thấy') }} <span>{{$films->count()}}</span> {{ __('phim') }}</p>
+                        <p>{{ __('Tìm thấy') }} <span>{{ $films->count() }}</span> {{ __('phim') }}</p>
                     </div>
                     <div class="flex-wrap-movielist">
                         @foreach($films as $film)
                             <div class="movie-item-style-2 movie-item-style-1">
-                                <img src="{{$film->poster}}" style="height: 260px" alt="">
+                                <img src="{{ $film->poster }}" style="height: 260px" alt="">
                                 <div class="hvr-inner">
                                     <a href="{{url('movies/'.$film->id)}}"> {{ __('Chi tiết') }} </a>
                                 </div>
@@ -43,7 +43,7 @@
                             </div>
                         @endforeach
                     </div>
-                    {{$films->appends(request()->query())->links()}}
+                    {{ $films->appends(request()->query())->links() }}
                 </div>
             </div>
         </div>

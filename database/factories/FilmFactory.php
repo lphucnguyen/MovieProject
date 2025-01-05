@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Film;
+use App\Domain\Models\Film;
 use Faker\Generator as Faker;
 use Illuminate\Support\Facades\Storage;
 

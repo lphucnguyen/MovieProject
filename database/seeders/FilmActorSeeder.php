@@ -13,9 +13,9 @@ class FilmActorSeeder extends Seeder
      */
     public function run()
     {
-        \App\Film::chunk(1000, function ($films) {
+        \App\Domain\Models\Film::chunk(1000, function ($films) {
             foreach ($films as $film) {
-                $actors = \App\Actor::select('id')
+                $actors = \App\Domain\Models\Actor::select('id')
                     ->inRandomOrder()
                     ->limit(2)
                     ->get()

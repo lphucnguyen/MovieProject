@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Category;
-use App\Film;
 use Illuminate\Database\Seeder;
 
 class FilmCategorySeeder extends Seeder
@@ -15,9 +13,9 @@ class FilmCategorySeeder extends Seeder
      */
     public function run()
     {
-        Film::chunk(1000, function ($films) {
+        \App\Domain\Models\Film::chunk(1000, function ($films) {
             foreach ($films as $film) {
-                $categories = Category::select('id')
+                $categories = \App\Domain\Models\Category::select('id')
                     ->inRandomOrder()
                     ->limit(3)
                     ->get()

@@ -2,9 +2,9 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Film;
-use App\Rating;
-use App\User;
+use App\Domain\Models\Film;
+use App\Domain\Models\Rating;
+use App\Domain\Models\User;
 use Faker\Generator as Faker;
 
 $factory->define(Rating::class, function (Faker $faker) {

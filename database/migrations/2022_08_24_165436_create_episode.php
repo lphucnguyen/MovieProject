@@ -15,7 +15,6 @@ class CreateEpisode extends Migration
     {
         Schema::create('episode', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            // $table->unsignedBigInteger('film_id');
             $table->text('url');
             $table->text('api_url');
             $table->timestamps();
