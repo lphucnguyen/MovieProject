@@ -45,7 +45,7 @@ class ActorSeeder extends Seeder
         ];
 
         foreach ($actors as $actor) {
-            \App\Actor::create($actor);
+            \App\Domain\Models\Actor::create($actor);
         }
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\User;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -70,7 +69,7 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($users as $user) {
-            \App\User::create($user);
+            \App\Domain\Models\User::create($user);
         }
     }
 }

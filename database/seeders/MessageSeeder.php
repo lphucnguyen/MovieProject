@@ -36,7 +36,7 @@ class MessageSeeder extends Seeder
         ];
 
         foreach ($messages as $message) {
-            \App\Message::create($message);
+            \App\Domain\Models\Message::create($message);
         }
     }
 }

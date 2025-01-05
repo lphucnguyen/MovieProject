@@ -40,6 +40,7 @@
                                 <li><a href="{{url('user/favorites')}}">Phim yêu thích</a></li>
                                 <li><a href="{{url('user/ratings')}}">Phim đã đánh giá</a></li>
                                 <li class="active"><a href="{{url('user/reviews')}}">Phim đã bình luận</a></li>
+                                <li><a href="{{url('user/upgrade-account')}}">{{ __('Cập nhật thành viên') }}</a></li>
                                 <li><a href="{{url('user/transactions')}}">Lịch sử giao dịch</a></li>
                             </ul>
                         </div>

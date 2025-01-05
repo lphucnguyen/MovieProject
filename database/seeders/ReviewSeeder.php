@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Film;
-use App\User;
 use Illuminate\Database\Seeder;
 
 class ReviewSeeder extends Seeder
@@ -15,16 +13,16 @@ class ReviewSeeder extends Seeder
      */
     public function run()
     {
-        Film::chunk(1000, function ($films) {
+        \App\Domain\Models\Film::chunk(1000, function ($films) {
             foreach ($films as $film) {
-                $users = \App\User::select('id')
+                $users = \App\Domain\Models\User::select('id')
                 ->inRandomOrder()
                 ->limit(2)
                 ->get()
                 ->toArray();
 
                 $reviews = array_map(function ($user) {
-                    $review = new \App\Review();
+                    $review = new \App\Domain\Models\Review();
                     $review->id = str()->uuid();
                     $review->user_id = $user['id'];
                     $review->title = fake()->sentence(3);

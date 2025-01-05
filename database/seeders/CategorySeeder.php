@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Film;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
@@ -24,7 +23,7 @@ class CategorySeeder extends Seeder
         ];
 
         foreach ($categories as $category) {
-            \App\Category::create($category);
+            \App\Domain\Models\Category::create($category);
                 // ->each(function ($category) {
                 //     $films = Film::select('id')
                 //             ->inRandomOrder()

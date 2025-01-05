@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Film;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,7 +30,7 @@ class FilmSeeder extends Seeder
             $chunks = array_chunk($films_map, 50);
 
             foreach ($chunks as $chunk) {
-                Film::insert($chunk);
+                \App\Domain\Models\Film::insert($chunk);
             }
         }
     }

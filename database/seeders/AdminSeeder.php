@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        $admin = \App\Admin::create([
+        $admin = \App\Domain\Models\Admin::create([
             'id'        => str()->uuid(),
             'name'      => 'Super Admin',
             'email'     => 'super_admin@app.com',

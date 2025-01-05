@@ -26,7 +26,7 @@ class LaratrustSeeder extends Seeder
         foreach ($config as $key => $modules)
         {
             // Create a new role
-            $role = \App\Role::firstOrCreate([
+            $role = \App\Domain\Models\Role::firstOrCreate([
                 'name' => $key,
                 'display_name' => ucwords(str_replace('_', ' ', $key)),
                 'description' => ucwords(str_replace('_', ' ', $key))
@@ -43,7 +43,7 @@ class LaratrustSeeder extends Seeder
 
                     $permissionValue = $mapPermission->get($perm);
 
-                    $permissions[] = \App\Permission::firstOrCreate([
+                    $permissions[] = \App\Domain\Models\Permission::firstOrCreate([
                         'name' => $permissionValue . '_' . $module,
                         'display_name' => ucfirst($permissionValue) . ' ' . ucfirst($module),
                         'description' => ucfirst($permissionValue) . ' ' . ucfirst($module),
@@ -60,7 +60,7 @@ class LaratrustSeeder extends Seeder
                 $this->command->info("Creating '{$key}' user");
 
                 // Create default user for each role
-                // $user = \App\Admin::create([
+                // $user = \App\Domain\Models\Admin::create([
                 //     'id' => Str::uuid(),
                 //     'name' => ucwords(str_replace('_', ' ', $key)),
                 //     'email' => $key . '@app.com',
@@ -84,12 +84,12 @@ class LaratrustSeeder extends Seeder
         DB::table('role_admin')->truncate();
 
         if (Config::get('laratrust_seeder.truncate_tables')) {
-            \App\Role::truncate();
-            \App\Permission::truncate();
+            \App\Domain\Models\Role::truncate();
+            \App\Domain\Models\Permission::truncate();
         }
 
         if (Config::get('laratrust_seeder.truncate_tables') && Config::get('laratrust_seeder.create_users')) {
-            \App\Admin::truncate();
+            \App\Domain\Models\Admin::truncate();
         }
 
         Schema::enableForeignKeyConstraints();
