@@ -15,6 +15,6 @@ class UpdateProfileHandler
     public function handle(UpdateProfileCommand $command)
     {
         $data = $command->data;
-        $this->repository->update($data->toArray(), $command->uuid);
+        $this->repository->update($command->uuid, $data->toArray());
     }
 }

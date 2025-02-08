@@ -2,7 +2,7 @@
 
 namespace App\Application\DTOs\Home;
 
-use App\Application\DTOs\BaseDTO;
+use App\Shared\Application\DTOs\BaseDTO;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;

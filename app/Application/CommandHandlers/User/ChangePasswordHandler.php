@@ -14,8 +14,8 @@ class ChangePasswordHandler
 
     public function handle(ChangePasswordCommand $command)
     {
-        $this->repository->update([
+        $this->repository->update($command->uuid, [
             'password' => bcrypt($command->password)
-        ], $command->uuid);
+        ]);
     }
 }

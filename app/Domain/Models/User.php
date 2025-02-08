@@ -60,9 +60,13 @@ class User extends Authenticatable
         return $this->hasMany(Favorite::class);
     }
 
-    public function transactions()
+    public function orders()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Order::class);
+    }
+
+    public function subscription() {
+        return $this->hasOne(Subscription::class);
     }
 
     public function ratedFilms()

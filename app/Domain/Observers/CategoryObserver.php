@@ -2,50 +2,33 @@
 
 namespace App\Domain\Observers;
 
+use App\Domain\Events\Category\CategoryCreated;
+use App\Domain\Events\Category\CategoryDeleted;
+use App\Domain\Events\Category\CategoryUpdated;
+
 use App\Domain\Models\Category;
-use App\Infrastructure\Neo4j\Connection;
+use App\Shared\Traits\ModelUpdateable;
 
 class CategoryObserver
 {
-    public function created(Category $category)
-    {
-        // $connection = new Connection();
-        // $client = $connection->getClient();
+    use ModelUpdateable;
 
-        // $query = 'CREATE (c:Categories{
-        //                 id: $categoryId,
-        //                 name: "' . $category->name . '"
-        //             })';
-        // $param = [
-        //     'categoryId' => $category->id,
-        // ];
-        // $client->run($query, $param);
+    public function created(Category $model)
+    {
+        event(new CategoryCreated($model->id, $model->name));
     }
 
-    public function updated(Category $category)
+    public function updated(Category $model)
     {
-        // $connection = new Connection();
-        // $client = $connection->getClient();
+        if (!$this->isUpdate($model)) {
+            return;
+        }
 
-        // $query = 'MATCH (c:Categories{id: $categoryId})
-        //             SET c.name="' . $category->name . '"';
-
-        // $param = [
-        //     'categoryId' => $category->id,
-        // ];
-        // $client->run($query, $param);
+        event(new CategoryUpdated($model->id, $model->name));
     }
 
-    public function deleted(Category $category)
+    public function deleted(Category $model)
     {
-        // $connection = new Connection();
-        // $client = $connection->getClient();
-
-        // $query = 'MATCH (c:Categories{id: $categoryId})
-        //             DETACH DELETE c';
-        // $param = [
-        //     'categoryId' => $category->id,
-        // ];
-        // $client->run($query, $param);
+        event(new CategoryDeleted($model->id));
     }
 }

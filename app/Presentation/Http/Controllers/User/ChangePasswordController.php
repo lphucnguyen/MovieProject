@@ -9,14 +9,13 @@ use Illuminate\Support\Facades\Bus;
 
 class ChangePasswordController extends Controller
 {
-    public function __invoke(ChangePasswordRequest $request, $uuid)
+    public function __invoke(string $uuid, ChangePasswordRequest $request)
     {
-        $request->validate();
+        $request->validated();
 
-        $changePasswordCommand = new ChangePasswordCommand($request->password, $uuid);
+        $changePasswordCommand = new ChangePasswordCommand($uuid, $request->password);
         Bus::dispatch($changePasswordCommand);
 
-        session()->flash('success', 'Cập nhật mật khẩu thành công');
-        return redirect()->back();
+        return redirect()->back()->withSuccess('Cập nhật mật khẩu thành công');
     }
 }

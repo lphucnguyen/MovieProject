@@ -5,6 +5,7 @@ namespace App\Infrastructure\Repositories;
 use App\Domain\Models\Category;
 
 use App\Domain\Repositories\ICategoryRepository;
+use App\Shared\Infrastructure\Repositories\BaseRepository;
 
 class CategoryRepository extends BaseRepository implements ICategoryRepository
 {
@@ -28,7 +29,7 @@ class CategoryRepository extends BaseRepository implements ICategoryRepository
     public function getLatestCategoriesWithFilms(int $limitCategory, int $limitFilm)
     {
         return $this->model->with(['films' => function ($query) use ($limitFilm) {
-            $query->limit($limitFilm)->get();
+            $query->limit($limitFilm);
         }])->limit($limitCategory)->get();
     }
 }

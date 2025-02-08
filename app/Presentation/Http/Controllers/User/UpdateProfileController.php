@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Bus;
 
 class UpdateProfileController extends Controller
 {
-    public function __invoke(UpdateProfileRequest $request, $uuid)
+    public function __invoke(string $uuid, UpdateProfileRequest $request)
     {
         $request->validated();
 
@@ -20,7 +20,6 @@ class UpdateProfileController extends Controller
         );
         Bus::dispatch($updateProfileCommand);
 
-        session()->flash('success', 'Hồ sơ cập nhật thành công');
-        return redirect()->back();
+        return redirect()->back()->withSuccess('Hồ sơ cập nhật thành công');
     }
 }

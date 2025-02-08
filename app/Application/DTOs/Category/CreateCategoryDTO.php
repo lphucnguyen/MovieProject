@@ -2,7 +2,7 @@
 
 namespace App\Application\DTOs\Category;
 
-use App\Application\DTOs\BaseDTO;
+use App\Shared\Application\DTOs\BaseDTO;
 
 class CreateCategoryDTO extends BaseDTO
 {

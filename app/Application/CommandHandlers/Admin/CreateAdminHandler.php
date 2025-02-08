@@ -16,22 +16,28 @@ class CreateAdminHandler
 
     public function handle(CreateAdminCommand $command)
     {
-        DB::beginTransaction();
+        try {
+            DB::beginTransaction();
+            $data = $command->data;
+            if ($data->avatar) {
+                $data->avatar = $data->avatar->store('admin_avatars');
+            }
 
-        $data = $command->data;
-        if ($data->avatar) {
-            $data->avatar = $data->avatar->store('admin_avatars');
+            $admin = $this->repository->create([
+                'name' => $data->name,
+                'email' => $data->email,
+                'password' => bcrypt($data->password),
+                'avatar' => $data->avatar
+            ]);
+            $admin->attachRole('admin');
+            $admin->syncPermissions($data->permissions);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            if ($data->avatar) {
+                Storage::delete($data->avatar);
+            }
+            throw $e;
         }
-
-        $admin = $this->repository->create([
-            'name' => $data->name,
-            'email' => $data->email,
-            'password' => bcrypt($data->password),
-            'avatar' => $data->avatar
-        ]);
-        $admin->attachRole('admin');
-        $admin->syncPermissions($data->permissions);
-
-        DB::commit();
     }
 }

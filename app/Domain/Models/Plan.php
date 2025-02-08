@@ -37,6 +37,6 @@ class Plan extends Model
 
     public function getVisualPriceAttribute()
     {
-        return '$' . number_format($this->price / 100, 2, '.', ',');
+        return '$' . number_format($this->price, 2, '.', ',');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Application\DTOs\Dashboard;
 
-use App\Application\DTOs\BaseDTO;
+use App\Shared\Application\DTOs\BaseDTO;
 
 class GetAnalysisReponse extends BaseDTO
 {

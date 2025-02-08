@@ -2,7 +2,7 @@
 
 namespace App\Application\DTOs\Admin;
 
-use App\Application\DTOs\BaseDTO;
+use App\Shared\Application\DTOs\BaseDTO;
 use Illuminate\Http\UploadedFile;
 
 class CreateAdminDTO extends BaseDTO

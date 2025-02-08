@@ -17,6 +17,7 @@
         "php": "^8.0",
         "doctrine/dbal": "^3.0",
         "guzzlehttp/guzzle": "^7.8.1",
+        "laravel-workflow/laravel-workflow": "^1.0",
         "laravel/framework": "^10.11.0",
         "laravel/legacy-factories": "^1.4",
         "laravel/passport": "^12.0.0",

@@ -2,8 +2,8 @@
 
 namespace App\Infrastructure\Jobs;
 
+use App\Domain\Models\Order;
 use App\Infrastructure\Mail\PaymentMail;
-use App\Domain\Models\Transaction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -20,7 +20,7 @@ class SendPaymentEmail implements ShouldQueue
 
     public function __construct(
         private array $emailContent,
-        private Transaction $transaction
+        private Order $transaction
     ) {
     }
 

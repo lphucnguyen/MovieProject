@@ -12,6 +12,6 @@ class PaymentResolver
             return resolve($service);
         }
 
-        throw new \Exception('The selected platform is not in the configuration');
+        throw new \Exception('The selected payment is not in the configuration');
     }
 }

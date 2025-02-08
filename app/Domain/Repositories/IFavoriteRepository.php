@@ -2,6 +2,8 @@
 
 namespace App\Domain\Repositories;
 
+use App\Shared\Domain\Repositories\IRepository;
+
 interface IFavoriteRepository extends IRepository
 {
 }

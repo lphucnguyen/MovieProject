@@ -2,7 +2,7 @@
 
 namespace {{ NAMESPACE }};
 
-use App\Application\DTOs\BaseDTO;
+use App\Shared\Application\DTOs\BaseDTO;
 
 class {{ DTO_NAME }} extends BaseDTO
 {

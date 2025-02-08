@@ -5,6 +5,7 @@ namespace App\Infrastructure\Repositories;
 use App\Domain\Models\Message;
 
 use App\Domain\Repositories\IMessageRepository;
+use App\Shared\Infrastructure\Repositories\BaseRepository;
 
 class MessageRepository extends BaseRepository implements IMessageRepository
 {

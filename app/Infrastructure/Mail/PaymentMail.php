@@ -2,9 +2,8 @@
 
 namespace App\Infrastructure\Mail;
 
-use App\Domain\Models\Transaction;
+use App\Domain\Models\Order;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -13,16 +12,16 @@ class PaymentMail extends Mailable
     use Queueable;
     use SerializesModels;
 
-    protected Transaction $transaction;
+    protected Order $order;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($transaction, $title)
+    public function __construct($order, $title)
     {
-        $this->transaction = $transaction;
+        $this->order = $order;
         $this->subject($title);
     }
 
@@ -33,7 +32,7 @@ class PaymentMail extends Mailable
      */
     public function build()
     {
-        $transaction = $this->transaction;
-        return $this->view('emails.transactions', compact('transaction'));
+        $order = $this->order;
+        return $this->view('emails.order', compact('order'));
     }
 }

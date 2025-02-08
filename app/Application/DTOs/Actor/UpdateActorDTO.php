@@ -2,7 +2,7 @@
 
 namespace App\Application\DTOs\Actor;
 
-use App\Application\DTOs\BaseDTO;
+use App\Shared\Application\DTOs\BaseDTO;
 use Illuminate\Http\UploadedFile;
 
 class UpdateActorDTO extends BaseDTO

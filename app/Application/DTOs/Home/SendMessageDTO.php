@@ -2,7 +2,7 @@
 
 namespace App\Application\DTOs\Home;
 
-use App\Application\DTOs\BaseDTO;
+use App\Shared\Application\DTOs\BaseDTO;
 
 class SendMessageDTO extends BaseDTO
 {

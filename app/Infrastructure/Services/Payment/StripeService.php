@@ -2,9 +2,9 @@
 
 namespace App\Infrastructure\Services\Payment;
 
-use App\Application\DTOs\BaseDTO;
+use App\Application\DTOs\Payment\ApprovalPaymentDTO;
+use App\Shared\Application\DTOs\BaseDTO;
 use App\Application\DTOs\Payment\StripeDTO;
-use App\Domain\Repositories\IPlanRepository;
 use App\Shared\Traits\ConsumeExternalService;
 use InvalidArgumentException;
 
@@ -17,9 +17,7 @@ class StripeService implements IPaymentService
     private string $clientSecret;
     private array $plans;
 
-    public function __construct(
-        private IPlanRepository $planRepository
-    )
+    public function __construct()
     {
         $this->baseUri = config('services.stripe.base_uri');
         $this->clientId = config('services.stripe.key');
@@ -29,32 +27,42 @@ class StripeService implements IPaymentService
 
     public function handlePayment(BaseDTO $stripeDTO)
     {
-        if (!$stripeDTO instanceof StripeDTO) {
+        if (!($stripeDTO instanceof StripeDTO)) {
             throw new InvalidArgumentException('Expected StripeDTO');
         }
 
-        $plan = $this->planRepository->get($stripeDTO->plan_id);
-
         $intent = $this->createIntent(
-            $plan->price,
+            $stripeDTO->amount,
             config('services.currency'),
             $stripeDTO->payment_method,
         );
 
         session()->put('paymentIntentId', $intent->id);
 
-        return redirect()->route('approval');
+        return [
+            'paymentId' => $intent->id,
+            'redirect' => route('approval', [
+                'plan_id' => $stripeDTO->plan_id,
+                'lock_owner' => $stripeDTO->lock_owner,
+                'order_id' => $stripeDTO->order_id,
+                'payment_name' => $stripeDTO->payment_name,
+            ]),
+        ];
     }
 
-    public function handleApproval()
+    public function handleApproval(BaseDTO $approvalDTO)
     {
+        if (!($approvalDTO instanceof ApprovalPaymentDTO)) {
+            throw new InvalidArgumentException('Expected ApprovalPaymentDTO');
+        }
+
         if (session()->has('paymentIntentId')) {
             $paymentIntentId = session()->get('paymentIntentId');
 
             $confirmation = $this->confirmPayment($paymentIntentId);
 
             if ($confirmation->status === 'requires_action') {
-                $clientSecret = $confirmation->clientSecret;
+                $clientSecret = $confirmation->client_secret;
 
                 return view('stripe.3d-secure')->with([
                     'clientSecret' => $clientSecret,
@@ -62,19 +70,11 @@ class StripeService implements IPaymentService
             }
 
             if ($confirmation->status === 'succeeded') {
-                // $name = $confirmation->charges->data[0]->billing_details->name;
-                $currency = strtoupper($confirmation->currency);
-                $amount = $confirmation->amount / $this->resolveFactor($currency);
-
-                return redirect()
-                    ->route('user.upgrade-account')
-                    ->withSuccess(__("Thank you. We received your {$amount}{$currency} payment."));
+                return $paymentIntentId;
             }
         }
 
-        return redirect()
-            ->route('home')
-            ->withErrors('We are unable to confirm your payment. Try again, please');
+        throw new \Exception('Payment Id is not valid');
     }
 
     public function resolveAuthorization(&$queryParams, &$formParams, &$headers)
@@ -103,7 +103,7 @@ class StripeService implements IPaymentService
                 'currency' => strtolower($currency),
                 'payment_method' => $paymentMethod,
                 'confirmation_method' => 'manual',
-            ],
+            ]
         );
     }
 
@@ -125,7 +125,32 @@ class StripeService implements IPaymentService
             "/v1/payment_intents/{$paymentIntentId}/confirm",
             [],
             [
-                'return_url' => route('user.upgrade-account'),
+                'return_url' => route('approval'),
+            ]
+        );
+    }
+
+    public function cancelPayment($paymentIntentId)
+    {
+        return $this->makeRequest(
+            'POST',
+            "/v1/payment_intents/{$paymentIntentId}/cancel",
+            [],
+            [
+                'cancellation_reason' => 'abandoned', // duplicate, fraudulent, requested_by_customer, or abandoned
+            ]
+        );
+    }
+
+    public function refundPayment($paymentIntentId)
+    {
+        return $this->makeRequest(
+            'POST',
+            "/v1/refunds",
+            [],
+            [
+                'payment_intent' => $paymentIntentId,
+                'reason' => 'requested_by_customer',
             ]
         );
     }
