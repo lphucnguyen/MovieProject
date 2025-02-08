@@ -14,13 +14,13 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        // \App\Presentation\Http\Middleware\TrustHosts::class,
-        \App\Presentation\Http\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
-        \App\Presentation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \App\Presentation\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Presentation\Http\Middleware\LogHttpRequests::class,
+        \App\Presentation\Http\Middleware\TrustProxies::class,
+        \App\Presentation\Http\Middleware\CheckForMaintenanceMode::class,
+        \App\Presentation\Http\Middleware\TrimStrings::class,
     ];
 
     /**
@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'unsubcribed' => \App\Presentation\Http\Middleware\Unsubscribed::class,
     ];
 }

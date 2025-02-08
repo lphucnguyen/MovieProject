@@ -3,10 +3,10 @@
 namespace App\Application\DTOs\Actor;
 
 use App\Domain\Models\Actor;
-use App\Application\DTOs\BaseDTO;
+use App\Shared\Application\DTOs\BaseDTO;
 
 class GetActorWithFilmsDTO extends BaseDTO
 {
-    public array $films;
+    public \Illuminate\Pagination\LengthAwarePaginator $films;
     public Actor $actor;
 }

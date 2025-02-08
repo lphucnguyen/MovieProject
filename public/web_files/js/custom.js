@@ -191,13 +191,6 @@ $(function(){
 	});
 	//main slider home 1
 	var multiItemSlider = $('.slick-multiItemSlider');
-	$('.slick-singleItem').slick({
-		slidesToShow: 1,
-		slidesToScroll: 1,
-		arrows: false,
-		fade: true,
-		asNavFor: '.slick-multiItemSlider'
-	  });
 	multiItemSlider.slick({
 		infinite: true,
 		slidesToShow: 3,
@@ -209,7 +202,6 @@ $(function(){
 		dots: true,
 		centerMode: true,
 		centerPadding: '60px',
-		asNavFor: '.slick-singleItem',
 		responsive: [
 	    {
 	      breakpoint: 1024,

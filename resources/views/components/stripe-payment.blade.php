@@ -27,7 +27,7 @@
 </style>
 @endpush
 <label class="mt-3" for="card-element">
-    {{__('Thông tin chi tiết thẻ')}}:
+    {{__('Thông tin thẻ')}}:
 </label>
 <div id="cardElement"></div>
 <small class="form-text text-muted" id="cardErrors" role="alert"></small>

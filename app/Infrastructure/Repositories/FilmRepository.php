@@ -5,6 +5,7 @@ namespace App\Infrastructure\Repositories;
 use App\Domain\Models\Film;
 
 use App\Domain\Repositories\IFilmRepository;
+use App\Shared\Infrastructure\Repositories\BaseRepository;
 use Illuminate\Pipeline\Pipeline;
 
 class FilmRepository extends BaseRepository implements IFilmRepository
@@ -38,10 +39,10 @@ class FilmRepository extends BaseRepository implements IFilmRepository
         return app(Pipeline::class)
             ->send($query)
             ->through([
-                new \App\Application\QueryFilters\Film\FilterByName($queryParams),
-                new \App\Application\QueryFilters\Film\FilterByCategory($queryParams),
-                new \App\Application\QueryFilters\Film\FilterByActor($queryParams),
-                new \App\Application\QueryFilters\Film\FilterByFavorite($queryParams),
+                new \App\Infrastructure\QueryFilters\Film\FilterByName($queryParams),
+                new \App\Infrastructure\QueryFilters\Film\FilterByCategory($queryParams),
+                new \App\Infrastructure\QueryFilters\Film\FilterByActor($queryParams),
+                new \App\Infrastructure\QueryFilters\Film\FilterByFavorite($queryParams),
             ])
             ->thenReturn()
             ->with('categories')

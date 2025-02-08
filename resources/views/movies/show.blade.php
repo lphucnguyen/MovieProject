@@ -219,7 +219,7 @@
                                                         <div class="cast-left">
                                                             <img alt="" src="{{$actor->avatar}}"
                                                                  style="height: 40px; width: 40px">
-                                                            <a href="{{url('actors/' . $actor->name)}}">{{$actor->name}}</a>
+                                                            <a href="{{url('actors/' . $actor->id)}}">{{$actor->name}}</a>
                                                         </div>
                                                     </div>
                                                 @endforeach

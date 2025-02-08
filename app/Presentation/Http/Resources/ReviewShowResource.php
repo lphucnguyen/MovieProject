@@ -14,7 +14,6 @@ class ReviewShowResource extends JsonResource
      */
     public function toArray($request)
     {
-//        return parent::toArray($request);
         return [
             'id' => $this->id,
             'user_name' => $this->user->username,

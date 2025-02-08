@@ -5,6 +5,7 @@ namespace App\Infrastructure\Repositories;
 
 use App\Domain\Repositories\IReviewRepository;
 use App\Domain\Models\Review;
+use App\Shared\Infrastructure\Repositories\BaseRepository;
 
 class ReviewRepository extends BaseRepository implements IReviewRepository
 {

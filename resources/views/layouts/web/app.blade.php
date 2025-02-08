@@ -91,16 +91,15 @@
                                     {{auth()->user()->username}} &ensp;<i aria-hidden="true" class="fa fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown-menu level1" style="background-color: #020d18;">
-                                    <li class="menu-hover"><a href="{{url('user/profile')}}">{{ __('Hồ sơ') }}</a></li>
-                                    <li class="menu-hover"><a href="{{url('user/favorites')}}">{{ __('Danh sách phim yêu thích') }}</a></li>
-                                    <li class="menu-hover"><a href="{{url('user/ratings')}}">{{ __('Xếp hạng của bạn') }}</a></li>
-                                    <li class="menu-hover"><a href="{{url('user/reviews')}}">{{ __('Đánh giá của bạn') }}</a></li>
+                                    <li class="menu-hover"><a href="{{ route('user') }}">{{ __('Hồ sơ') }}</a></li>
+                                    <li class="menu-hover"><a href="{{ route('user.upgrade-account') }}">{{ __('Nâng cấp tài khoản') }}</a></li>
+                                    <li class="menu-hover"><a href="{{ route('user-password') }}">{{ __('Thay đổi mật khẩu') }}</a></li>
                                 </ul>
                             </li>
-                                <li class="btn signupLink"><a href="{{route('logout')}}">{{ __('Đăng xuất') }}</a></li>
+                                <li class="p-2 signupLink"><a href="{{ route('user.logout') }}">{{ __('Đăng xuất') }}</a></li>
                             @else
                                 <li class="loginLink"><a href="{{route('login')}}">{{ __('Đăng nhập') }}</a></li>
-                                <li class="btn signupLink"><a href="{{route('register')}}">{{ __('Đăng kí') }}</a></li>
+                                <li class="p-2 signupLink"><a href="{{ route('register') }}">{{ __('Đăng kí') }}</a></li>
                             @endauth
 
                         </ul>
@@ -115,7 +114,7 @@
                             <option {{ request()->search_category == 'film' ? 'selected' : '' }} value="film">{{ __('Phim') }}</option>
                             <option {{ request()->search_category == 'actor' ? 'selected' : '' }} value="actor">{{ __('Diễn viên') }}</option>
                         </select>
-                        <input name="search" value="{{ request()->search }}" placeholder="{{ __('Tìm kiếm phim, diễn viên') }}" type="text">
+                        <input name="searchKey" value="{{ request()->search }}" placeholder="{{ __('Tìm kiếm phim, diễn viên') }}" type="text">
                         <button type="submit" style="background-color: #dd003f!important; color: white; font-weight: bold; padding: 11px 25px; white-space: nowrap;">{{ __('Tìm kiếm') }}</button>
                     </form>
                 </div>
@@ -155,6 +154,42 @@
                         },
                         {
                             type: "alert-success",
+                            allow_dismiss: allowDismiss,
+                            newest_on_top: true,
+                            timer: 1000,
+                            placement: {
+                                from: "bottom",
+                                align: "right"
+                            },
+                            animate: {
+                                enter: "animated fadeIn",
+                                exit: "animated fadeOut"
+                            },
+                            template: '<div data-notify="container" class="bootstrap-notify-container alert alert-dismissible {0} ' + (allowDismiss ? "p-r-35" : "") + '" role="alert">' +
+                                '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+                                '<span data-notify="icon"></span> ' +
+                                '<span data-notify="title">{1}</span> ' +
+                                '<span data-notify="message">{2}</span>' +
+                                '<div class="progress" data-notify="progressbar">' +
+                                '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                                '</div>' +
+                                '<a href="{3}" target="{4}" data-notify="url"></a>' +
+                                '</div>'
+                        });
+                });
+            </script>
+        @endif
+
+        @if(session('error'))
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    var allowDismiss = true;
+
+                    $.notify({
+                            message: "{{ session('error') }}"
+                        },
+                        {
+                            type: "alert-danger",
                             allow_dismiss: allowDismiss,
                             newest_on_top: true,
                             timer: 1000,

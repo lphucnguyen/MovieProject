@@ -60,7 +60,7 @@ class CreateDTO extends Command
 
     public function getDTOStubPath()
     {
-        return __DIR__ . '/../../../stubs/dto.stub';
+        return __DIR__ . '/../../../../stubs/dto.stub';
     }
 
     public function getDTOStubVariables()
@@ -68,7 +68,7 @@ class CreateDTO extends Command
         $namespace = $this->getNamespace();
 
         return [
-            'NAMESPACE' => 'App\\DTOs' . ($namespace ? '\\' . $namespace : ''),
+            'NAMESPACE' => 'App\\Application\\DTOs' . ($namespace ? '\\' . $namespace : ''),
             'DTO_NAME' => $this->getDTOName()
         ];
     }
@@ -78,7 +78,7 @@ class CreateDTO extends Command
         $dtoName = $this->getDTOName();
         $directory = $this->getDirectory();
 
-        $dtoDir = app_path() . "/DTOs/";
+        $dtoDir = app_path() . "/Application/DTOs/";
 
         if (!$this->files->isDirectory($dtoDir . $directory)) {
             $this->files->makeDirectory($dtoDir . $directory, 0777, true, true);

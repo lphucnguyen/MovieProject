@@ -44,12 +44,12 @@ class CreateCommand extends Command
 
     public function getCommandStubPath()
     {
-        return __DIR__ . '/../../../stubs/command.stub';
+        return __DIR__ . '/../../../../stubs/command.stub';
     }
 
     public function getHandlerStubPath()
     {
-        return __DIR__ . '/../../../stubs/command.handler.stub';
+        return __DIR__ . '/../../../../stubs/command.handler.stub';
     }
 
     public function getCommandStubVariables()
@@ -57,7 +57,7 @@ class CreateCommand extends Command
         $namespace = $this->getNamespace();
 
         return [
-            'NAMESPACE' => 'App\\Commands' . ($namespace ? '\\' . $namespace : ''),
+            'NAMESPACE' => 'App\\Application\\Commands' . ($namespace ? '\\' . $namespace : ''),
             'COMMAND_NAME' => $this->getCommandName()
         ];
     }
@@ -67,7 +67,7 @@ class CreateCommand extends Command
         $namespace = $this->getNamespace();
 
         return [
-            'NAMESPACE' => 'App\\CommandHandlers' . ($namespace ? '\\' . $namespace : ''),
+            'NAMESPACE' => 'App\\Application\\CommandHandlers' . ($namespace ? '\\' . $namespace : ''),
             'COMMAND_NAME' => $this->getCommandName()
         ];
     }
@@ -98,7 +98,7 @@ class CreateCommand extends Command
         $commandName = $this->getCommandName();
         $directory = $this->getDirectory();
 
-        $commandDir = app_path() . "/Commands/";
+        $commandDir = app_path() . "/Application/Commands/";
 
         if (!$this->files->isDirectory($commandDir . $directory)) {
             $this->files->makeDirectory($commandDir . $directory, 0777, true, true);
@@ -128,7 +128,7 @@ class CreateCommand extends Command
         $commandName = $this->getCommandName();
         $directory = $this->getDirectory();
 
-        $commandHandlerDir = app_path() . "/CommandHandlers/";
+        $commandHandlerDir = app_path() . "/Application/CommandHandlers/";
 
         if (!$this->files->isDirectory($commandHandlerDir . $directory)) {
             $this->files->makeDirectory($commandHandlerDir . $directory, 0777, true, true);

@@ -35,8 +35,8 @@
                                 <li><a href="{{url('user/favorites')}}">{{ __('Phim yêu thích') }}</a></li>
                                 <li><a href="{{url('user/ratings')}}">{{ __('Phim đã đánh giá') }}</a></li>
                                 <li><a href="{{url('user/reviews')}}">{{ __('Phim đã bình luận') }}</a></li>
-                                <li class="active"><a href="{{url('user/upgrade-account')}}">{{ __('Cập nhật thành viên') }}</a></li>
-                                <li><a href="{{url('user/transactions')}}">{{ __('Lịch sử giao dịch') }}</a></li>
+                                <li class="active"><a href="{{url('user/upgrade-account')}}">{{ __('Nâng cấp thành viên') }}</a></li>
+                                <li><a href="{{url('user/orders')}}">{{ __('Lịch sử giao dịch') }}</a></li>
                             </ul>
                         </div>
                         <div class="user-fav">
@@ -50,19 +50,26 @@
                 </div>
                 <div class="col-md-9 col-sm-12 col-xs-12">
                     <div action="#" class="form-style-1 user-pro">
-                        <h4>{{ __('Thông tin chi tiết') }}</h4>
-                        <form id="paymentForm" action="{{ route('pay') }}" method="POST" class="upgrade-account-form"
-                              enctype="multipart/form-data">
+                        <h4>{{ __('Nâng cấp thành viên') }}</h4>
+                        <form id="paymentForm" action="{{ route('pay') }}" method="POST" class="upgrade-account-form" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-md-12 form-it">
+                                    @if(request()->route('orderId'))
+                                        <input type="hidden" class="form-control" name="order_id" value="{{ request()->route('orderId') }}">
+                                    @endif
                                     <label>{{ __('Plan') }}</label>
+                                    @if($order)
+                                        <input type="hidden" class="form-control" name="plan_id" value="{{ $order->plan_id }}">
+                                        <input type="text" class="form-control" value="{{ $order->plan->slug }} ({{ $order->plan->visual_price }})" disabled>
+                                    @else
                                     <select name="plan_id" id="plan_id" class="form-control">
                                         @foreach ($plans as $plan)
                                         <option>Chọn gói nâng cấp</option>
                                         <option value="{{ $plan->id }}">{{ $plan->slug }} ({{ $plan->visual_price }})</option>
                                         @endforeach
                                     </select>
+                                    @endif
                                 </div>
                                 <label>{{ __('Phương thức thanh toán') }}</label>
                                 <div class="col-md-12 form-it">

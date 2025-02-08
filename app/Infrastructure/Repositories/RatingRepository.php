@@ -5,6 +5,7 @@ namespace App\Infrastructure\Repositories;
 use App\Domain\Models\Rating;
 
 use App\Domain\Repositories\IRatingRepository;
+use App\Shared\Infrastructure\Repositories\BaseRepository;
 use Illuminate\Pipeline\Pipeline;
 
 class RatingRepository extends BaseRepository implements IRatingRepository
@@ -21,9 +22,9 @@ class RatingRepository extends BaseRepository implements IRatingRepository
         return app(Pipeline::class)
             ->send($query)
             ->through([
-                new \App\Application\QueryFilters\Rating\FilterByUser($queryParams),
-                new \App\Application\QueryFilters\Rating\FilterByFilm($queryParams),
-                new \App\Application\QueryFilters\Rating\FilterByRating($queryParams),
+                new \App\Infrastructure\QueryFilters\Rating\FilterByUser($queryParams),
+                new \App\Infrastructure\QueryFilters\Rating\FilterByFilm($queryParams),
+                new \App\Infrastructure\QueryFilters\Rating\FilterByRating($queryParams),
             ])
             ->thenReturn()
             ->with('user')

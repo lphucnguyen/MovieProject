@@ -9430,7 +9430,7 @@ header .navbar-default .navbar-nav li a i {
     margin-top: 3px;
 }
 
-header .navbar-default .navbar-nav li.btn a {
+header .navbar-default .navbar-nav li.signupLink a {
     background-color: #dd003f;
     color: #ffffff;
     padding: 11px 25px;

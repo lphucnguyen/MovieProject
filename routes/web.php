@@ -14,61 +14,62 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-
 Auth::routes(['reset' => false]);
-Route::any('logout', 'Auth\LoginController@logout')->name('web.logout');
 
-Route::get('/', 'HomeController@index');
-Route::get('/search', 'HomeController@search');
-Route::post('/message', 'HomeController@message');
-Route::get('/contact-us', 'HomeController@contact');
-
-Route::get('/movies', 'MovieController@index');
-Route::get('/movies/{uuid}', 'MovieController@show');
+Route::get('/', \App\Presentation\Http\Controllers\Home\ShowHomeController::class)->name('home');
+Route::get('/search', \App\Presentation\Http\Controllers\Home\SearchController::class)->name('search');
+Route::post('/message', \App\Presentation\Http\Controllers\Home\SendMessageController::class)->name('message');
+Route::get('/contact-us', \App\Presentation\Http\Controllers\Home\ShowContactController::class)->name('contact');
+Route::get('/movies', \App\Presentation\Http\Controllers\Home\ShowMoviesController::class)->name('movies');
+Route::get('/movies/{uuid}', \App\Presentation\Http\Controllers\Home\ShowMovieController::class)->name('movie.show');
 
 Route::group(['name' => 'actors', 'prefix' => 'actors'], function () {
-    // Route::get('/', \App\Presentation\Http\Controllers\Actor\ShowController::class);
-    Route::get('/{uuid}', \App\Presentation\Http\Controllers\Actor\GetActorController::class);
+    Route::get('/', \App\Presentation\Http\Controllers\Actor\ShowActorsController::class);
+    Route::get('/{uuid}', \App\Presentation\Http\Controllers\Actor\ShowActorController::class)->name('actor.show');
 });
 
-Route::group(['middleware' => 'auth'], function () {
-    // User Routes
-    Route::get('/user/profile', \App\Presentation\Http\Controllers\User\ShowProfileController::class);
-    Route::put('/user/profile/{uuid}', \App\Presentation\Http\Controllers\User\UpdateProfileController::class);
-    Route::get('/user/change_password', \App\Presentation\Http\Controllers\User\ShowChangePasswordController::class);
-    Route::put('/user/change_password/{uuid}', \App\Presentation\Http\Controllers\User\ChangePasswordController::class)
+Route::group(['middleware' => 'auth', 'prefix' => 'user'], function () {
+    Route::get('/profile', \App\Presentation\Http\Controllers\User\ShowProfileController::class)
+    ->name('user');
+    Route::put('/profile/{uuid}', \App\Presentation\Http\Controllers\User\UpdateProfileController::class)
+    ->name('user-profile');
+    Route::get('/change_password', \App\Presentation\Http\Controllers\User\ShowChangePasswordController::class)
+    ->name('user-password');
+    Route::any('logout', 'Auth\LoginController@logout')
+    ->name('user.logout');
+    Route::put('/change_password/{uuid}', \App\Presentation\Http\Controllers\User\ChangePasswordController::class)
     ->name('user.change-password');
-    Route::get('/user/upgrade-account', \App\Presentation\Http\Controllers\User\ShowUpgradeAccountController::class)
+    Route::get('/upgrade-account/{orderId?}', \App\Presentation\Http\Controllers\User\ShowUpgradeAccountController::class)
     ->name('user.upgrade-account');
-    Route::get('/user/favorites', \App\Presentation\Http\Controllers\User\ShowFavoritesController::class);
-    Route::get('/user/ratings', \App\Presentation\Http\Controllers\User\ShowRatingsController::class);
-    Route::get('/user/reviews', \App\Presentation\Http\Controllers\User\ShowReviewsController::class);
-    Route::get('/user/transactions', \App\Presentation\Http\Controllers\User\ShowTransactionsController::class);
-    Route::post('/user/addToFavorite/{uuid}', 'FavoriteController@store');
-    Route::post('/user/removeFromFavorite/{uuid}', 'FavoriteController@destroy');
-    Route::post('/user/rate/{uuid}', 'RateController@store');
-    Route::post('/user/review/{uuid}', 'ReviewController@store');
-    Route::delete('/user/review/{uuid}', 'ReviewController@destroy');
+    Route::get('/favorites', \App\Presentation\Http\Controllers\User\ShowFavoritesController::class)
+    ->name('user.favorites');
+    Route::get('/ratings', \App\Presentation\Http\Controllers\User\ShowRatingsController::class)
+    ->name('user.ratings');
+    Route::get('/reviews', \App\Presentation\Http\Controllers\User\ShowReviewsController::class)
+    ->name('user.reviews');
+    Route::get('/orders', \App\Presentation\Http\Controllers\User\ShowOrdersController::class)
+    ->name('user.orders');
+    Route::get('/orders/{uuid}', \App\Presentation\Http\Controllers\User\ShowOrderController::class)
+    ->name('user.order');
+    Route::delete('/orders/{orderId}', \App\Presentation\Http\Controllers\User\CancelOrderController::class)
+    ->name('user.cancel-order');
+    Route::post('/addToFavorite/{uuid}', \App\Presentation\Http\Controllers\User\AddFavoriteController::class)
+    ->name('user.add-to-favorite');
+    Route::post('/removeFromFavorite/{uuid}', \App\Presentation\Http\Controllers\User\RemoveFavoriteController::class)
+    ->name('user.remove-from-favorite');
+    Route::post('/rate/{uuid}', \App\Presentation\Http\Controllers\User\AddRateController::class)
+    ->name('user.add-rate');
+    Route::post('/review/{uuid}', \App\Presentation\Http\Controllers\User\AddReviewController::class)
+    ->name('user.add-review');
+    Route::delete('/review/{uuid}', \App\Presentation\Http\Controllers\User\RemoveReviewController::class)
+    ->name('user.remove-review');
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'payment'], function () {
-    Route::post(
-        '/pay',
-        \App\Presentation\Http\Controllers\Payment\PayController::class
-    )->name('pay');
-    Route::get(
-        '/approval',
-        \App\Presentation\Http\Controllers\Payment\ApprovalController::class
-    )->name('approval');
-    Route::get(
-        '/cancelled',
-        \App\Presentation\Http\Controllers\Payment\CancelledController::class
-    )->name('cancelled');
-    Route::post(
-        '/subscribe',
-        \App\Presentation\Http\Controllers\Payment\SubscribeController::class
-    )->name('subscribe');
+Route::group(['middleware' => ['auth', 'unsubcribed'], 'prefix' => 'payment'], function () {
+    Route::post('/pay', \App\Presentation\Http\Controllers\Payment\PayController::class)
+    ->name('pay');
+    Route::get('/approval', \App\Presentation\Http\Controllers\Payment\ApprovalController::class)
+    ->name('approval');
+    Route::get('/cancelled', \App\Presentation\Http\Controllers\Payment\CancelledController::class)
+    ->name('cancelled');
 });

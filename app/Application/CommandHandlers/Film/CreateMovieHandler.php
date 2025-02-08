@@ -16,36 +16,48 @@ class CreateMovieHandler
 
     public function handle(CreateMovieCommand $command)
     {
-        $data = $command->data;
+        try {
+            DB::beginTransaction();
+            $data = $command->data;
 
-        DB::beginTransaction();
-        if ($data->background_cover) {
-            $data->background_cover = $data->background_cover->store('film_background_covers');
+            if ($data->background_cover) {
+                $data->background_cover = $data->background_cover->store('film_background_covers');
+            }
+
+            if ($data->poster) {
+                $data->poster = $data->poster->store('film_posters');
+            }
+
+            // Insert film
+            $film = $this->repository->create($data->toArray());
+
+            // Insert categories and actors
+            $film->categories()->sync($data->categories);
+            $film->actors()->sync($data->actors);
+
+            // Insert episodes
+            $id = $film->id;
+            $episodes = array_map(function ($url, $apiUrl) use ($id) {
+                return [
+                    'id' => str()->uuid(),
+                    'url' => $url ? $url : '',
+                    'api_url' => $apiUrl ? $apiUrl : '',
+                    'film_id' => $id
+                ];
+            }, $data->url, $data->api_url);
+
+            $film->episodes()->insert($episodes);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            if ($data->background_cover) {
+                Storage::delete($data->background_cover);
+            }
+
+            if ($data->poster) {
+                Storage::delete($data->poster);
+            }
         }
-
-        if ($data->poster) {
-            $data->poster = $data->poster->store('film_posters');
-        }
-
-        // Insert film
-        $film = $this->repository->create($data->toArray());
-
-        // Insert categories and actors
-        $film->categories()->sync($data->categories);
-        $film->actors()->sync($data->actors);
-
-        // Insert episodes
-        $id = $film->id;
-        $episodes = array_map(function ($url, $apiUrl) use ($id) {
-            return [
-                'id' => str()->uuid(),
-                'url' => $url ? $url : '',
-                'api_url' => $apiUrl ? $apiUrl : '',
-                'film_id' => $id
-            ];
-        }, $data->url, $data->api_url);
-
-        $film->episodes()->insert($episodes);
-        DB::commit();
     }
 }

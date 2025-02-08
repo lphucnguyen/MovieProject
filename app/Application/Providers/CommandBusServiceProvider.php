@@ -121,12 +121,22 @@ class CommandBusServiceProvider extends ServiceProvider
             \App\Application\CommandHandlers\User\GetRatingsHandler::class,
             \App\Application\Commands\User\GetReviewsCommand::class =>
             \App\Application\CommandHandlers\User\GetReviewsHandler::class,
-            \App\Application\Commands\User\GetTransactionsCommand::class =>
-            \App\Application\CommandHandlers\User\GetTransactionsHandler::class,
+            \App\Application\Commands\User\GetOrdersCommand::class =>
+            \App\Application\CommandHandlers\User\GetOrdersHandler::class,
+            \App\Application\Commands\User\GetOrderCommand::class =>
+            \App\Application\CommandHandlers\User\GetOrderHandler::class,
+            \App\Application\Commands\User\CancelOrderCommand::class =>
+            \App\Application\CommandHandlers\User\CancelOrderHandler::class,
             \App\Application\Commands\User\UpdateProfileCommand::class =>
             \App\Application\CommandHandlers\User\UpdateProfileHandler::class,
             \App\Application\Commands\Plan\GetPlansCommand::class =>
             \App\Application\CommandHandlers\Plan\GetPlansHandler::class,
+            \App\Application\Commands\Payment\PayOldOrderCommand::class =>
+            \App\Application\CommandHandlers\Payment\PayOldOrderHandler::class,
+            \App\Application\Commands\Payment\PayNewOrderCommand::class =>
+            \App\Application\CommandHandlers\Payment\PayNewOrderHandler::class,
+            \App\Application\Commands\Payment\ApprovalCommand::class =>
+            \App\Application\CommandHandlers\Payment\ApprovalHandler::class,
         ]);
 
         // Dashboard

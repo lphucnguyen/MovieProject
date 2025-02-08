@@ -175,6 +175,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
         App\Domain\Providers\EventServiceProvider::class,
+        App\Application\Providers\EventServiceProvider::class,
         App\Application\Providers\CommandBusServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Vinelab\NeoEloquent\NeoEloquentServiceProvider::class,

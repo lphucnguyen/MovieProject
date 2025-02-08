@@ -36,7 +36,7 @@
                             <div class="ceb-item">
                                 <a href="{{url('actors/' . $actor->id)}}"><img src="{{$actor->avatar}}" style="height: 250px;" alt=""></a>
                                 <div class="ceb-infor">
-                                    <h2><a href="{{url('actors/' . $actor->name)}}">{{$actor->name}}</a></h2>
+                                    <h2><a href="{{url('actors/' . $actor->id)}}">{{$actor->name}}</a></h2>
                                     <span>{{ __('Diễn viên') }}</span>
                                 </div>
                             </div>

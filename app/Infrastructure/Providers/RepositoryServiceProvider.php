@@ -31,12 +31,22 @@ class RepositoryServiceProvider extends ServiceProvider
             => \App\Infrastructure\Repositories\RatingRepository::class,
             \App\Domain\Repositories\IReviewRepository::class
             => \App\Infrastructure\Repositories\ReviewRepository::class,
-            \App\Domain\Repositories\ITransactionRepository::class
-            => \App\Infrastructure\Repositories\TransactionRepository::class,
             \App\Domain\Repositories\IUserRepository::class
             => \App\Infrastructure\Repositories\UserRepository::class,
             \App\Domain\Repositories\IPlanRepository::class
             => \App\Infrastructure\Repositories\PlanRepository::class,
+            \App\Domain\Repositories\IOrderRepository::class
+            => \App\Infrastructure\Repositories\OrderRepository::class,
+            \App\Domain\Repositories\ISubscriptionRepository::class
+            => \App\Infrastructure\Repositories\SubscriptionRepository::class,
+            \App\Domain\Repositories\IFilmRepositoryNeo::class
+            => \App\Infrastructure\Repositories\FilmRepositoryNeo::class,
+            \App\Domain\Repositories\IUserRepositoryNeo::class
+            => \App\Infrastructure\Repositories\UserRepositoryNeo::class,
+            \App\Domain\Repositories\IRatingRepositoryNeo::class
+            => \App\Infrastructure\Repositories\RatingRepositoryNeo::class,
+            \App\Domain\Repositories\ICategoryRepositoryNeo::class
+            => \App\Infrastructure\Repositories\CategoryRepositoryNeo::class,
         ];
     }
 
@@ -55,5 +65,7 @@ class RepositoryServiceProvider extends ServiceProvider
         foreach ($this->mappingRepositories as $interface => $repository) {
             $this->app->singleton($interface, $repository);
         }
+
+        $this->app->singleton(\App\Shared\Domain\Models\INeoModel::class, \App\Shared\Domain\Models\NeoModel::class);
     }
 }

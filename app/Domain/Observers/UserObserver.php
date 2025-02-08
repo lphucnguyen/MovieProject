@@ -2,33 +2,26 @@
 
 namespace App\Domain\Observers;
 
-use App\Infrastructure\Neo4j\Connection;
+use App\Domain\Events\User\UserCreated;
+use App\Domain\Events\User\UserDeleted;
+use App\Domain\Events\User\UserUpdated;
+
 use App\Domain\Models\User;
+use App\Shared\Traits\ModelUpdateable;
 use Illuminate\Support\Facades\Storage;
 
 class UserObserver
 {
+    use ModelUpdateable;
+
     public function creating(User $model)
     {
         $model->id = str()->uuid();
     }
 
-    public function created(User $user)
+    public function created(User $model)
     {
-        // $connection = new Connection();
-        // $client = $connection->getClient();
-
-        // $query = 'CREATE (u:Users{
-        //                 id: $userId,
-        //                 username: "' . $user->username . '",
-        //                 email: "' . $user->email . '",
-        //                 first_name: "' . $user->first_name . '",
-        //                 last_name: "' . $user->last_name . '"
-        //             })';
-        // $param = [
-        //     'userId' => $user->id,
-        // ];
-        // $client->run($query, $param);
+        event(new UserCreated($model->id, $model->username, $model->email, $model->first_name, $model->last_name));
     }
 
     public function updating(User $model)
@@ -38,28 +31,13 @@ class UserObserver
         }
     }
 
-    public function updated(User $user)
+    public function updated(User $model)
     {
-        // $connection = new Connection();
-        // $client = $connection->getClient();
+        if (!$this->isUpdate($model)) {
+            return;
+        }
 
-        // $fieldsUpdated = $user->getChanges();
-        // foreach ($fieldsUpdated as $key => $value) {
-        //     $fileds[] = $key;
-        // }
-        // $array_same = array_intersect($fileds, $user->getFillable());
-
-        // if (count($array_same) === 0) {
-        //     return;
-        // }
-
-        // $query = 'MATCH (u:Users{id: $userId})
-        //             SET u.first_name="' . $user->first_name . '",
-        //                 u.last_name="' . $user->last_name . '"';
-        // $param = [
-        //     'userId' => $user->id
-        // ];
-        // $client->run($query, $param);
+        event(new UserUpdated($model->id, $model->first_name, $model->last_name));
     }
 
     public function deleting(User $model)
@@ -69,16 +47,8 @@ class UserObserver
         Storage::delete($attributes['avatar']);
     }
 
-    public function deleted(User $user)
+    public function deleted(User $model)
     {
-        // $connection = new Connection();
-        // $client = $connection->getClient();
-
-        // $query = 'MATCH (u:Users{id: $userId})
-        //             DETACH DELETE u';
-        // $param = [
-        //     'userId' => $user->id,
-        // ];
-        // $client->run($query, $param);
+        event(new UserDeleted($model->id));
     }
 }

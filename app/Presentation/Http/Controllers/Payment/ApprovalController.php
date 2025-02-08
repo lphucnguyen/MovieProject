@@ -2,29 +2,19 @@
 
 namespace App\Presentation\Http\Controllers\Payment;
 
-use App\Infrastructure\Services\Payment\PaymentResolver;
+use App\Application\Commands\Payment\ApprovalCommand;
+use App\Application\DTOs\Payment\ApprovalPaymentDTO;
 use App\Presentation\Http\Controllers\Controller;
+use App\Presentation\Http\Requests\Payment\ApprovalRequest;
+use Illuminate\Support\Facades\Bus;
 
 class ApprovalController extends Controller
 {
-    private PaymentResolver $paymentResolver;
-
-    public function __construct(PaymentResolver $paymentResolver)
+    public function __invoke(ApprovalRequest $request)
     {
-        $this->paymentResolver = $paymentResolver;
-    }
+        $request->validated();
 
-    public function __invoke()
-    {
-        if (session()->has('paymentPlatformName')) {
-            $paymentPlatform = $this->paymentResolver
-                ->resolveService(session()->get('paymentPlatformName'));
-
-            return $paymentPlatform->handleApproval();
-        }
-
-        return redirect()
-            ->route('user.upgrade-account')
-            ->withErrors('We cannot retrieve your payment platform. Try again, please.');
+        $approvalCommand = new ApprovalCommand(ApprovalPaymentDTO::fromRequest($request));
+        return Bus::dispatch($approvalCommand);
     }
 }
