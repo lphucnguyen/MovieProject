@@ -9,8 +9,9 @@ use App\Shared\Infrastructure\Repositories\BaseRepository;
 
 class ReviewRepository extends BaseRepository implements IReviewRepository
 {
-    public function __construct(Review $model)
-    {
+    public function __construct(
+        private Review $model
+    ) {
         parent::__construct($model);
     }
 

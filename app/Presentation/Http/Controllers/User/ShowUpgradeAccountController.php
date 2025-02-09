@@ -29,10 +29,13 @@ class ShowUpgradeAccountController extends Controller
             }
         }
 
+        $hasActiveSubscription = optional($user)->hasActiveSubscription();
+
         return view('clients.upgrade_account', [
             'user' => $user,
             'plans' => $plans,
-            'order' => $order
+            'order' => $order,
+            'hasActiveSubscription' => $hasActiveSubscription,
         ]);
     }
 }

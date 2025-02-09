@@ -126,6 +126,7 @@ class PaypalService implements IPaymentService
                     'cancel_url' => $cancelUrl,
                 ]
             ],
+            [],
             $isJsonRequest = true,
         );
     }

@@ -15,7 +15,7 @@ class ShowOrderController extends Controller
         $getOrderCommand = new GetOrderCommand($uuid);
         $order = Bus::dispatch($getOrderCommand);
 
-        $isCanPayOrCancel = $order->status == OrderStatus::COMPLETED || $order->status == OrderStatus::CANCELED;
+        $isCanPayOrCancel = $order->status !== OrderStatus::COMPLETED->value && $order->status !== OrderStatus::CANCELED->value;
 
         return view('clients.order', [
             'user' => $user,

@@ -291,10 +291,12 @@ a {
                                                 <table class="invoice">
                                                     <tbody><tr>
                                                         <td>
-                                                            {{ __('Tên') }}: {{$order->user->first_name . ' ' . $order->user->last_name}}<br>
-                                                            {{ __('Mã hoá đơn') }}: #{{$order->id}}<br>
-                                                            {{ __('Ngày xuất hoá đơn') }}: {{$order->created_at}}<br>
-                                                            {{ __('Hình thức thanh toán') }}: {{$order->payment_name}}
+                                                            {{ __('Tên') }}: {{ $order->user_first_name . ' ' . $order->user_last_name }}<br>
+                                                            {{ __('Mã hoá đơn') }}: #{{ $order->id }}<br>
+                                                            {{ __('Ngày xuất hoá đơn') }}: {{ $order->created_at }}<br>
+                                                            {{ __('Hình thức thanh toán') }}: {{ $order->payment_name }}<br>
+                                                            {{ __('Tổng tiền') }}: {{ number_format($order->amount) }}<br>
+                                                            {{ __('Đơn vị') }}: {{ $order->currency }}<br>
                                                         </td>
                                                     </tr>
                                                 </tbody></table>
@@ -309,7 +311,7 @@ a {
                                         </tr>
                                         <tr>
                                             <td class="content-block">
-                                                {{ __('Web Xem Phim Online 2022') }}
+                                                {{ env('APP_NAME') }}
                                             </td>
                                         </tr>
                                     </tbody></table>

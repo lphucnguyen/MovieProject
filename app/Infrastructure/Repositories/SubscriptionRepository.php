@@ -8,8 +8,9 @@ use App\Shared\Infrastructure\Repositories\BaseRepository;
 
 class SubscriptionRepository extends BaseRepository implements ISubscriptionRepository
 {
-    public function __construct(Subscription $model)
-    {
+    public function __construct(
+        private Subscription $model
+    ) {
         parent::__construct($model);
     }
 }
