@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Jobs;
 
-use App\Domain\Models\Order;
+use App\Application\DTOs\Order\OrderEmailDTO;
 use App\Infrastructure\Mail\PaymentMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,21 +18,21 @@ class SendPaymentEmail implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
+    private string $title = 'Hoá đơn thanh toán';
+
     public function __construct(
-        private array $emailContent,
-        private Order $transaction
+        private string $email,
+        private OrderEmailDTO $transaction
     ) {
     }
 
     public function handle()
     {
-        $title = $this->emailContent['title'];
-        $email = $this->emailContent['email'];
         $emailPayment = new PaymentMail(
             $this->transaction,
-            $title
+            $this->title
         );
 
-        Mail::to($email)->send($emailPayment);
+        Mail::to($this->email)->send($emailPayment);
     }
 }

@@ -51,6 +51,9 @@
                 <div class="col-md-9 col-sm-12 col-xs-12">
                     <div action="#" class="form-style-1 user-pro">
                         <h4>{{ __('Nâng cấp thành viên') }}</h4>
+                        @if ($hasActiveSubscription)
+                        <p>{{ __('Chưa tới kì hạn nâng cấp') }}</p>
+                        @else
                         <form id="paymentForm" action="{{ route('pay') }}" method="POST" class="upgrade-account-form" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
@@ -117,6 +120,7 @@
                                 </div>
                             </div>
                         </form>
+                        @endif
                     </div>
                 </div>
             </div>

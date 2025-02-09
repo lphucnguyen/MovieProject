@@ -9,8 +9,9 @@ use App\Shared\Infrastructure\Repositories\BaseRepository;
 
 class EpisodeRepository extends BaseRepository implements IEpisodeRepository
 {
-    public function __construct(Episode $model)
-    {
+    public function __construct(
+        private Episode $model
+    ) {
         parent::__construct($model);
     }
 }

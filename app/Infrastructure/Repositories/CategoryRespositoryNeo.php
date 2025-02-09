@@ -9,7 +9,7 @@ use App\Shared\Infrastructure\Repositories\BaseRepositoryNeo;
 class CategoryRepositoryNeo extends BaseRepositoryNeo implements ICategoryRepositoryNeo
 {
     public function __construct(
-        CategoryNeoModel $model
+        private CategoryNeoModel $model
     ) {
         parent::__construct($model);
     }

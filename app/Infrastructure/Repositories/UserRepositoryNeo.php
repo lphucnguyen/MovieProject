@@ -9,7 +9,7 @@ use App\Shared\Infrastructure\Repositories\BaseRepositoryNeo;
 class UserRepositoryNeo extends BaseRepositoryNeo implements IUserRepositoryNeo
 {
     public function __construct(
-        UserNeoModel $model
+        private UserNeoModel $model
     ) {
         parent::__construct($model);
     }

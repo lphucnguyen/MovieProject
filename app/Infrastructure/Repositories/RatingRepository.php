@@ -10,8 +10,9 @@ use Illuminate\Pipeline\Pipeline;
 
 class RatingRepository extends BaseRepository implements IRatingRepository
 {
-    public function __construct(Rating $model)
-    {
+    public function __construct(
+        private Rating $model
+    ) {
         parent::__construct($model);
     }
 

@@ -8,8 +8,9 @@ use App\Shared\Infrastructure\Repositories\BaseRepository;
 
 class PlanRepository extends BaseRepository implements IPlanRepository
 {
-    public function __construct(Plan $model)
-    {
+    public function __construct(
+        private Plan $model
+    ) {
         parent::__construct($model);
     }
 }
