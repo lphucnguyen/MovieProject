@@ -105,7 +105,7 @@
                                                     @endif
 
                                                     @if(auth()->guard('admin')->user()->hasPermission('read_films'))
-                                                        <a href="{{ route('dashboard.films.index', ['favorite' => $client->id]) }}"
+                                                        <a href="{{ route('dashboard.films.index', ['searchKeyFavorite' => $client->id]) }}"
                                                            class="btn btn-info btn-sm">Favorites</a>
                                                     @else
                                                         <button class="btn btn-info btn-sm disabled"

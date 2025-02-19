@@ -6,15 +6,18 @@ use App\Domain\Models\Admin;
 use App\Application\Commands\Admin\CreateAdminCommand;
 use App\Application\Commands\Admin\DeleteAdminCommand;
 use App\Application\Commands\Admin\GetAdminsCommand;
+use App\Application\Commands\Admin\GetModelsAdminCommand;
 use App\Application\Commands\Admin\UpdateAdminCommand;
+use App\Application\Commands\Admin\UpdatePermissionsAdminCommand;
 use App\Application\DTOs\Admin\CreateAdminDTO;
 use App\Application\DTOs\Admin\UpdateAdminDTO;
+use App\Application\DTOs\Admin\UpdatePermissionsAdminDTO;
 use App\Presentation\Http\Controllers\Controller;
 use App\Presentation\Http\Requests\Dashboard\CreateAdminRequest;
 use App\Presentation\Http\Requests\Dashboard\UpdateAdminRequest;
+use App\Presentation\Http\Requests\Dashboard\UpdatePermissionsAdminRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -36,7 +39,9 @@ class AdminController extends Controller
 
     public function create()
     {
-        return view('dashboard.admins.create');
+        return view('dashboard.admins.create', [
+            'models' => config('permissions'),
+        ]);
     }
 
     public function store(CreateAdminRequest $request)
@@ -46,8 +51,7 @@ class AdminController extends Controller
         );
         Bus::dispatch($createAdminCommand);
 
-        session()->flash('success', 'Ban quản trị đã thêm thành công');
-        return redirect()->route('dashboard.admins.index');
+        return redirect()->route('dashboard.admins.index')->withSuccess(__('Ban quản trị đã thêm thành công'));
     }
 
     public function edit(Admin $admin)
@@ -55,12 +59,20 @@ class AdminController extends Controller
         if (!auth()->guard('admin')->user()->hasRole('super_admin') && $admin->hasRole('super_admin')) {
             abort('403');
         }
-        return view('dashboard.admins.edit', compact('admin'));
+
+        $getModelsAdminCommand = new GetModelsAdminCommand($admin->id);
+        $modelsAdmin = Bus::dispatch($getModelsAdminCommand);
+
+        return view('dashboard.admins.edit', [
+            'admin' => $admin,
+            'models' => config('permissions'),
+            'modelsAdmin' => $modelsAdmin
+        ]);
     }
 
     public function update(string $uuid, UpdateAdminRequest $request)
     {
-        if (!auth()->guard('admin')->user()->hasRole('super_admin')) {
+        if (auth()->guard('admin')->user()->id !== $uuid && !auth()->guard('admin')->user()->hasRole('super_admin')) {
             abort('403');
         }
 
@@ -70,16 +82,33 @@ class AdminController extends Controller
         );
         Bus::dispatch($updateAdminCommand);
 
-        session()->flash('success', 'Ban quản trị cập nhật thành công');
-        return redirect()->route('dashboard.admins.index');
+        return redirect()->back()->withSuccess(__('Ban quản trị cập nhật thành công'));
+    }
+
+    public function updatePermissions(string $uuid, UpdatePermissionsAdminRequest $request)
+    {
+        if (!auth()->guard('admin')->user()->hasRole('super_admin')) {
+            abort('403');
+        }
+
+        $updateAdminCommand = new UpdatePermissionsAdminCommand(
+            $uuid,
+            UpdatePermissionsAdminDTO::fromRequest($request)
+        );
+        Bus::dispatch($updateAdminCommand);
+
+        return redirect()->back()->withSuccess(__('Ban quản trị cập nhật thành công'));
     }
 
     public function destroy(string $uuid)
     {
+        if (!auth()->guard('admin')->user()->hasRole('super_admin')) {
+            abort('403');
+        }
+
         $deleteAdminCommand = new DeleteAdminCommand($uuid);
         Bus::dispatch($deleteAdminCommand);
 
-        session()->flash('success', 'Ban quản trị xoá thành công');
-        return redirect()->route('dashboard.admins.index');
+        return redirect()->route('dashboard.admins.index')->withSuccess(__('Ban quản trị xoá thành công'));
     }
 }

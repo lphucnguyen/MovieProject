@@ -2,8 +2,8 @@
 
 namespace App\Shared\Application\DTOs;
 
-use App\Shared\Application\DTOs\Traits\StaticConvertableArray;
-use App\Shared\Application\DTOs\Traits\StaticCreateable;
+use App\Shared\Application\DTOs\Concerns\StaticConvertableArray;
+use App\Shared\Application\DTOs\Concerns\StaticCreateable;
 
 class BaseDTO
 {

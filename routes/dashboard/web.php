@@ -13,11 +13,11 @@ Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard'], function () 
     Route::group(['middleware' => 'adminAuth:admin', 'as' => 'dashboard.'], function () {
         Route::get('/', 'HomeController@index')->name('home');
 
+        Route::put('admins/{uuid}/update-permissions', 'AdminController@updatePermissions')->name('admins.updatePermissions');
         Route::resource('admins', 'AdminController')->except(['show']);
         Route::resource('clients', 'ClientController')->except(['show']);
         Route::resource('films', 'FilmController');
         Route::resource('actors', 'ActorController');
-        Route::resource('memberships', 'MembershipController');
         Route::resource('categories', 'CategoryController')->except(['show']);
         Route::resource('ratings', 'RatingController')->only(['index', 'destroy']);
         Route::resource('reviews', 'ReviewController')->only(['index', 'destroy']);

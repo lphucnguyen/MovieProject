@@ -72,7 +72,7 @@
                                             <tr>
                                                 <td><span class="list-name">{{$category->name}}</span></td>
                                                 <td>
-                                                    <a href="{{ route('dashboard.films.index', ['category' => $category->id]) }}" class="btn btn-info btn-sm">{{ __('Phim') }}</a>
+                                                    <a href="{{ route('dashboard.films.index', ['searchKeyCategory' => $category->id]) }}" class="btn btn-info btn-sm">{{ __('Phim') }}</a>
                                                 </td>
                                                 <td>
                                                     @if(auth()->guard('admin')->user()->hasPermission('update_categories'))

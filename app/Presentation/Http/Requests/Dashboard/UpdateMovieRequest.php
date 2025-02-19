@@ -3,6 +3,7 @@
 namespace App\Presentation\Http\Requests\Dashboard;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class UpdateMovieRequest extends FormRequest
@@ -28,12 +29,26 @@ class UpdateMovieRequest extends FormRequest
                 'string',
                 'max:50',
                 'min:1',
-                Rule::unique('films')->ignore($this->uuid, 'id')
+                Rule::unique('films')->ignore($this->name, 'name')
             ],
             'year' => 'required|string|min:4',
             'overview' => 'required|string',
-            'background_cover' => 'nullable|image',
-            'poster' => 'nullable|image',
+            'background_cover' => ['required', 'string', function ($attribute, $value, $fail) {
+                $parts = explode("/", $value);
+                $file = implode('/', array_slice($parts, -2));
+
+                if (!Storage::exists($file)) {
+                    $fail(__("Background không tồn tại"));
+                }
+            }],
+            'poster' => ['required', 'string', function ($attribute, $value, $fail) {
+                $parts = explode("/", $value);
+                $file = implode('/', array_slice($parts, -2));
+
+                if (!Storage::exists($file)) {
+                    $fail(__("Poster không tồn tại"));
+                }
+            }],
             'url' => 'required|array|min:1',
             'api_url' => 'required|array|min:1',
             'type_film' => 'required',

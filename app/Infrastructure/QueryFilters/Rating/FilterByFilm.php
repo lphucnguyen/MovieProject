@@ -22,8 +22,8 @@ class FilterByFilm
                 });
             });
 
-            $query->when($queryParams['film'], function ($q) use ($queryParams) {
-                return $q->where('film_id', $queryParams['film']);
+            $query->when($queryParams['searchKeyFilm'], function ($q) use ($queryParams) {
+                return $q->where('film_id', $queryParams['searchKeyFilm']);
             });
         });
 

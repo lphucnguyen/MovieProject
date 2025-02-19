@@ -16,6 +16,7 @@ class GetReviewsHandler
     {
         return $this->repository->getReviewByQueryParams([
             'searchKey' => $command->searchKey,
+            'client' => $command->client
         ]);
     }
 }

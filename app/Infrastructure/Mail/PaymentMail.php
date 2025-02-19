@@ -12,7 +12,6 @@ class PaymentMail extends Mailable
     use Queueable;
     use SerializesModels;
 
-
     /**
      * Create a new message instance.
      *

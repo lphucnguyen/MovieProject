@@ -22,6 +22,9 @@ return [
             'ratings' => 'r,d',
             'reviews' => 'r,d',
             'messages' => 'r,d',
+            'orders' => 'r,u',
+            'plans' => 'r,d,u',
+            'subscriptions' => 'r,d,u',
         ],
         'admin' => []
     ],

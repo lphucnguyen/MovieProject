@@ -17,17 +17,16 @@ class UpdateActorHandler
     {
         $data = $command->data;
 
-        if ($data->avatar) {
-            $data->avatar = $data->avatar->store('actor_avatars');
-        } else {
-            unset($data->avatar);
-        }
+        $parts = explode("/", $data->avatar);
+        $file = implode('/', array_slice($parts, -2));
+        $data->avatar = $file;
 
-        if ($data->background_cover) {
-            $data->background_cover = $data->background_cover->store('actor_background_covers');
-        } else {
-            unset($data->background_cover);
-        }
+        $parts = explode("/", $data->background_cover);
+        $file = implode('/', array_slice($parts, -2));
+        $data->background_cover = $file;
+
+        $data->overview = strip_tags($data->overview, config('app.allowTags'));
+        $data->biography = strip_tags($data->biography, config('app.allowTags'));
 
         $this->repository->update($command->uuid, $data->toArray());
     }

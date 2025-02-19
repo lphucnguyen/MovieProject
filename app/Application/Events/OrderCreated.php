@@ -13,7 +13,6 @@ class OrderCreated
      * Create a new event instance.
      */
     public function __construct(
-        public string $paymentIntentId,
         public string $orderId,
     ) {
     }

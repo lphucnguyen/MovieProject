@@ -144,13 +144,13 @@
 
                     var id = $(this).val();
                     swal({
-                        title: {{'Xác nhận'}},
-                        text: {{ __('Bạn không thể phục hồi sau khi xoá') }},
+                        title: 'Xác nhận',
+                        text: 'Bạn không thể phục hồi sau khi xoá',
                         type: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#DD6B55",
-                        confirmButtonText: {{ __('Xoá') }},
-                        cancelButtonText: {{ __('Huỷ') }},
+                        confirmButtonText: 'Xoá',
+                        cancelButtonText: 'Huỷ',
                         closeOnConfirm: false
                     }, function () {
                         that.closest('form').submit();

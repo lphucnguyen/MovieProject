@@ -14,8 +14,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Event::listen(\App\Application\Events\OrderPaid::class, \App\Application\Listeners\Order\CompleteOrder::class);
-        Event::listen(\App\Application\Events\OrderPaid::class, \App\Application\Listeners\Order\RefundOrder::class);
+        Event::listen(\App\Application\Events\OrderPaid::class, \App\Application\Listeners\Order\SendPaymentEmail::class);
         Event::listen(\App\Application\Events\OrderCreated::class, \App\Application\Listeners\Order\MonitoringOrder::class);
 
         Event::listen(\App\Domain\Events\Category\CategoryCreated::class, \App\Application\Listeners\Category\CreateCategory::class);

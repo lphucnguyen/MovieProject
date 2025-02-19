@@ -16,7 +16,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('amount');
             $table->string('currency');
-            $table->string('payment_name');
+            $table->string('transaction_id')->nullable()->unique();
+            $table->string('payment_name')->nullable();
             $table->enum('status', [
                 OrderStatus::CANCELED->value,
                 OrderStatus::PENDING->value,

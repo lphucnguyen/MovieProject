@@ -10,7 +10,7 @@ use Illuminate\Pipeline\Pipeline;
 class ActorRepository extends BaseRepository implements IActorRepository
 {
     public function __construct(
-        private Actor $model
+        Actor $model
     ) {
         parent::__construct($model);
     }

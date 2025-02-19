@@ -3,6 +3,7 @@
 namespace App\Presentation\Http\Requests\Dashboard;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
 
 class CreateActorRequest extends FormRequest
 {
@@ -26,8 +27,22 @@ class CreateActorRequest extends FormRequest
             'dob' => 'required|date',
             'overview' => 'required|string',
             'biography' => 'required|string',
-            'avatar' => 'required|image',
-            'background_cover' => 'required|image',
+            'avatar' => ['required', 'string', function ($attribute, $value, $fail) {
+                $parts = explode("/", $value);
+                $file = implode('/', array_slice($parts, -2));
+
+                if (!Storage::exists($file)) {
+                    $fail(__("Avatar không tồn tại"));
+                }
+            }],
+            'background_cover' => ['required', 'string', function ($attribute, $value, $fail) {
+                $parts = explode("/", $value);
+                $file = implode('/', array_slice($parts, -2));
+
+                if (!Storage::exists($file)) {
+                    $fail(__("Background không tồn tại"));
+                }
+            }],
         ];
     }
 }

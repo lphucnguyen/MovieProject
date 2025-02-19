@@ -55,28 +55,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group last">
-                                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                                        <div class="fileinput-new thumbnail"
-                                             style="width: 200px; height: 150px;">
-                                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image"
-                                                 alt=""/>
-                                        </div>
-                                        <div class="fileinput-preview fileinput-exists thumbnail"
-                                             style="max-width: 200px; max-height: 150px;">
-                                        </div>
-                                        <div>
-                                                <span class="btn btn-dark btn-file">
-                                                    <span class="fileinput-new"> {{ __('Chọn Avatar') }} </span>
-                                                    <span class="fileinput-exists"> {{ __('Thay đổi') }} </span>
-                                                    <input type="file" name="avatar"
-                                                           value="{{ old('avatar', '') }}">
-                                                </span>
-                                            <a href="" class="btn btn-danger fileinput-exists"
-                                               data-dismiss="fileinput">{{ __('Xoá') }}</a>
-                                        </div>
-                                        <span style="color: red; margin-left: 10px">{{ $errors->first('avatar') }}</span>
-                                    </div>
+
+                                <div class="form-group last mt-5">
+                                    <img class="fileinput-preview fileinput-exists thumbnail preview-image-avatar"
+                                             style="max-width: 200px; max-height: 150px;" src="{{ asset('images/no-image.jpg'); }}">
+                                    <span class="btn btn-dark btn-file select-avatar-file">
+                                        <span class="fileinput-new">{{ __('Chọn Avatar') }}</span>
+                                        <input type="hidden" name="avatar" class="avatar-file"
+                                               value="{{ old('avatar', '') }}">
+                                    </span>
+                                    <span style="color: red; margin-left: 10px; display: block;">{{ $errors->first('avatar') }}</span>
                                 </div>
 
                                 <hr>
@@ -105,63 +93,34 @@
                                     <h2>{{ __('Thông tin quyền truy cập') }}</h2>
                                 </div>
 
-                                @php
-                                    $models = ['admins', 'clients', 'categories', 'films', 'actors'];
-                                    $models2 = ['ratings', 'reviews', 'messages'];
-                                    $cruds = ['create', 'read', 'update', 'delete'];
-                                    $cruds2 = ['read', 'delete'];
-                                @endphp
-
                                 <div class="row clearfix">
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                        @foreach($models as $index=>$model)
-                                            <li class="nav-item">
-                                                <a class="nav-link {{$index==0 ? 'active' : ''}}" data-toggle="tab"
-                                                   href="#{{$model}}"
-                                                   role="tab" aria-controls="home" aria-selected="true">{{$model}}</a>
-                                            </li>
-                                        @endforeach
-                                        @foreach($models2 as $index=>$model2)
+                                        @foreach($models as $table => $permissions)
                                             <li class="nav-item">
                                                 <a class="nav-link" data-toggle="tab"
-                                                   href="#{{$model2}}"
-                                                   role="tab" aria-controls="home" aria-selected="true">{{$model2}}</a>
+                                                   href="#{{ $table }}"
+                                                   role="tab" aria-controls="home" aria-selected="true">{{ $table }}</a>
                                             </li>
                                         @endforeach
                                     </ul>
                                 </div>
                                 <div class="row clearfix" style="margin-left: 10px">
                                     <div class="tab-content">
-                                        @foreach($models as $index=>$model)
-                                            <div class="tab-pane fade show {{ $index==0 ? 'active' : '' }}"
-                                                 id="{{ $model }}">
+                                        @foreach($models as $table => $permissions)
+                                            <div class="tab-pane fade show"
+                                                 id="{{ $table }}">
                                                 <div class="checkbox">
-                                                    @foreach($cruds as $crud)
-                                                        <input id="{{$crud . '_' . $model }}" type="checkbox"
-                                                               name="permissions[]" value="{{$crud . '_' . $model }}">
+                                                    @foreach($permissions as $permission)
+                                                        <input id="{{$permission . '_' . $table }}" type="checkbox"
+                                                               name="permissions[]" value="{{$permission . '_' . $table }}">
                                                         <label style="margin-left: 10px"
-                                                               for="{{$crud . '_' . $model }}">
-                                                            {{$crud}}
+                                                               for="{{$permission . '_' . $table }}">
+                                                            {{$permission}}
                                                         </label>
                                                     @endforeach
                                                 </div>
                                             </div>
                                         @endforeach
-                                            @foreach($models2 as $index=>$model2)
-                                                <div class="tab-pane fade show"
-                                                     id="{{ $model2 }}">
-                                                    <div class="checkbox">
-                                                        @foreach($cruds2 as $crud2)
-                                                            <input id="{{$crud2 . '_' . $model2 }}" type="checkbox"
-                                                                   name="permissions[]" value="{{$crud2 . '_' . $model2 }}">
-                                                            <label style="margin-left: 10px"
-                                                                   for="{{$crud2 . '_' . $model2 }}">
-                                                                {{$crud2}}
-                                                            </label>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            @endforeach
                                     </div>
                                 </div>
 
@@ -185,6 +144,24 @@
 
     @push('scripts')
         <script src="{{asset('web_files/js/bootstrap-fileinput.js')}}"></script>
+        <script>
+            let file = '';
+
+            $('.select-avatar-file').on('click', function (event) {
+                event.preventDefault();
+
+                file = "avatar-file";
+                window.open('/file-manager/fm-button', 'FileManager', 'width=900,height=600');
+            });
+
+
+            function fmSetLink(url) {
+                if (file === 'avatar-file') {
+                    $('.avatar-file').attr('value', url);
+                    $('.preview-image-avatar').attr('src', url);
+                }
+            }
+        </script>
     @endpush
 
 @endsection

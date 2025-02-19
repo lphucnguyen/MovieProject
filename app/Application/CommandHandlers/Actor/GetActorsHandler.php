@@ -16,7 +16,7 @@ class GetActorsHandler
     {
         return $this->repository->getActorsByQueryParams([
             'searchKey' => $command->searchKey,
-            'film' => $command->film
+            'searchKeyFilm' => $command->searchKeyFilm
         ]);
     }
 }

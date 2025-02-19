@@ -2,10 +2,10 @@
 
 namespace App\Infrastructure\Services\Payment;
 
-use App\Application\DTOs\Payment\ApprovalPaymentDTO;
+use App\Application\DTOs\Payment\ApprovalPaymentPaypalDTO;
 use App\Shared\Application\DTOs\BaseDTO;
 use App\Application\DTOs\Payment\PaypalDTO;
-use App\Shared\Traits\ConsumeExternalService;
+use App\Shared\Infrastructure\Concerns\ConsumeExternalService;
 use InvalidArgumentException;
 
 class PaypalService implements IPaymentService
@@ -45,13 +45,12 @@ class PaypalService implements IPaymentService
             throw new InvalidArgumentException('Expected StripeDTO');
         }
 
-        $order = $this->createOrder(
+        $order = $this->createAuthorization(
             $paypalDTO->amount,
             config('services.currency'),
             route('approval',
                 [
                     'plan_id' => $paypalDTO->plan_id,
-                    'lock_owner' => $paypalDTO->lock_owner,
                     'order_id' => $paypalDTO->order_id,
                     'payment_name' => $paypalDTO->payment_name,
                 ]
@@ -63,30 +62,28 @@ class PaypalService implements IPaymentService
 
         $approve = $orderLinks->where('rel', 'approve')->first();
 
-        session()->put('approvalId', $order->id);
-
-        return [
-            'paymentId' => $order->id,
-            'redirect' => $approve->href,
-        ];
+        return redirect($approve->href);
     }
 
     public function handleApproval(BaseDTO $approvalDTO)
     {
-        if (!($approvalDTO instanceof ApprovalPaymentDTO)) {
+        if (!($approvalDTO instanceof ApprovalPaymentPaypalDTO)) {
             throw new InvalidArgumentException('Expected ApprovalPaymentDTO');
         }
 
-        if (session()->has('approvalId')) {
-            $approvalId = session()->get('approvalId');
+        try {
+            $payment = $this->authorization($approvalDTO->token);
 
-            $payment = $this->capturePayment($approvalId);
-            $captureId = $payment->purchase_units[0]->payments->captures[0]->id;
+            if ($payment->status === 'COMPLETED') {
+                $captureId = $payment->purchase_units[0]->payments->authorizations[0]->id;
 
-            return $captureId;
+                return $captureId;
+            } else {
+                throw new \Exception();
+            }
+        } catch(\Exception $e) {
+            throw new \Exception('Handle Payment Fail');
         }
-
-        throw new \Exception('Approval Id is not valid');
     }
 
     public function capturePayment($approvalId)
@@ -102,7 +99,46 @@ class PaypalService implements IPaymentService
         );
     }
 
-    public function createOrder($value, $currency, $returnUrl, $cancelUrl, $idempotencyKey = null)
+    public function captureAuthorization($authorizeId)
+    {
+        return $this->makeRequest(
+            'POST',
+            "/v2/checkout/authorizations/{$authorizeId}/capture",
+            [],
+            [],
+            [
+                'Content-Type' => 'application/json'
+            ],
+        );
+    }
+
+    public function authorization($authorizeId)
+    {
+        return $this->makeRequest(
+            'POST',
+            "/v2/checkout/orders/{$authorizeId}/authorize",
+            [],
+            [],
+            [
+                'Content-Type' => 'application/json'
+            ],
+        );
+    }
+
+    public function declineAuthorization($authorizeId)
+    {
+        return $this->makeRequest(
+            'POST',
+            "/v2/checkout/authorizations/{$authorizeId}/void",
+            [],
+            [],
+            [
+                'Content-Type' => 'application/json'
+            ],
+        );
+    }
+
+    public function createOrder($value, $currency, $returnUrl, $cancelUrl)
     {
         return $this->makeRequest(
             'POST',
@@ -111,7 +147,7 @@ class PaypalService implements IPaymentService
             [
                 'intent' => 'CAPTURE',
                 'purchase_units' => [
-                    0 => [
+                    [
                         'amount' => [
                             'currency_code' =>strtoupper($currency),
                             'value' => round($value * $factor = $this->resolveFactor($currency)) / $factor,
@@ -128,6 +164,48 @@ class PaypalService implements IPaymentService
             ],
             [],
             $isJsonRequest = true,
+        );
+    }
+
+    public function createAuthorization($value, $currency, $returnUrl, $cancelUrl)
+    {
+        return $this->makeRequest(
+            'POST',
+            '/v2/checkout/orders',
+            [],
+            [
+                'intent' => 'AUTHORIZE',
+                'purchase_units' => [
+                    [
+                        'amount' => [
+                            'currency_code' =>strtoupper($currency),
+                            'value' => round($value * $factor = $this->resolveFactor($currency)) / $factor,
+                        ]
+                    ]
+                ],
+                'application_context' => [
+                    'brand_name' => config('app.name'),
+                    'shipping_preference' => 'NO_SHIPPING',
+                    'user_action' => 'PAY_NOW',
+                    'return_url' => $returnUrl,
+                    'cancel_url' => $cancelUrl,
+                ]
+            ],
+            [],
+            $isJsonRequest = true,
+        );
+    }
+
+    public function getPayment($paymentId)
+    {
+        return $this->makeRequest(
+            'GET',
+            "/v2/checkout/orders/{$paymentId}",
+            [],
+            [],
+            [
+                'Content-Type' => 'application/json'
+            ],
         );
     }
 

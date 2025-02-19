@@ -28,7 +28,7 @@ class ClientController extends Controller
 
     public function index(Request $request)
     {
-        $getUsersCommand = new GetUsersCommand($request->search, 10);
+        $getUsersCommand = new GetUsersCommand($request->searchKey, 10);
         $clients = Bus::dispatch($getUsersCommand);
 
         return view('dashboard.clients.index', compact('clients'));

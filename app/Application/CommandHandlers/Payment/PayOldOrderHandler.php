@@ -21,23 +21,20 @@ class PayOldOrderHandler
     public function handle(PayOldOrderCommand $command)
     {
         try {
+            $lock = cache()->lock(auth()->user()->id . ':payment:send', 120);
+            if (!$lock->get()) {
+                return throw new Exception(__('Có vấn đề trong yêu cầu thanh toán. Hãy cố gắng lại lần nữa sau ít phút.'));
+            }
+
             $dto = $command->dto;
             $plan = $this->planRepository->get($dto->plan_id);
             $dto->amount = $plan->price;
 
-            $order = $this->handleExistOrder($dto->order_id);
-            $lock = cache()->lock($order->id . ':payment:send', 120);
-            if (!$lock->get()) {
-                return throw new Exception(__('Có vấn đề trong yêu cầu thanh toán. Hãy cố gắng lại lần nữa sau ít phút.'));
-            }
-            $dto->lock_owner = $lock->owner();
+            $this->handleExistOrder($dto->order_id);
 
             $paymentService = $this->paymentResolver->resolveService($dto->payment_name);
-            $response = $paymentService->handlePayment($dto);
-
-            return redirect($response['redirect']);
+            return $paymentService->handlePayment($dto);
         } catch(Exception $e) {
-            dd($e);
             return redirect()
                 ->back()
                 ->with('error', $e->getMessage());

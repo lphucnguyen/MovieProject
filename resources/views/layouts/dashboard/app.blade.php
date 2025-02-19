@@ -14,6 +14,8 @@
     <link rel="stylesheet"
           href="{{asset('dashboard_files/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css')}}"/>
     <link rel="stylesheet" href="{{asset('dashboard_files/assets/plugins/morrisjs/morris.min.css')}}"/>
+    <link rel="stylesheet" href="{{asset('dashboard_files/assets/plugins/summernote/summernote.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('vendor/file-manager/css/file-manager.css') }}">
     <!-- Custom Css -->
     <link rel="stylesheet" href="{{asset('dashboard_files/light/assets/css/main.css')}}">
     <link rel="stylesheet" href="{{asset('dashboard_files/light/assets/css/color_skins.css')}}">
@@ -71,14 +73,17 @@
                 border-right: 0px #fff solid;
             }
         }
+
+        .ck-editor__editable {
+            min-height: 400px !important;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body class="theme-cyan">
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
-        {{-- <div class="m-t-30"><img class="zmdi-hc-spin" src="{{asset('favicon.ico')}}" width="48" height="48" alt="Oreo">
-        </div> --}}
         <div class="col-sm-2 m-auto">
             <div class="sp sp-sphere"></div>
           </div>
@@ -97,11 +102,11 @@
                 <a class="navbar-brand" style="line-height: 50px;" href="">
                     {{-- <img src="{{asset('favicon.ico')}}" width="30"
                                                      alt="Oreo"><span class="m-l-10">Movies</span> --}}
-                    <img 
-                        alt="" 
-                        class="logo" 
-                        style="margin-top: 5px;width: 170px;" 
-                        src="{{asset('web_files/images/logo1.png')}}" 
+                    <img
+                        alt=""
+                        class="logo"
+                        style="margin-top: 5px;width: 170px;"
+                        src="{{asset('web_files/images/logo1.png')}}"
                     >
                 </a>
             </div>
@@ -125,23 +130,59 @@
 <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
 <script src="{{asset('dashboard_files/light/assets/bundles/vendorscripts.bundle.js')}}"></script>
 <!-- slimscroll, waves Scripts Plugin Js -->
-
 <script src="{{asset('dashboard_files/assets/plugins/bootstrap-notify/bootstrap-notify.js')}}"></script>
 <!-- Bootstrap Notify Plugin Js -->
-
-
 <script src="{{asset('dashboard_files/light/assets/bundles/morrisscripts.bundle.js')}}"></script>
 <!-- Morris Plugin Js -->
 <script src="{{asset('dashboard_files/light/assets/bundles/jvectormap.bundle.js')}}"></script>
 <!-- JVectorMap Plugin Js -->
 <script src="{{asset('dashboard_files/light/assets/bundles/knob.bundle.js')}}"></script>
 <!-- Jquery Knob, Count To, Sparkline Js -->
-
 <script src="{{asset('dashboard_files/light/assets/bundles/mainscripts.bundle.js')}}"></script>
-<script src="{{asset('dashboard_files/light/assets/js/pages/ui/notifications.js')}}"></script> <!-- Custom Js -->
+<script src="{{asset('dashboard_files/light/assets/js/pages/ui/notifications.js')}}"></script>
+<!-- Custom Js -->
 <script src="{{asset('dashboard_files/light/assets/js/pages/index.js')}}"></script>
+<!-- Summernote -->
+<script src="{{asset('dashboard_files/assets/plugins/summernote/summernote.min.js')}}"></script>
+<script src="{{ asset('vendor/file-manager/js/file-manager.js') }}"></script>
 
-{{--<script src="http://unpkg.com/turbolinks"></script>--}}
+<script>
+    const FMButton = function(context) {
+        const ui = $.summernote.ui;
+        const button = ui.button({
+                contents: '<i class="note-icon-picture"></i> ',
+                tooltip: 'File Manager',
+                click: function() {
+                window.open('/file-manager/summernote', 'fm', 'width=1400,height=800');
+            }
+        });
+        return button.render();
+    };
+
+    $(".editor-summernote").summernote({
+        height: 400,
+        placeholder: "Type here...",
+        toolbar: [
+            ["style", ["bold", "italic", "underline", "clear"]],
+            ["para", ["ul", "ol", "paragraph"]],
+            ["insert", ["link"]],
+            ["view", ["fullscreen", "codeview", "help"]],
+            ['fm-button', ['fm']],
+        ],
+        buttons: {
+            fm: FMButton
+        },
+        callbacks: {
+            onPaste: function (e) {
+                let bufferText = (e.originalEvent || e).clipboardData.getData("text/plain");
+                e.preventDefault();
+                document.execCommand("insertText", false, bufferText);
+            },
+        },
+        codeviewFilter: true, // Filters unwanted code
+        codeviewIframeFilter: true, // Blocks iframes
+    });
+</script>
 
 @if(session('success'))
     <script type="text/javascript">

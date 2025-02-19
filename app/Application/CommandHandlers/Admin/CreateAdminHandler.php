@@ -19,9 +19,10 @@ class CreateAdminHandler
         try {
             DB::beginTransaction();
             $data = $command->data;
-            if ($data->avatar) {
-                $data->avatar = $data->avatar->store('admin_avatars');
-            }
+
+            $parts = explode("/", $data->avatar);
+            $file = implode('/', array_slice($parts, -2));
+            $data->avatar = $file;
 
             $admin = $this->repository->create([
                 'name' => $data->name,

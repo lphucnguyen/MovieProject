@@ -16,9 +16,9 @@ class FilterByFilm
         $queryParams = $this->queryParams;
 
         $actors =  $actors->where(function ($query) use ($queryParams) {
-            $query->when($queryParams['film'], function ($q) use ($queryParams) {
+            $query->when($queryParams['searchKeyFilm'], function ($q) use ($queryParams) {
                 return $q->whereHas('films', function ($q2) use ($queryParams) {
-                    $q2->whereIn('film_id', (array)$queryParams['film']);
+                    $q2->whereIn('film_id', (array)$queryParams['searchKeyFilm']);
                 });
             });
         });

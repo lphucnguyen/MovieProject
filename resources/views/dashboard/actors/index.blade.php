@@ -84,21 +84,21 @@
                                                 <td>{{date('F d, Y',strtotime($actor->dob))}}</td>
                                                 <td>
                                                     <button title="show overview"
-                                                            value="{{$actor->overview}}"
+                                                            value="{{ strip_tags($actor->overview) }}"
                                                             class="btn btn-icon btn-neutral btn-icon-mini show_overview">
                                                         <i class="zmdi zmdi-reader"></i>
                                                     </button>
                                                 </td>
                                                 <td>
                                                     <button title="show overview"
-                                                            value="{{$actor->biography}}"
+                                                            value="{{ strip_tags($actor->biography) }}"
                                                             class="btn btn-icon btn-neutral btn-icon-mini show_biography">
                                                         <i class="zmdi zmdi-reader"></i>
                                                     </button>
                                                 </td>
                                                 <td>
                                                     @if(auth()->guard('admin')->user()->hasPermission('read_films'))
-                                                        <a href="{{ route('dashboard.films.index', ['actor' => $actor->name]) }}"
+                                                        <a href="{{ route('dashboard.films.index', ['searchKeyActor' => $actor->id]) }}"
                                                            class="btn btn-info btn-sm">{{ __('Phim') }}</a>
                                                     @else
                                                         <button class="btn btn-info btn-sm disabled" style="cursor: no-drop">{{ __('Phim') }}</button>
@@ -169,13 +169,13 @@
 
                     var id = $(this).val();
                     swal({
-                        title: {{ __('Xác nhận') }} + '?',
-                        text: {{ __('Bạn sẽ không thể khôi phục lại') }} + '!',
+                        title: 'Xác nhận ?',
+                        text: 'Bạn sẽ không thể khôi phục lại!',
                         type: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#DD6B55",
-                        confirmButtonText: {{ __('Xoá') }} + "!",
-                        cancelButtonText: {{ __('Huỷ bỏ') }},
+                        confirmButtonText: 'Xoá!',
+                        cancelButtonText: 'Huỷ bỏ',
                         closeOnConfirm: false
                     }, function () {
                         that.closest('form').submit();

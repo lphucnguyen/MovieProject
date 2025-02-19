@@ -23,11 +23,24 @@
         <script>
             const stripe = Stripe('{{ config('services.stripe.key') }}');
 
-            stripe.handleCardAction("{{ $clientSecret }}")
+            stripe.confirmCardPayment("{{ $clientSecret }}")
                 .then(function(result) {
                     if (result.error) {
-                        window.location.replace("{{ route('cancelled') }}");
+                        if (result.error.payment_intent && result.error.payment_intent.status === "requires_action") {
+                            // 3D Secure required → Use handleCardAction
+                            stripe.handleCardAction("{{ $clientSecret }}").then(function(authResult) {
+                                if (authResult.error) {
+                                    window.location.replace("{{ route('cancelled') }}");
+                                }else {
+                                    console.log("Authentication successful, paymentIntent:", authResult.paymentIntent.id);
+                                    window.location.replace("{{ route('approval') }}");
+                                }
+                            });
+                        } else {
+                            window.location.replace("{{ route('cancelled') }}");
+                        }
                     } else {
+                        console.log("Payment successful:", result.paymentIntent.id);
                         window.location.replace("{{ route('approval') }}");
                     }
                 });

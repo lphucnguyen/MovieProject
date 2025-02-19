@@ -2,10 +2,10 @@
 
 namespace App\Domain\Models;
 
-use App\Shared\Traits\ExtendedModel;
-use App\Shared\Traits\Favoritable;
-use App\Shared\Traits\Rateable;
-use App\Shared\Traits\Reviewable;
+use App\Shared\Domain\Concerns\ExtendedModel;
+use App\Shared\Domain\Concerns\Favoritable;
+use App\Shared\Domain\Concerns\Rateable;
+use App\Shared\Domain\Concerns\Reviewable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 

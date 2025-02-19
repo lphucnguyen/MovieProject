@@ -22,20 +22,18 @@ class PayNewOrderHandler
     public function handle(PayNewOrderCommand $command)
     {
         try {
+            cache()->lock(auth()->user()->id . ':payment:send', 120);
+
             $dto = $command->dto;
             $plan = $this->planRepository->get($dto->plan_id);
             $dto->amount = $plan->price;
 
             $order = $this->handleNewOrder($dto->plan_id, $dto->payment_name, $dto->amount);
-            $lock = cache()->lock($order->id . ':payment:send', 120);
-            $dto->lock_owner = $lock->owner();
             $dto->order_id = $order->id;
             $paymentService = $this->paymentResolver->resolveService($dto->payment_name);
-            $response = $paymentService->handlePayment($dto);
+            event(new OrderCreated($order->id));
 
-            event(new OrderCreated($response['paymentId'], $order->id));
-
-            return redirect($response['redirect']);
+            return $paymentService->handlePayment($dto);
         } catch(Exception $e) {
             return redirect()
                 ->back()

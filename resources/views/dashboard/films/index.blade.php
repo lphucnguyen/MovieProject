@@ -107,7 +107,7 @@
                                                 <td>{{$film->year}}</td>
                                                 <td>
                                                     <i class="zmdi zmdi-star"></i> {{round($film->ratings->avg('rating'), 2)}}
-                                                    <a href="{{route('dashboard.ratings.index', ['film' => $film->id])}}"><small style="font-size: 10px">({{$film->ratings->count()}} votes)</small></a>
+                                                    <a href="{{route('dashboard.ratings.index', ['searchKeyFilm' => $film->id])}}"><small style="font-size: 10px">({{$film->ratings->count()}} votes)</small></a>
                                                 </td>
                                                 <td>
                                                     <button title="show overview"
@@ -123,7 +123,7 @@
                                                 </td>
                                                 <td>
                                                     @if(auth()->guard('admin')->user()->hasPermission('read_actors'))
-                                                        <a href="{{ route('dashboard.actors.index', ['film' => $film->id]) }}"
+                                                        <a href="{{ route('dashboard.actors.index', ['searchKeyFilm' => $film->id]) }}"
                                                            class="btn btn-info btn-sm">Diễn viên</a>
                                                     @else
                                                         <button class="btn btn-info btn-sm disabled" style="cursor: no-drop">Films</button>

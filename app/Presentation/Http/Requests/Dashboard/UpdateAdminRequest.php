@@ -3,6 +3,7 @@
 namespace App\Presentation\Http\Requests\Dashboard;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class UpdateAdminRequest extends FormRequest
@@ -28,11 +29,17 @@ class UpdateAdminRequest extends FormRequest
                 'required',
                 'email',
                 'string',
-                Rule::unique('admins')->ignore($this->uuid, 'id')
+                Rule::unique('admins')->ignore($this->email, 'email'),
             ],
-            'avatar' => 'nullable|image',
+            'avatar' => ['required', 'string', function ($attribute, $value, $fail) {
+                $parts = explode("/", $value);
+                $file = implode('/', array_slice($parts, -2));
+
+                if (!Storage::exists($file)) {
+                    $fail(__("Avatar không tồn tại"));
+                }
+            }],
             'password' => 'nullable|string|confirmed|min:6',
-            'permissions' => 'required|min:1'
         ];
     }
 }

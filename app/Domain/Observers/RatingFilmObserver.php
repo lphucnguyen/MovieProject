@@ -7,7 +7,7 @@ use App\Domain\Events\Rating\RatingDeleted;
 use App\Domain\Events\Rating\RatingUpdated;
 
 use App\Domain\Models\Rating;
-use App\Shared\Traits\ModelUpdateable;
+use App\Shared\Domain\Concerns\ModelUpdateable;
 
 class RatingFilmObserver
 {

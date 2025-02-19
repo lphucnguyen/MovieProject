@@ -15,6 +15,7 @@
     ],
     "require": {
         "php": "^8.0",
+        "alexusmai/laravel-file-manager": "^3.2",
         "doctrine/dbal": "^3.0",
         "guzzlehttp/guzzle": "^7.8.1",
         "laravel-workflow/laravel-workflow": "^1.0",

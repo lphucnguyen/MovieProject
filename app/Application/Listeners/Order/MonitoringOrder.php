@@ -10,7 +10,6 @@ use Illuminate\Queue\SerializesModels;
 
 use App\Domain\Enums\Order\OrderStatus;
 use App\Domain\Repositories\IOrderRepository;
-use App\Infrastructure\Services\Payment\PaymentResolver;
 
 class MonitoringOrder implements ShouldQueue
 {
@@ -26,7 +25,6 @@ class MonitoringOrder implements ShouldQueue
      */
     public function __construct(
         private IOrderRepository $orderRepository,
-        private PaymentResolver $paymentResolver
     ) {
     }
 
@@ -41,8 +39,6 @@ class MonitoringOrder implements ShouldQueue
         }
 
         if ($order->olderThan(59)) {
-            $payment = $this->paymentResolver->resolveService($order->payment_name);
-            $payment->cancelPayment($event->paymentIntentId);
             $this->orderRepository->update($order->id, [
                 'status' => OrderStatus::CANCELED->value
             ]);

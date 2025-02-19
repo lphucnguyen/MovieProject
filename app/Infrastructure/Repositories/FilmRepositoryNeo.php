@@ -9,7 +9,7 @@ use App\Shared\Infrastructure\Repositories\BaseRepositoryNeo;
 class FilmRepositoryNeo extends BaseRepositoryNeo implements IFilmRepositoryNeo
 {
     public function __construct(
-        private FilmNeoModel $model
+        FilmNeoModel $model
     ) {
         parent::__construct($model);
     }
