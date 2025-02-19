@@ -21,7 +21,6 @@
                             </div>
                         </div>
                     </li>
-                    {{-- {{request()->routeIs('dashboard.admins.*')}} --}}
                     <li class="{{request()->is('dashboard.home.*') ? "active": ""}}">
                         <a href="{{route('dashboard.home')}}"><i class="zmdi zmdi-home"></i><span>{{ __('Bảng điều khiển') }}</span></a>
                     </li>

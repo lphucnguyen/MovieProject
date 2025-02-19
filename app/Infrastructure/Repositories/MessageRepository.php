@@ -10,7 +10,7 @@ use App\Shared\Infrastructure\Repositories\BaseRepository;
 class MessageRepository extends BaseRepository implements IMessageRepository
 {
     public function __construct(
-        private Message $model
+        Message $model
     ) {
         parent::__construct($model);
     }

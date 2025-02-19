@@ -36,13 +36,6 @@ class Admin extends Authenticatable
     {
         parent::boot();
 
-        // static::deleting(function (Admin $admin) {
-        //     $attributes = $admin->getAttributes();
-        //     if (isset($attributes['avatar']) && $attributes['avatar']) {
-        //         Storage::delete($attributes['avatar']);
-        //     }
-        // });
-
         static::creating(function (Admin $model) {
             $model->id = str()->uuid();
         });

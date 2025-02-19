@@ -10,7 +10,7 @@ use App\Shared\Infrastructure\Repositories\BaseRepository;
 class ReviewRepository extends BaseRepository implements IReviewRepository
 {
     public function __construct(
-        private Review $model
+        Review $model
     ) {
         parent::__construct($model);
     }
@@ -29,12 +29,21 @@ class ReviewRepository extends BaseRepository implements IReviewRepository
                     });
                 });
             })
-            ->orWhere(function ($query) use ($queryParams) {
-                $query->when($queryParams, function ($q) use ($queryParams) {
+            ->where(function ($query) use ($queryParams) {
+                $query->when($queryParams['searchKey'], function ($q) use ($queryParams) {
                     $searchKey = $queryParams['searchKey'];
 
                     return $q->whereHas('film', function ($q2) use ($searchKey) {
                         $q2->where('name', 'LIKE', "%{$searchKey}%");
+                    });
+                });
+            })
+            ->where(function ($query) use ($queryParams) {
+                $query->when($queryParams['client'], function ($q) use ($queryParams) {
+                    $client = $queryParams['client'];
+
+                    return $q->whereHas('user', function ($q2) use ($client) {
+                        $q2->where('id', $client);
                     });
                 });
             })

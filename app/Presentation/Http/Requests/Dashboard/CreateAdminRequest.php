@@ -3,6 +3,7 @@
 namespace App\Presentation\Http\Requests\Dashboard;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
 
 class CreateAdminRequest extends FormRequest
 {
@@ -24,7 +25,14 @@ class CreateAdminRequest extends FormRequest
         return [
             'name' => 'required|string|max:20|min:5',
             'email' => 'required|email|string|unique:admins',
-            'avatar' => 'image',
+            'avatar' => ['required', 'string', function ($attribute, $value, $fail) {
+                $parts = explode("/", $value);
+                $file = implode('/', array_slice($parts, -2));
+
+                if (!Storage::exists($file)) {
+                    $fail(__("Avatar không tồn tại"));
+                }
+            }],
             'password' => 'required|string|confirmed|min:6',
             'permissions' => 'required|min:1'
         ];

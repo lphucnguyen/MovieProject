@@ -92,7 +92,7 @@
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <textarea name="overview" rows="4" class="form-control no-resize"
+                                            <textarea name="overview" rows="4" class="form-control no-resize editor-summernote"
                                                       placeholder="Mô tả phim">{{ old('overview', '') }}</textarea>
                                             <span style="color: red; margin-left: 10px">{{ $errors->first('overview') }}</span>
                                         </div>
@@ -102,55 +102,28 @@
                                     'dashboard.films.add-episode',
                                     ['id' => null]
                                 )
-                                <div class="form-group last mt-5">
-                                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                                        <div class="fileinput-new thumbnail"
-                                             style="width: 200px; height: 150px;">
-                                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image"
-                                                 alt=""/>
-                                        </div>
-                                        <div class="fileinput-preview fileinput-exists thumbnail"
-                                             style="max-width: 200px; max-height: 150px;">
-                                        </div>
-                                        <div>
-                                                <span class="btn btn-dark btn-file">
-                                                    <span class="fileinput-new"> Chọn ảnh bìa </span>
-                                                    <span class="fileinput-exists"> Thay đổi </span>
-                                                    <input type="file" name="background_cover"
-                                                           value="{{ old('background_cover', '') }}">
-                                                </span>
-                                            <a href="" class="btn btn-danger fileinput-exists"
-                                               data-dismiss="fileinput">
-                                                Xoá </a>
-                                        </div>
-                                        <span style="color: red; margin-left: 10px">{{ $errors->first('background_cover') }}</span>
-                                    </div>
+                                <div class="header col-lg-12 col-md-12 col-sm-12">
+                                    <h2>Hình ảnh về phim</h2>
                                 </div>
-
-
+                                <div class="form-group last mt-5">
+                                    <img class="fileinput-preview fileinput-exists thumbnail preview-image-background_cover"
+                                             style="max-width: 200px; max-height: 150px;" src="{{ asset('images/no-image.jpg'); }}">
+                                    <span class="btn btn-dark btn-file select-background_cover-file">
+                                        <span class="fileinput-new"> Chọn ảnh bìa </span>
+                                        <input type="hidden" name="background_cover" class="background_cover-file"
+                                               value="{{ old('background_cover', '') }}">
+                                    </span>
+                                    <span style="color: red; margin-left: 10px; display: block;">{{ $errors->first('background_cover') }}</span>
+                                </div>
                                 <div class="form-group last">
-                                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                                        <div class="fileinput-new thumbnail"
-                                             style="width: 200px; height: 150px;">
-                                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image"
-                                                 alt=""/>
-                                        </div>
-                                        <div class="fileinput-preview fileinput-exists thumbnail"
-                                             style="max-width: 200px; max-height: 150px;">
-                                        </div>
-                                        <div>
-                                                <span class="btn btn-dark btn-file">
-                                                    <span class="fileinput-new"> Chọn ảnh poster </span>
-                                                    <span class="fileinput-exists"> Thay đổi </span>
-                                                    <input type="file" name="poster"
-                                                           value="{{ old('poster', '') }}">
-                                                </span>
-                                            <a href="" class="btn btn-danger fileinput-exists"
-                                               data-dismiss="fileinput">
-                                                Xoá </a>
-                                        </div>
-                                        <span style="color: red; margin-left: 10px">{{ $errors->first('poster') }}</span>
-                                    </div>
+                                    <img class="fileinput-preview fileinput-exists thumbnail preview-image-poster"
+                                             style="max-width: 200px; max-height: 150px;" src="{{ asset('images/no-image.jpg'); }}">
+                                    <span class="btn btn-dark btn-file select-poster-file">
+                                        <span class="fileinput-new"> Chọn ảnh poster </span>
+                                        <input type="hidden" name="poster" class="poster-file"
+                                               value="{{ old('poster', '') }}">
+                                    </span>
+                                    <span style="color: red; margin-left: 10px; display: block;">{{ $errors->first('poster') }}</span>
                                 </div>
 
                                 <div class="row clearfix">
@@ -171,6 +144,36 @@
 
     @push('scripts')
         <script src="{{asset('web_files/js/bootstrap-fileinput.js')}}"></script>
+        <script>
+            let file = '';
+
+            $('.select-background_cover-file').on('click', function (event) {
+                event.preventDefault();
+
+                file = "background_cover-file";
+                window.open('/file-manager/fm-button', 'FileManager', 'width=900,height=600');
+            });
+
+            $(".select-poster-file").click(function (event) {
+                event.preventDefault();
+
+                file = "poster-file";
+                window.open('/file-manager/fm-button', 'FileManager', 'width=900,height=600');
+            });
+
+
+            function fmSetLink(url) {
+                if (file === 'background_cover-file') {
+                    $('.background_cover-file').attr('value', url);
+                    $('.preview-image-background_cover').attr('src', url);
+                } else if (file === 'poster-file') {
+                    $('.poster-file').attr('value', url);
+                    $('.preview-image-poster').attr('src', url);
+                } else {
+                    $('.editor-summernote').summernote('insertImage', url);
+                }
+            }
+        </script>
     @endpush
 
 @endsection

@@ -10,7 +10,7 @@ use App\Shared\Infrastructure\Repositories\BaseRepository;
 class FavoriteRepository extends BaseRepository implements IFavoriteRepository
 {
     public function __construct(
-        private Favorite $model
+        Favorite $model
     ) {
         parent::__construct($model);
     }

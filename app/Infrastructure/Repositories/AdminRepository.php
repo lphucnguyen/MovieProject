@@ -10,7 +10,7 @@ use App\Shared\Infrastructure\Repositories\BaseRepository;
 class AdminRepository extends BaseRepository implements IAdminRepository
 {
     public function __construct(
-        private Admin $model
+        Admin $model
     ) {
         parent::__construct($model);
     }

@@ -9,5 +9,4 @@ class PaypalDTO extends BaseDTO {
     public string $payment_name;
     public string $plan_id;
     public string|null $order_id;
-    public string $lock_owner;
 }

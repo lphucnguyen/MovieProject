@@ -3,6 +3,7 @@
 namespace App\Presentation\Http\Requests\Dashboard;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
 
 class CreateUserRequest extends FormRequest
 {
@@ -26,7 +27,14 @@ class CreateUserRequest extends FormRequest
             'last_name' => 'required|string|max:15|min:3',
             'email' => 'required|string|email',
             'username' => 'required|unique:users|string|max:15|min:3',
-            'avatar' => 'image',
+            'avatar' => ['required', 'string', function ($attribute, $value, $fail) {
+                $parts = explode("/", $value);
+                $file = implode('/', array_slice($parts, -2));
+
+                if (!Storage::exists($file)) {
+                    $fail(__("Avatar không tồn tại"));
+                }
+            }],
             'password' => 'required|string|confirmed|min:6',
         ];
     }

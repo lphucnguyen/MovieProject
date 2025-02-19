@@ -20,7 +20,7 @@ class CancelOrderHandler
             return redirect()->back()->with('error', __('Đơn hàng đã hoàn thành hoặc huỷ'));
         }
 
-        $lock = cache()->lock($command->uuid . ':payment:send', 120);
+        $lock = cache()->lock(auth()->user()->id . ':payment:send', 120);
         if (!$lock->get()) {
             return redirect()
                 ->back()

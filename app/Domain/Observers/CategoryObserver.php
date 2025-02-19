@@ -7,7 +7,7 @@ use App\Domain\Events\Category\CategoryDeleted;
 use App\Domain\Events\Category\CategoryUpdated;
 
 use App\Domain\Models\Category;
-use App\Shared\Traits\ModelUpdateable;
+use App\Shared\Domain\Concerns\ModelUpdateable;
 
 class CategoryObserver
 {

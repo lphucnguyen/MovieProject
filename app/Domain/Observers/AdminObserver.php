@@ -12,16 +12,17 @@ class AdminObserver
         $model->id = str()->uuid();
     }
 
-    public function deleting(Admin $model)
-    {
-        $attributes = $model->getAttributes();
-        Storage::delete($attributes['avatar']);
-    }
+    // public function deleting(Admin $model)
+    // {
+    //     if ($model->getRawOriginal('avatar') !== null) {
+    //         Storage::delete($model->getRawOriginal('avatar'));
+    //     }
+    // }
 
-    public function updating(Admin $model)
-    {
-        if ($model->isDirty('avatar')) {
-            Storage::delete($model->getRawOriginal('avatar'));
-        }
-    }
+    // public function updating(Admin $model)
+    // {
+    //     if ($model->isDirty('avatar') && $model->getRawOriginal('avatar') !== null) {
+    //         Storage::delete($model->getRawOriginal('avatar'));
+    //     }
+    // }
 }

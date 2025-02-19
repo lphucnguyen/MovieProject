@@ -8,7 +8,7 @@ use App\Domain\Repositories\IRatingRepositoryNeo;
 class RatingRepositoryNeo implements IRatingRepositoryNeo
 {
     public function __construct(
-        private RatingNeoModel $model
+        protected RatingNeoModel $model
     ) {
     }
 

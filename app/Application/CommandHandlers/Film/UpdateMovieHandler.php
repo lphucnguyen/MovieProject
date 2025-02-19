@@ -20,25 +20,21 @@ class UpdateMovieHandler
             DB::beginTransaction();
             $uuid = $command->uuid;
             $data = $command->data;
-            $film = $this->repository->getToUpdate($uuid);
+            $film = $this->repository->getWithLock($uuid);
 
-            if ($data->poster) {
-                $data->poster = $data->poster->store('film_posters');
-            } else {
-                unset($data->poster);
-            }
+            $parts = explode("/", $data->poster);
+            $file = implode('/', array_slice($parts, -2));
+            $data->poster = $file;
 
-            if ($data->background_cover) {
-                $data->background_cover = $data->background_cover->store('film_background_covers');
-            } else {
-                unset($data->background_cover);
-            }
+            $parts = explode("/", $data->background_cover);
+            $file = implode('/', array_slice($parts, -2));
+            $data->background_cover = $file;
 
-            $attributes = $data->toArray();
+            $data->overview = strip_tags($data->overview, config('app.allowTags'));
 
-            $film->update($attributes);
-            $film->categories()->sync($attributes['categories']);
-            $film->actors()->sync($attributes['actors']);
+            $film->update($data->toArray());
+            $film->categories()->sync($data->categories);
+            $film->actors()->sync($data->actors);
 
             $id = $film->id;
             $episodes = array_map(function ($url, $apiUrl) use ($id) {
@@ -48,7 +44,7 @@ class UpdateMovieHandler
                     'api_url' => $apiUrl ? $apiUrl : '',
                     'film_id' => $id
                 ];
-            }, $attributes['url'], $attributes['api_url']);
+            }, $data->url, $data->api_url);
 
             $film->episodes()->delete();
             $film->episodes()->insert($episodes);

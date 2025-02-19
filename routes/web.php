@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'user'], function () {
     ->name('user-profile');
     Route::get('/change_password', \App\Presentation\Http\Controllers\User\ShowChangePasswordController::class)
     ->name('user-password');
-    Route::any('logout', 'Auth\LoginController@logout')
+    Route::any('logout', [\App\Presentation\Http\Controllers\Auth\LoginController::class, 'logout'])
     ->name('user.logout');
     Route::put('/change_password/{uuid}', \App\Presentation\Http\Controllers\User\ChangePasswordController::class)
     ->name('user.change-password');
@@ -63,13 +63,15 @@ Route::group(['middleware' => 'auth', 'prefix' => 'user'], function () {
     ->name('user.add-review');
     Route::delete('/review/{uuid}', \App\Presentation\Http\Controllers\User\RemoveReviewController::class)
     ->name('user.remove-review');
+
+    // Approval Payment
+    Route::get('/approval', \App\Presentation\Http\Controllers\Payment\ApprovalController::class)
+    ->name('approval');
 });
 
 Route::group(['middleware' => ['auth', 'unsubcribed'], 'prefix' => 'payment'], function () {
     Route::post('/pay', \App\Presentation\Http\Controllers\Payment\PayController::class)
     ->name('pay');
-    Route::get('/approval', \App\Presentation\Http\Controllers\Payment\ApprovalController::class)
-    ->name('approval');
     Route::get('/cancelled', \App\Presentation\Http\Controllers\Payment\CancelledController::class)
     ->name('cancelled');
 });

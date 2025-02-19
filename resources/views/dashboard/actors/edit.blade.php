@@ -62,70 +62,49 @@
                                 </div>
 
                                 <div class="row clearfix">
+                                    <div class="header col-lg-12 col-md-12 col-sm-12">
+                                        <h2>{{ __('Tổng quan về diễn viên') }}</h2>
+                                    </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <textarea name="overview" rows="4" class="form-control no-resize"
-                                                      placeholder="{{ __('Giới thiệu') }}">{{ $actor->overview }}</textarea>
+                                            <textarea name="overview" rows="4" class="form-control no-resize editor-summernote"
+                                                      >{{ old('overview', $actor->overview) }}</textarea>
                                             <span style="color: red; margin-left: 10px">{{ $errors->first('overview') }}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row clearfix">
+                                    <div class="header col-lg-12 col-md-12 col-sm-12">
+                                        <h2>{{ __('Tiểu sử của diễn viên') }}</h2>
+                                    </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <textarea name="biography" rows="4" class="form-control no-resize"
-                                                      placeholder="{{ __('Tiểu sử') }}">{{ $actor->biography }}</textarea>
+                                            <textarea name="biography" rows="4" class="form-control no-resize editor-summernote"
+                                                    >{{ old('biography', $actor->biography) }}</textarea>
                                             <span style="color: red; margin-left: 10px">{{ $errors->first('biography') }}</span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="form-group last">
-                                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                                        <div class="fileinput-new thumbnail"
-                                             style="width: 200px; height: 150px;">
-                                            <img src="{{$actor->avatar}}"
-                                                 alt=""/>
-                                        </div>
-                                        <div class="fileinput-preview fileinput-exists thumbnail"
-                                             style="max-width: 200px; max-height: 150px;">
-                                        </div>
-                                        <div>
-                                                <span class="btn btn-dark btn-file">
-                                                    <span class="fileinput-new">{{ __('Chọn ảnh đại diện') }}</span>
-                                                    <span class="fileinput-exists">{{ __('Thay đổi') }}</span>
-                                                    <input type="file" name="avatar"
-                                                           value="{{$actor->avatar}}">
-                                                </span>
-                                            <a href="" class="btn btn-danger fileinput-exists"
-                                               data-dismiss="fileinput">{{ __('Xoá') }}</a>
-                                        </div>
-                                        <span style="color: red; margin-left: 10px">{{ $errors->first('avatar') }}</span>
-                                    </div>
+                                <div class="form-group last mt-5">
+                                    <img class="fileinput-preview fileinput-exists thumbnail preview-image-background_cover"
+                                             style="max-width: 200px; max-height: 150px;" src="{{ $actor->background_cover }}">
+                                    <span class="btn btn-dark btn-file select-background_cover-file">
+                                        <span class="fileinput-new">{{ __('Chọn ảnh nền diễn viên')}}</span>
+                                        <input type="hidden" name="background_cover" class="background_cover-file"
+                                               value="{{ old('background_cover', $actor->background_cover) }}">
+                                    </span>
+                                    <span style="color: red; margin-left: 10px; display: block;">{{ $errors->first('background_cover') }}</span>
                                 </div>
-
                                 <div class="form-group last">
-                                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                                        <div class="fileinput-new thumbnail"
-                                             style="width: 200px; height: 150px;">
-                                            <img src="{{$actor->background_cover}}"
-                                                 alt=""/>
-                                        </div>
-                                        <div class="fileinput-preview fileinput-exists thumbnail"
-                                             style="max-width: 200px; max-height: 150px;">
-                                        </div>
-                                        <div>
-                                                <span class="btn btn-dark btn-file">
-                                                    <span class="fileinput-new">{{ __('Chọn ảnh nền') }}</span>
-                                                    <span class="fileinput-exists">{{ __('Thay đổi') }}</span>
-                                                    <input type="file" name="background_cover"
-                                                           value="{{$actor->background_cover}}">
-                                                </span>
-                                            <a href="" class="btn btn-danger fileinput-exists"
-                                               data-dismiss="fileinput">{{ __('Xoá') }}</a>
-                                        </div>
-                                        <span style="color: red; margin-left: 10px">{{ $errors->first('background_cover') }}</span>
-                                    </div>
+                                    <img class="fileinput-preview fileinput-exists thumbnail preview-image-avatar"
+                                             style="max-width: 200px; max-height: 150px;" src="{{ $actor->avatar }}">
+                                    <span class="btn btn-dark btn-file select-avatar-file">
+                                        <span class="fileinput-new">{{ __('Chọn ảnh nền diễn viên')}}</span>
+                                        <input type="hidden" name="avatar" class="avatar-file"
+                                               value="{{ old('avatar', $actor->avatar) }}">
+                                    </span>
+                                    <span style="color: red; margin-left: 10px; display: block;">{{ $errors->first('avatar') }}</span>
                                 </div>
 
                                 <div class="row clearfix">
@@ -145,6 +124,36 @@
 
     @push('scripts')
         <script src="{{asset('web_files/js/bootstrap-fileinput.js')}}"></script>
+        <script>
+            let file = '';
+
+            $('.select-background_cover-file').on('click', function (event) {
+                event.preventDefault();
+
+                file = "background_cover-file";
+                window.open('/file-manager/fm-button', 'FileManager', 'width=900,height=600');
+            });
+
+            $(".select-avatar-file").click(function (event) {
+                event.preventDefault();
+
+                file = "avatar-file";
+                window.open('/file-manager/fm-button', 'FileManager', 'width=900,height=600');
+            });
+
+
+            function fmSetLink(url) {
+                if (file === 'background_cover-file') {
+                    $('.background_cover-file').attr('value', url);
+                    $('.preview-image-background_cover').attr('src', url);
+                } else if (file === 'avatar-file') {
+                    $('.avatar-file').attr('value', url);
+                    $('.preview-image-avatar').attr('src', url);
+                } else {
+                    $('.editor-summernote').summernote('insertImage', url);
+                }
+            }
+        </script>
     @endpush
 
 @endsection

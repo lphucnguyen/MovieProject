@@ -35,35 +35,6 @@
                         </div>
                         <div class="body">
                             <form action="{{ route('dashboard.ratings.index') }}" method="GET">
-                                {{-- <div class="row clearfix">
-                                    <div class="col-4">
-                                        <select name="client" class="form-control z-index show-tick"
-                                                data-live-search="true">
-                                            <option value="" selected>-Tất cả khách hàng-</option>
-                                            @foreach($clients as $client)
-                                                <option value="{{$client->id}}" {{request()->client == $client->id ? 'selected' : ''}}>{{$client->username}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-4">
-                                        <select name="film" class="form-control z-index show-tick"
-                                                data-live-search="true">
-                                            <option value="" selected>-Tất cả phim-</option>
-                                            @foreach($films as $film)
-                                                <option value="{{$film->id}}" {{request()->film == $film->id ? 'selected' : ''}}>{{$film->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-4">
-                                        <select name="rating" class="form-control z-index show-tick"
-                                                data-live-search="true">
-                                            <option value="" selected>-Tất cả đánh giá-</option>
-                                            @for($i = 1; $i <= 10; $i++)
-                                                <option value="{{$i}}" {{request()->rating == $i ? 'selected' : ''}}>{{$i}}</option>
-                                            @endfor
-                                        </select>
-                                    </div>
-                                </div> --}}
                                 <div class="row clearfix">
                                     <div class="input-group" style="margin-bottom: 0px">
                                         <input type="text" class="form-control" placeholder="Tìm kiếm..."
@@ -73,7 +44,6 @@
                                         </button>
                                     </div>
                                 </div>
-                                {{-- <button style="margin-top: 10px" type="submit" class="btn btn-primary">Search</button> --}}
                             </form>
 
                             <div class="tab-content m-t-10">

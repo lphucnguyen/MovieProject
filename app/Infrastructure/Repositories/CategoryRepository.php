@@ -3,14 +3,15 @@
 namespace App\Infrastructure\Repositories;
 
 use App\Domain\Models\Category;
-
+use App\Domain\Models\Film;
 use App\Domain\Repositories\ICategoryRepository;
 use App\Shared\Infrastructure\Repositories\BaseRepository;
+use Illuminate\Support\Facades\DB;
 
 class CategoryRepository extends BaseRepository implements ICategoryRepository
 {
     public function __construct(
-        private Category $model
+        Category $model
     ) {
         parent::__construct($model);
     }
@@ -28,8 +29,25 @@ class CategoryRepository extends BaseRepository implements ICategoryRepository
 
     public function getLatestCategoriesWithFilms(int $limitCategory, int $limitFilm)
     {
-        return $this->model->with(['films' => function ($query) use ($limitFilm) {
-            $query->limit($limitFilm);
-        }])->limit($limitCategory)->get();
+        $categories = $this->model->select('id')->limit($limitCategory)->get();
+
+        foreach ($categories as $category) {
+            $movies = DB::select("
+                SELECT DISTINCT f.*
+                FROM films f
+                INNER JOIN film_category fc ON f.id = fc.film_id
+                INNER JOIN categories c ON fc.category_id = c.id
+                WHERE c.id = ?
+                LIMIT ?
+            ", [$category->id, $limitFilm]);
+
+            $movies = collect($movies)->map(function ($movie) {
+                return new Film((array) $movie);
+            });
+
+            $category->setRelation('films', $movies);
+        }
+
+        return $categories;
     }
 }

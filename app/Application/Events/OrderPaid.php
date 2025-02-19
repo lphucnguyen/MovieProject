@@ -13,10 +13,8 @@ class OrderPaid
      * Create a new event instance.
      */
     public function __construct(
-        public string $orderId,
-        public string $planId,
-        public string $lockOwner,
-        public string $paymentId
+        public string $email,
+        public string $orderId
     ) {
     }
 }

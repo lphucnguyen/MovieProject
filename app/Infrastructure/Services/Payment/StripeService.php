@@ -2,10 +2,10 @@
 
 namespace App\Infrastructure\Services\Payment;
 
-use App\Application\DTOs\Payment\ApprovalPaymentDTO;
+use App\Application\DTOs\Payment\ApprovalPaymentStripeDTO;
 use App\Shared\Application\DTOs\BaseDTO;
 use App\Application\DTOs\Payment\StripeDTO;
-use App\Shared\Traits\ConsumeExternalService;
+use App\Shared\Infrastructure\Concerns\ConsumeExternalService;
 use InvalidArgumentException;
 
 class StripeService implements IPaymentService
@@ -31,50 +31,37 @@ class StripeService implements IPaymentService
             throw new InvalidArgumentException('Expected StripeDTO');
         }
 
-        $intent = $this->createIntent(
+        $session = $this->createSesssion(
             $stripeDTO->amount,
             config('services.currency'),
-            $stripeDTO->payment_method,
-        );
-
-        session()->put('paymentIntentId', $intent->id);
-
-        return [
-            'paymentId' => $intent->id,
-            'redirect' => route('approval', [
+            route('approval', [
                 'plan_id' => $stripeDTO->plan_id,
-                'lock_owner' => $stripeDTO->lock_owner,
                 'order_id' => $stripeDTO->order_id,
                 'payment_name' => $stripeDTO->payment_name,
-            ]),
-        ];
+            ]) . '&session_id={CHECKOUT_SESSION_ID}',
+            route('cancelled'),
+        );
+
+        return redirect($session->url);
     }
 
     public function handleApproval(BaseDTO $approvalDTO)
     {
-        if (!($approvalDTO instanceof ApprovalPaymentDTO)) {
+        if (!($approvalDTO instanceof ApprovalPaymentStripeDTO)) {
             throw new InvalidArgumentException('Expected ApprovalPaymentDTO');
         }
 
-        if (session()->has('paymentIntentId')) {
-            $paymentIntentId = session()->get('paymentIntentId');
+        try {
+            $session = $this->getSession($approvalDTO->session_id);
 
-            $confirmation = $this->confirmPayment($paymentIntentId);
-
-            if ($confirmation->status === 'requires_action') {
-                $clientSecret = $confirmation->client_secret;
-
-                return view('stripe.3d-secure')->with([
-                    'clientSecret' => $clientSecret,
-                ]);
+            if ($session->status == 'complete') {
+                return $session->payment_intent;
+            } else {
+                throw new \Exception();
             }
-
-            if ($confirmation->status === 'succeeded') {
-                return $paymentIntentId;
-            }
+        } catch(\Exception $e) {
+            throw new \Exception('Handle Payment Fail');
         }
-
-        throw new \Exception('Payment Id is not valid');
     }
 
     public function resolveAuthorization(&$queryParams, &$formParams, &$headers)
@@ -107,6 +94,79 @@ class StripeService implements IPaymentService
         );
     }
 
+    public function createSesssion($value, $currency, $returnUrl, $cancelUrl)
+    {
+        $checkoutSession = $this->makeRequest(
+            'POST',
+            '/v1/checkout/sessions',
+            [],
+            [
+                'line_items' => [
+                    [
+                        'price_data' => [
+                            'currency' => strtolower($currency),
+                            'product_data' => [
+                                'name' => 'Upgrade User',
+                            ],
+                            'unit_amount' => $value * 100,
+                        ],
+                        'quantity' => 1,
+                    ],
+                ],
+                'payment_method_types' => ['card'],
+                'payment_intent_data' => [
+                    'capture_method' => 'manual',
+                ],
+                'mode' => 'payment',
+                'success_url' => $returnUrl,
+                'cancel_url' => $cancelUrl,
+            ]
+        );
+
+        return $checkoutSession;
+    }
+
+    public function createAuthorization($value, $currency, $paymentMethod)
+    {
+        return $this->makeRequest(
+            'POST',
+            '/v1/payment_intents',
+            [],
+            [
+                'amount' => round($value * $this->resolveFactor($currency)),
+                'currency' => strtolower($currency),
+                'payment_method' => $paymentMethod,
+                'capture_method' => 'manual',
+            ]
+        );
+    }
+
+    public function getPayment($paymentIntentId)
+    {
+        return $this->makeRequest(
+            'GET',
+            "/v1/payment_intents/{$paymentIntentId}",
+            [],
+            [],
+            [
+                'Content-Type' => 'application/json'
+            ],
+        );
+    }
+
+    public function getSession($sessionToken)
+    {
+        return $this->makeRequest(
+            'GET',
+            "/v1/checkout/sessions/{$sessionToken}",
+            [],
+            [],
+            [
+                'Content-Type' => 'application/json'
+            ],
+        );
+    }
+
     private function resolveFactor($currency)
     {
         $zeroDecimalCurrencies = ['JPY'];
@@ -127,6 +187,32 @@ class StripeService implements IPaymentService
             [
                 'return_url' => route('approval'),
             ]
+        );
+    }
+
+    public function captureAuthorization($authorizeId)
+    {
+        return $this->makeRequest(
+            'POST',
+            "/v1/payment_intents/{$authorizeId}/capture",
+            [],
+            [],
+            [
+                'Content-Type' => 'application/json'
+            ],
+        );
+    }
+
+    public function declineAuthorization($authorizeId)
+    {
+        return $this->makeRequest(
+            'POST',
+            "/v1/payment_intents/{$authorizeId}/decline",
+            [],
+            [],
+            [
+                'Content-Type' => 'application/json'
+            ],
         );
     }
 

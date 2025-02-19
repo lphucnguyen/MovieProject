@@ -9,7 +9,7 @@ use App\Shared\Infrastructure\Repositories\BaseRepository;
 class OrderRepository extends BaseRepository implements IOrderRepository
 {
     public function __construct(
-        private Order $model
+        Order $model
     ) {
         parent::__construct($model);
     }

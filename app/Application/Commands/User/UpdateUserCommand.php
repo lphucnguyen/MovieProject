@@ -2,13 +2,13 @@
 
 namespace App\Application\Commands\User;
 
-use App\Application\DTOs\User\CreateUserDTO;
+use App\Application\DTOs\User\UpdateUserDTO;
 
 class UpdateUserCommand
 {
     public function __construct(
         public string $uuid,
-        public CreateUserDTO $data
+        public UpdateUserDTO $data
     ) {
     }
 }

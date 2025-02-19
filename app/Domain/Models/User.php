@@ -2,7 +2,7 @@
 
 namespace App\Domain\Models;
 
-use App\Shared\Traits\ExtendedModel;
+use App\Shared\Domain\Concerns\ExtendedModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;

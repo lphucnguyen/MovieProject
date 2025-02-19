@@ -4,7 +4,6 @@ namespace App\Application\CommandHandlers\Actor;
 
 use App\Application\Commands\Actor\CreateActorCommand;
 use App\Domain\Repositories\IActorRepository;
-use Illuminate\Support\Facades\Storage;
 
 class CreateActorHandler
 {
@@ -16,8 +15,16 @@ class CreateActorHandler
     public function handle(CreateActorCommand $command)
     {
         $data = $command->data;
-        $data->avatar = $data->avatar->store('actor_avatars');
-        $data->background_cover = $data->background_cover->store('actor_background_covers');
+        $parts = explode("/", $data->avatar);
+        $file = implode('/', array_slice($parts, -2));
+        $data->avatar = $file;
+
+        $parts = explode("/", $data->background_cover);
+        $file = implode('/', array_slice($parts, -2));
+        $data->background_cover = $file;
+
+        $data->overview = strip_tags($data->overview, config('app.allowTags'));
+        $data->biography = strip_tags($data->biography, config('app.allowTags'));
 
         $this->repository->create($data->toArray());
     }

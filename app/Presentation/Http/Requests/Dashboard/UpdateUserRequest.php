@@ -3,6 +3,7 @@
 namespace App\Presentation\Http\Requests\Dashboard;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
@@ -28,11 +29,18 @@ class UpdateUserRequest extends FormRequest
                 'required',
                 'string',
                 'email',
-                Rule::unique('users')->ignore($this->uuid, 'id'),
+                Rule::unique('users')->ignore($this->email, 'email'),
             ],
             'first_name' => 'required|string|max:15|min:3',
             'last_name' => 'required|string|max:15|min:3',
-            'avatar' => 'image',
+            'avatar' => ['required', 'string', function ($attribute, $value, $fail) {
+                $parts = explode("/", $value);
+                $file = implode('/', array_slice($parts, -2));
+
+                if (!Storage::exists($file)) {
+                    $fail(__("Avatar không tồn tại"));
+                }
+            }],
             'password' => 'nullable|string|confirmed|min:6',
         ];
     }

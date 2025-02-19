@@ -10,7 +10,7 @@ use App\Shared\Infrastructure\Repositories\BaseRepository;
 class UserRepository extends BaseRepository implements IUserRepository
 {
     public function __construct(
-        private User $model
+        User $model
     ) {
         parent::__construct($model);
     }

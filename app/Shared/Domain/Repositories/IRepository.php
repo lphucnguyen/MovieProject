@@ -10,7 +10,7 @@ interface IRepository
 
     public function get($uuid);
 
-    public function getToUpdate($uuid);
+    public function getWithLock($uuid);
 
     public function paginate($perPage);
 

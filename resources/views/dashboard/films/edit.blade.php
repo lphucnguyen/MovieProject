@@ -98,7 +98,7 @@
                                             <h2>Tổng quan về phim</h2>
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="overview" rows="4" class="form-control no-resize"
+                                            <textarea name="overview" rows="4" class="form-control no-resize editor-summernote"
                                                       placeholder="Mô tả phim">{{ $film->overview }}</textarea>
                                             <span style="color: red; margin-left: 10px">{{ $errors->first('overview') }}</span>
                                         </div>
@@ -111,78 +111,31 @@
                                 <span style="color: red;margin-left: 10px">{{ $errors->first('api_url') }}</span>
                                 <br>
                                 <span style="color: red;margin-left: 10px">{{ $errors->first('url') }}</span>
-                                <div class="row clearfix">
-                                    {{-- <div class="col-sm-12">
-                                        <div class="header col-lg-12 col-md-12 col-sm-12">
-                                            <h2>Video phim</h2>
-                                        </div>
-                                    </div> --}}
-                                    {{-- <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <textarea name="url" rows="4" class="form-control no-resize"
-                                                      placeholder="Embed Code From JWPlayer Server">{{ $film->url }}</textarea>
-                                            <span style="color: red; margin-left: 10px">{{ $errors->first('url') }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <textarea name="api_url" rows="4" class="form-control no-resize"
-                                                      placeholder="API URL">{{ $film->api_url }}</textarea>
-                                            <span style="color: red; margin-left: 10px">{{ $errors->first('api_url') }}</span>
-                                        </div>
-                                    </div> --}}
-                                </div>
 
                                 <div class="header col-lg-12 col-md-12 col-sm-12">
                                     <h2>Hình ảnh về phim</h2>
                                 </div>
-                                <div class="form-group last">
-                                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                                        <div class="fileinput-new thumbnail"
-                                             style="width: 200px; height: 150px;">
-                                            <img src="{{$film->background_cover}}"
-                                                 alt=""/>
-                                        </div>
-                                        <div class="fileinput-preview fileinput-exists thumbnail"
-                                             style="max-width: 200px; max-height: 150px;">
-                                        </div>
-                                        <div>
-                                                <span class="btn btn-dark btn-file">
-                                                    <span class="fileinput-new"> Thay đổi ảnh bìa </span>
-                                                    <span class="fileinput-exists"> Thay đổi </span>
-                                                    <input type="file" name="background_cover"
-                                                           value="{{$film->background_cover}}">
-                                                </span>
-                                            <a href="" class="btn btn-danger fileinput-exists"
-                                               data-dismiss="fileinput">
-                                                Xoá </a>
-                                        </div>
-                                        <span style="color: red; margin-left: 10px">{{ $errors->first('background_cover') }}</span>
-                                    </div>
+                                <div class="form-group last mt-5">
+                                    <img class="fileinput-preview fileinput-exists thumbnail preview-image-background_cover"
+                                             style="max-width: 200px; max-height: 150px;" src="{{ old('background_cover', $film->background_cover) }}">
+                                    <span class="btn btn-dark btn-file select-background_cover-file">
+                                        <span class="fileinput-new"> Chọn ảnh bìa </span>
+                                        <input type="hidden" name="background_cover" class="background_cover-file"
+                                               value="{{ old('background_cover', $film->background_cover) }}">
+                                    </span>
+                                    <span style="color: red; margin-left: 10px; display: block;">{{ $errors->first('background_cover') }}</span>
                                 </div>
+
+
                                 <div class="form-group last">
-                                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                                        <div class="fileinput-new thumbnail"
-                                             style="width: 200px; height: 150px;">
-                                            <img src="{{$film->poster}}"
-                                                 alt=""/>
-                                        </div>
-                                        <div class="fileinput-preview fileinput-exists thumbnail"
-                                             style="max-width: 200px; max-height: 150px;">
-                                        </div>
-                                        <div>
-                                                <span class="btn btn-dark btn-file">
-                                                    <span class="fileinput-new"> Chọn ảnh poster </span>
-                                                    <span class="fileinput-exists"> Thay đổi </span>
-                                                    <input type="file" name="poster"
-                                                           value="{{$film->poster}}">
-                                                </span>
-                                            <a href="" class="btn btn-danger fileinput-exists"
-                                               data-dismiss="fileinput">
-                                                Xoá </a>
-                                        </div>
-                                        <span style="color: red; margin-left: 10px">{{ $errors->first('poster') }}</span>
-                                    </div>
+                                    <img class="fileinput-preview fileinput-exists thumbnail preview-image-poster"
+                                             style="max-width: 200px; max-height: 150px;" src="{{ old('poster', $film->poster) }}">
+                                    <span class="btn btn-dark btn-file select-poster-file">
+                                        <span class="fileinput-new"> Chọn ảnh poster </span>
+                                        <input type="hidden" name="poster" class="poster-file"
+                                               value="{{ old('poster', $film->poster) }}">
+                                    </span>
+                                    <span style="color: red; margin-left: 10px; display: block;">{{ $errors->first('poster') }}</span>
                                 </div>
 
                                 <div class="row clearfix">
@@ -203,6 +156,36 @@
 
     @push('scripts')
         <script src="{{asset('web_files/js/bootstrap-fileinput.js')}}"></script>
+        <script>
+            let file = '';
+
+            $('.select-background_cover-file').on('click', function (event) {
+                event.preventDefault();
+
+                file = "background_cover-file";
+                window.open('/file-manager/fm-button', 'FileManager', 'width=900,height=600');
+            });
+
+            $(".select-poster-file").click(function (event) {
+                event.preventDefault();
+
+                file = "poster-file";
+                window.open('/file-manager/fm-button', 'FileManager', 'width=900,height=600');
+            });
+
+
+            function fmSetLink(url) {
+                if (file === 'background_cover-file') {
+                    $('.background_cover-file').attr('value', url);
+                    $('.preview-image-background_cover').attr('src', url);
+                } else if (file === 'poster-file') {
+                    $('.poster-file').attr('value', url);
+                    $('.preview-image-poster').attr('src', url);
+                } else {
+                    $('.editor-summernote').summernote('insertImage', url);
+                }
+            }
+        </script>
     @endpush
 
 @endsection

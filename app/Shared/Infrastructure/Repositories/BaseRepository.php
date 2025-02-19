@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class BaseRepository implements IRepository
 {
     public function __construct(
-        private Model $model
+        protected Model $model
     ) {
     }
 
@@ -27,7 +27,7 @@ class BaseRepository implements IRepository
         return $this->model->findOrFail($uuid);
     }
 
-    public function getToUpdate($uuid)
+    public function getWithLock($uuid)
     {
         return $this->model->lockForUpdate()->findOrFail($uuid);
     }

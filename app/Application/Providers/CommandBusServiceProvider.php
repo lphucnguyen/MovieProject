@@ -77,6 +77,10 @@ class CommandBusServiceProvider extends ServiceProvider
             \App\Application\CommandHandlers\Admin\DeleteAdminHandler::class,
             \App\Application\Commands\Admin\UpdateAdminCommand::class =>
             \App\Application\CommandHandlers\Admin\UpdateAdminHandler::class,
+            \App\Application\Commands\Admin\GetModelsAdminCommand::class =>
+            \App\Application\CommandHandlers\Admin\GetModelsAdminHandler::class,
+            \App\Application\Commands\Admin\UpdatePermissionsAdminCommand::class =>
+            \App\Application\CommandHandlers\Admin\UpdatePermissionsAdminHandler::class,
         ]);
 
         // Message

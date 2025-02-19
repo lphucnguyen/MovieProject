@@ -21,7 +21,8 @@ class Order extends Model
         'user_id',
         'payment_name',
         'status',
-        'plan_id'
+        'plan_id',
+        'transaction_id'
     ];
 
     protected $casts = [

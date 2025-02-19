@@ -19,32 +19,24 @@ class UpdateAdminHandler
         try {
             DB::beginTransaction();
 
-            $admin = $this->repository->getToUpdate($command->uuid);
-            $attributes = $command->data;
+            $admin = $this->repository->getWithLock($command->uuid);
+            $data = $command->data;
 
-            if ($attributes->avatar) {
-                $attributes->avatar = $attributes->avatar->store('admin_avatars');
+            $parts = explode("/", $data->avatar);
+            $file = implode('/', array_slice($parts, -2));
+            $data->avatar = $file;
+
+            if ($data->password) {
+                $data->password = bcrypt($data->password);
             } else {
-                unset($attributes->avatar);
+                unset($data->password);
             }
 
-            if ($attributes->password) {
-                $attributes->password = bcrypt($attributes->password);
-            } else {
-                unset($attributes->password);
-            }
-
-            $attributes = $attributes->toArray();
-
-            $admin->update($attributes);
-            $admin->syncPermissions($attributes['permissions']);
+            $admin->update($data->toArray());
 
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            if ($attributes->avatar) {
-                Storage::delete($attributes->avatar);
-            }
             throw $e;
         }
     }

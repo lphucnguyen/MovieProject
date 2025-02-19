@@ -20,13 +20,15 @@ class CreateMovieHandler
             DB::beginTransaction();
             $data = $command->data;
 
-            if ($data->background_cover) {
-                $data->background_cover = $data->background_cover->store('film_background_covers');
-            }
+            $parts = explode("/", $data->poster);
+            $file = implode('/', array_slice($parts, -2));
+            $data->poster = $file;
 
-            if ($data->poster) {
-                $data->poster = $data->poster->store('film_posters');
-            }
+            $parts = explode("/", $data->background_cover);
+            $file = implode('/', array_slice($parts, -2));
+            $data->background_cover = $file;
+
+            $data->overview = strip_tags($data->overview, config('app.allowTags'));
 
             // Insert film
             $film = $this->repository->create($data->toArray());
@@ -50,14 +52,6 @@ class CreateMovieHandler
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-
-            if ($data->background_cover) {
-                Storage::delete($data->background_cover);
-            }
-
-            if ($data->poster) {
-                Storage::delete($data->poster);
-            }
         }
     }
 }

@@ -21,7 +21,7 @@ class ReviewController extends Controller
 
     public function index(Request $request)
     {
-        $getReviewsCommand = new GetReviewsCommand($request->searchKey);
+        $getReviewsCommand = new GetReviewsCommand($request->searchKey, $request->client);
         $reviews = Bus::dispatch($getReviewsCommand);
 
         return view('dashboard.reviews.index', compact('reviews'));

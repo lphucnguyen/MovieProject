@@ -6,7 +6,7 @@ class GetActorsCommand
 {
     public function __construct(
         public string|null $searchKey,
-        public array|string|null $film,
+        public array|string|null $searchKeyFilm,
     ) {
     }
 }

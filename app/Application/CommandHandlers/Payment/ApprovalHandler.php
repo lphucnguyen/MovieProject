@@ -3,71 +3,72 @@
 namespace App\Application\CommandHandlers\Payment;
 
 use App\Application\Commands\Payment\ApprovalCommand;
-use App\Application\DTOs\Order\OrderEmailDTO;
 use App\Application\Events\OrderPaid;
 use App\Domain\Enums\Order\OrderStatus;
 use App\Domain\Repositories\IOrderRepository;
-use App\Infrastructure\Jobs\SendPaymentEmail;
+use App\Domain\Repositories\IPlanRepository;
+use App\Domain\Repositories\ISubscriptionRepository;
 use App\Infrastructure\Services\Payment\PaymentResolver;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ApprovalHandler
 {
     public function __construct(
         private PaymentResolver $paymentResolver,
-        private IOrderRepository $orderRepository
+        private IOrderRepository $orderRepository,
+        private ISubscriptionRepository $subscriptionRepository,
+        private IPlanRepository $planRepository
     ) {
     }
 
     public function handle(ApprovalCommand $command)
     {
         try {
+            DB::beginTransaction();
+
             $approvalDTO = $command->dto;
             $paymentName = $approvalDTO->payment_name;
             $paymentPlatform = $this->paymentResolver->resolveService($paymentName);
-            $paymentId =  $paymentPlatform->handleApproval($approvalDTO);
+            $paymentId = $paymentPlatform->handleApproval($approvalDTO);
 
-            if ($paymentId instanceof \Illuminate\View\View) {
-                return $paymentId;
-            }
-
-            $order = $this->orderRepository->get($approvalDTO->order_id);
-
-            event(
-                new OrderPaid(
-                    $approvalDTO->order_id,
-                    $approvalDTO->plan_id,
-                    $approvalDTO->lock_owner,
-                    $paymentId
-                )
-            );
+            $order = $this->orderRepository->getWithLock($approvalDTO->order_id);
 
             if ($order->status === OrderStatus::COMPLETED->value || $order->status === OrderStatus::CANCELED->value) {
+                $paymentPlatform->declineAuthorization($paymentId);
+
                 return redirect()
                     ->route('user.upgrade-account')
                     ->with('error', 'Thanh toán không thành công.');
             }
 
-            $user = $order->user;
-            SendPaymentEmail::dispatch(
-                $user->email,
-                new OrderEmailDTO([
-                    'id' => $order->id,
-                    'created_at' => $order->created_at,
-                    'payment_name' => $paymentName,
-                    'amount' => $order->amount,
-                    'currency' => $order->currency,
-                    'user_first_name' => $user->first_name,
-                    'user_last_name' => $user->last_name
-                ])
-            );
+            $this->orderRepository->update($approvalDTO->order_id, [
+                'status' => OrderStatus::COMPLETED,
+                'transaction_id' => $paymentId,
+            ]);
+
+            $plan = $this->planRepository->get($approvalDTO->plan_id);
+
+            $this->subscriptionRepository->create([
+                'user_id' => auth()->user()->id,
+                'plan_id' => $approvalDTO->plan_id,
+                'active_until' => now()->addDays($plan->duration_in_days),
+            ]);
+
+            event(new OrderPaid(
+                auth()->user()->email,
+                $order->id
+            ));
+
+            DB::commit();
 
             return redirect()
                 ->route('user.upgrade-account')
                 ->withSuccess("Nâng cấp thành công. Chúc bạn có những phút giây thú vị tại trang web của chúng tôi");
         } catch(\Exception $e) {
+            DB::rollBack();
             Log::error($e->getMessage());
-            dd($e);
+
             return redirect()
                 ->route('user.upgrade-account')
                 ->with('error', 'Chúng tôi không thể xác nhận thanh toán của bạn. Vui lòng thử lại sau ít phút');

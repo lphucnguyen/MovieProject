@@ -11,7 +11,7 @@ use Illuminate\Pipeline\Pipeline;
 class FilmRepository extends BaseRepository implements IFilmRepository
 {
     public function __construct(
-        private Film $model
+        Film $model
     ) {
         parent::__construct($model);
     }

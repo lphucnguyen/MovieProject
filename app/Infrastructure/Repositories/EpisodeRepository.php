@@ -10,7 +10,7 @@ use App\Shared\Infrastructure\Repositories\BaseRepository;
 class EpisodeRepository extends BaseRepository implements IEpisodeRepository
 {
     public function __construct(
-        private Episode $model
+        Episode $model
     ) {
         parent::__construct($model);
     }

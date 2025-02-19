@@ -3,7 +3,6 @@
 namespace App\Application\DTOs\Actor;
 
 use App\Shared\Application\DTOs\BaseDTO;
-use Illuminate\Http\UploadedFile;
 
 class UpdateActorDTO extends BaseDTO
 {
@@ -11,6 +10,6 @@ class UpdateActorDTO extends BaseDTO
     public string $dob;
     public string $overview;
     public string $biography;
-    public UploadedFile|string|null $avatar = null;
-    public UploadedFile|string|null $background_cover = null;
+    public string|null $avatar;
+    public string|null $background_cover;
 }
