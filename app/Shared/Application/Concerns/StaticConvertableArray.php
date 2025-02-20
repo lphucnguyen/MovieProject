@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Application\DTOs\Concerns;
+namespace App\Shared\Application\Concerns;
 
 trait StaticConvertableArray
 {

@@ -44,7 +44,6 @@ class RatingController extends Controller
         $deleteRatingCommand = new DeleteRatingCommand($uuid);
         Bus::dispatch($deleteRatingCommand);
 
-        session()->flash('success', 'Đánh giá xoá thành công');
-        return redirect()->route('dashboard.ratings.index');
+        return redirect()->route('dashboard.ratings.index')->withSuccess(__('Đánh giá xoá thành công'));
     }
 }

@@ -14,7 +14,6 @@ use App\Presentation\Http\Requests\Dashboard\CreateActorRequest;
 use App\Presentation\Http\Requests\Dashboard\UpdateActorRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Validation\Rule;
 
 class ActorController extends Controller
 {
@@ -44,8 +43,7 @@ class ActorController extends Controller
         $createActorDTO = CreateActorDTO::fromRequest($request);
         Bus::dispatch(new CreateActorCommand($createActorDTO));
 
-        session()->flash('success', 'Diễn viên đã thêm thành công');
-        return redirect()->route('dashboard.actors.index');
+        return redirect()->route('dashboard.actors.index')->withSuccess(__('Diễn viên đã thêm thành công'));
     }
 
     public function edit(Actor $actor)
@@ -58,8 +56,7 @@ class ActorController extends Controller
         $updateActorDTO = UpdateActorDTO::fromRequest($request);
         Bus::dispatch(new UpdateActorCommand($uuid, $updateActorDTO));
 
-        session()->flash('success', 'Diễn viên cập nhật thành công');
-        return redirect()->route('dashboard.actors.index');
+        return redirect()->route('dashboard.actors.index')->withSuccess(__('Diễn viên cập nhật thành công'));
     }
 
     public function destroy(Request $actor)
@@ -67,7 +64,6 @@ class ActorController extends Controller
         $deleteActorCommand = new DeleteActorCommand($actor->uuid);
         Bus::dispatch($deleteActorCommand);
 
-        session()->flash('success', 'Diễn viên đã xoá thành công');
-        return redirect()->route('dashboard.actors.index');
+        return redirect()->route('dashboard.actors.index')->withSuccess(__('Diễn viên đã xoá thành công'));
     }
 }

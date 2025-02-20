@@ -46,8 +46,7 @@ class CategoryController extends Controller
         );
         Bus::dispatch($createCategoryCommand);
 
-        session()->flash('success', 'Danh mục thêm thành công');
-        return redirect()->route('dashboard.categories.index');
+        return redirect()->route('dashboard.categories.index')->withSuccess('Danh mục thêm thành công');
     }
 
     public function edit(Category $category)
@@ -63,8 +62,7 @@ class CategoryController extends Controller
         );
         Bus::dispatch($updateCategoryCommand);
 
-        session()->flash('success', 'Danh mục cập nhật thành công');
-        return redirect()->route('dashboard.categories.index');
+        return redirect()->route('dashboard.categories.index')->withSuccess('Danh mục cập nhật thành công');
     }
 
     public function destroy(string $uuid)
@@ -72,7 +70,6 @@ class CategoryController extends Controller
         $deleteCategoryCommand = new DeleteCategoryCommand($uuid);
         Bus::dispatch($deleteCategoryCommand);
 
-        session()->flash('success', 'Danh mục xoá thành công');
-        return redirect()->route('dashboard.categories.index');
+        return redirect()->route('dashboard.categories.index')->withSuccess('Danh mục xoá thành công');
     }
 }

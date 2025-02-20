@@ -13,4 +13,9 @@ class OrderRepository extends BaseRepository implements IOrderRepository
     ) {
         parent::__construct($model);
     }
+
+    public function getUnpaidOrder($limit)
+    {
+        return $this->model->whereNull('paid_at')->limit($limit)->get();
+    }
 }

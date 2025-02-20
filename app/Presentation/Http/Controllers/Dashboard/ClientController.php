@@ -46,8 +46,7 @@ class ClientController extends Controller
         );
         Bus::dispatch($createUserCommand);
 
-        session()->flash('success', 'Khách hàng thêm thành công');
-        return redirect()->route('dashboard.clients.index');
+        return redirect()->route('dashboard.clients.index')->withSuccess(__('Khách hàng thêm thành công'));
     }
 
     public function edit(User $client)
@@ -61,8 +60,7 @@ class ClientController extends Controller
         $updateUserCommand = new UpdateUserCommand($uuid, $updateUserDTO);
         Bus::dispatch($updateUserCommand);
 
-        session()->flash('success', 'Khách hàng cập nhật thành công');
-        return redirect()->route('dashboard.clients.index');
+        return redirect()->route('dashboard.clients.index')->withSuccess(__('Khách hàng cập nhật thành công'));
     }
 
     public function destroy(string $uuid)
@@ -70,7 +68,6 @@ class ClientController extends Controller
         $deleteUserCommand = new DeleteUserCommand($uuid);
         Bus::dispatch($deleteUserCommand);
 
-        session()->flash('success', 'Khách hàng xoá thành công');
-        return redirect()->route('dashboard.clients.index');
+        return redirect()->route('dashboard.clients.index')->withSuccess(__('Khách hàng xoá thành công'));
     }
 }

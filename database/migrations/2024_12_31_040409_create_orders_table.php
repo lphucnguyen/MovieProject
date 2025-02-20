@@ -22,10 +22,11 @@ return new class extends Migration
                 OrderStatus::CANCELED->value,
                 OrderStatus::PENDING->value,
                 OrderStatus::COMPLETED->value,
-                OrderStatus::PROCESSING->value
+                OrderStatus::PROCESSING->value,
             ])->default(
                 OrderStatus::PENDING->value
             );
+            $table->timestamp('paid_at')->nullable();
             $table->timestamps();
 
             $table->foreignUuid('user_id')->references('id')->on('users');

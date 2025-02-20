@@ -22,11 +22,13 @@ class Order extends Model
         'payment_name',
         'status',
         'plan_id',
-        'transaction_id'
+        'transaction_id',
+        'paid_at'
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
+        'paid_at' => 'datetime'
     ];
 
     protected static function booted()

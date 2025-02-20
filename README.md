@@ -38,3 +38,4 @@
 1. JWPlayer : For video hosting
 1. Laratrust: For roles & permissions
 1. Passport: For API Authentication
+1. Laravel File Manager: Laravel File Manager

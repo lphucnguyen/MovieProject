@@ -32,7 +32,6 @@ class ReviewController extends Controller
         $deleteReviewCommand = new DeleteReviewCommand($uuid);
         Bus::dispatch($deleteReviewCommand);
 
-        session()->flash('success', 'Bình luận xoá thành công');
-        return redirect()->route('dashboard.reviews.index');
+        return redirect()->route('dashboard.reviews.index')->withSuccess(__('Bình luận xoá thành công'));
     }
 }

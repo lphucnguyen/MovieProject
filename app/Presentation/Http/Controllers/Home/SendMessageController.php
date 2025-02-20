@@ -17,7 +17,6 @@ class SendMessageController extends Controller
         );
         Bus::dispatch($sendMessageCommand);
 
-        session()->flash('success', 'Cám ơn bạn đã liên hệ');
-        return redirect()->back();
+        return redirect()->back()->withSuccess(__('Cám ơn bạn đã liên hệ'));
     }
 }

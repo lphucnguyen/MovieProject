@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Application\DTOs\Concerns;
+namespace App\Shared\Application\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
