@@ -23,7 +23,6 @@ class MessageController extends Controller
         $deleteMessageCommand = new DeleteMessageCommand($uuid);
         Bus::dispatch($deleteMessageCommand);
 
-        session()->flash('success', 'Tin nhắn xoá thành công');
-        return redirect()->route('dashboard.messages.index');
+        return redirect()->route('dashboard.messages.index')->withSuccess(__('Tin nhắn xoá thành công'));
     }
 }

@@ -35,7 +35,7 @@ class ApprovalRequest extends FormRequest
             'order_id' => ['required', 'exists:orders,id', function ($attribute, $value, $fail) {
                 $order = $this->orderRepository->get($value);
 
-                if ($order && ($order->status === OrderStatus::COMPLETED->value || $order->status === OrderStatus::PAID->value || $order->status === OrderStatus::CANCELED->value)) {
+                if ($order && ($order->status === OrderStatus::COMPLETED->value || $order->status === OrderStatus::CANCELED->value)) {
                     $fail(__("Đơn hàng không thể thanh toán"));
                 }
             }],

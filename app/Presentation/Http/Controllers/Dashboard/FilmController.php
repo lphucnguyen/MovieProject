@@ -54,8 +54,7 @@ class FilmController extends Controller
         $createMovieCommand = new CreateMovieCommand($createMovieDTO);
         Bus::dispatch($createMovieCommand);
 
-        session()->flash('success', 'Phim thêm thành công');
-        return redirect()->route('dashboard.films.index');
+        return redirect()->route('dashboard.films.index')->withSuccess(__('Phim thêm thành công'));
     }
 
     public function edit(Film $film)
@@ -71,8 +70,7 @@ class FilmController extends Controller
         $updateMovieCommand = new UpdateMovieCommand($uuid, $updateMovieDTO);
         Bus::dispatch($updateMovieCommand);
 
-        session()->flash('success', 'Phim cập nhật thành công');
-        return redirect()->route('dashboard.films.index');
+        return redirect()->route('dashboard.films.index')->withSuccess(__('Phim cập nhật thành công'));
     }
 
     public function destroy(string $uuid)
@@ -80,7 +78,6 @@ class FilmController extends Controller
         $deleteMovieCommand = new DeleteMovieCommand($uuid);
         Bus::dispatch($deleteMovieCommand);
 
-        session()->flash('success', 'Phim xoá thành công');
-        return redirect()->route('dashboard.films.index');
+        return redirect()->route('dashboard.films.index')->withSuccess(__('Phim xoá thành công'));
     }
 }
