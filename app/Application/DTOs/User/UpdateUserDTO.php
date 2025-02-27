@@ -3,6 +3,7 @@
 namespace App\Application\DTOs\User;
 
 use App\Shared\Application\DTOs\BaseDTO;
+use Illuminate\Http\UploadedFile;
 
 class UpdateUserDTO extends BaseDTO
 {
@@ -11,5 +12,5 @@ class UpdateUserDTO extends BaseDTO
     public string $email;
     public string $username;
     public string|null $password;
-    public string|null $avatar;
+    public UploadedFile|string|null $avatar;
 }

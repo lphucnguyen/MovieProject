@@ -33,6 +33,7 @@ class SendPaymentEmail implements ShouldQueue
     {
         $order = $this->orderRepository->get($event->orderId);
         $user = $this->userRepository->get($order->user_id);
+        $metadata = $event->metadata;
 
         $transaction = new OrderEmailDTO([
             'id' => $order->id,
@@ -49,6 +50,6 @@ class SendPaymentEmail implements ShouldQueue
             $this->title
         );
 
-        Mail::to($event->email)->send($emailPayment);
+        Mail::to($metadata['email'])->send($emailPayment);
     }
 }

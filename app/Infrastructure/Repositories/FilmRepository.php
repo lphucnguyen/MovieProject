@@ -32,6 +32,11 @@ class FilmRepository extends BaseRepository implements IFilmRepository
         return $this->get($uuid)->reviews()->latest()->paginate(config('app.perPage'));
     }
 
+    public function getEpisodes($uuid)
+    {
+        return $this->get($uuid)->episodes()->latest()->get();
+    }
+
     public function getFilmsByQueryParams(array $queryParams)
     {
         $query = $this->makeQuery();

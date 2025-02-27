@@ -19,10 +19,6 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', 'Api\AuthController@login');
 
 Route::group(['middleware' => 'auth:api', 'namespace' => 'Api'], function () {
-    //In Headers
-    //Accept => application/json
-    //Authorization => Bearer TOKEN
-
     Route::get('/user', 'UserController@index');
 
     Route::apiResource('categories', 'CategoryController'); //all categories with movies

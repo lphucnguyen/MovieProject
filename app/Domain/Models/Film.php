@@ -8,6 +8,7 @@ use App\Shared\Domain\Concerns\Rateable;
 use App\Shared\Domain\Concerns\Reviewable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Film extends Model
 {
@@ -16,6 +17,7 @@ class Film extends Model
     use Reviewable;
     use ExtendedModel;
     use HasUuids;
+    use SoftDeletes;
 
     protected $table = 'films';
 

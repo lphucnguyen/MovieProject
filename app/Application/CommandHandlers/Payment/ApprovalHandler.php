@@ -45,6 +45,7 @@ class ApprovalHandler
             $this->orderRepository->update($approvalDTO->order_id, [
                 'status' => OrderStatus::COMPLETED,
                 'transaction_id' => $paymentId,
+                'payment_name' => $paymentName
             ]);
 
             $plan = $this->planRepository->get($approvalDTO->plan_id);
@@ -55,10 +56,9 @@ class ApprovalHandler
                 'active_until' => now()->addDays($plan->duration_in_days),
             ]);
 
-            event(new OrderPaid(
-                auth()->user()->email,
-                $order->id
-            ));
+            $event = new OrderPaid($order->id);
+            $event->metadata['email'] = auth()->user()->email;
+            event($event);
 
             DB::commit();
 

@@ -33,7 +33,10 @@ class GetDataHomeHandler
         $user = auth()->guard('web')->user();
 
         if ($user != null) {
-            $suggestedFilms = $this->filmRepositoryNeo->getRecommendByUser($user->id);
+            $films = $this->filmRepositoryNeo->getRecommendByUser($user->id);
+
+            $suggestedFilms = $films['suggestedFilms'];
+            $ratings = $films['ratings'];
         }
 
         return new GetDataHomeReponse([

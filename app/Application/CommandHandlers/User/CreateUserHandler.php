@@ -15,9 +15,7 @@ class CreateUserHandler
     public function handle(CreateUserCommand $command)
     {
         $data = $command->data;
-        $parts = explode("/", $data->avatar);
-        $file = implode('/', array_slice($parts, -2));
-        $data->avatar = $file;
+        $data->avatar = $data->avatar->store('client_avatars');
         $data->password = bcrypt($data->password);
 
         $this->repository->create($data->toArray());

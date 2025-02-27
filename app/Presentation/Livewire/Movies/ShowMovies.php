@@ -2,7 +2,9 @@
 
 namespace App\Presentation\Livewire\Movies;
 
+use App\Application\Commands\Film\GetEpisodesCommand;
 use App\Domain\Models\Film;
+use Illuminate\Support\Facades\Bus;
 use Livewire\Component;
 
 class ShowMovies extends Component
@@ -17,23 +19,22 @@ class ShowMovies extends Component
 
     public function selectEpisode($index)
     {
-        $currentEps = $this->episodes->get($index);
+        $currentEpsode = $this->episodes->get($index);
 
-        if ($currentEps == null) {
+        if ($currentEpsode == null) {
             return;
         }
 
-        $this->currentEpisode = $currentEps;
+        $this->currentEpisode = $currentEpsode;
 
-        $this->dispatchBrowserEvent('initEmbed', ['url' => $currentEps->url]);
+        $this->dispatchBrowserEvent('initEmbed', ['url' => $currentEpsode->url]);
     }
 
     public function mount($id)
     {
-        $this->episodes = collect();
+        $episodes = Bus::dispatch(new GetEpisodesCommand($id));
+        $this->episodes = collect($episodes->toArray());
 
-        $film = Film::findOrFail($id);
-        $this->episodes = $film->episodes;
         $firstEpisode = $this->episodes->first();
         $this->currentEpisode = $firstEpisode;
     }

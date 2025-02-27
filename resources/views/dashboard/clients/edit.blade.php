@@ -29,7 +29,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2><strong>Chỉnh sửa</strong> khách hàng</h2>
+                            <h2>{{ __('Chỉnh sửa khách hàng') }}</h2>
                         </div>
 
                         <div class="body">
@@ -78,15 +78,30 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group last mt-5">
-                                    <img class="fileinput-preview fileinput-exists thumbnail preview-image-avatar"
-                                             style="max-width: 200px; max-height: 150px;" src="{{ $client->avatar }}">
-                                    <span class="btn btn-dark btn-file select-avatar-file">
-                                        <span class="fileinput-new">{{ __('Chọn Avatar') }}</span>
-                                        <input type="hidden" name="avatar" class="avatar-file"
-                                               value="{{ old('avatar', $client->avatar) }}">
-                                    </span>
-                                    <span style="color: red; margin-left: 10px; display: block;">{{ $errors->first('avatar') }}</span>
+
+                                <div class="form-group last">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-new thumbnail"
+                                             style="width: 200px; height: 150px;">
+                                            <img src="{{$client->avatar}}"
+                                                 alt=""/>
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail"
+                                             style="max-width: 200px; max-height: 150px;">
+                                        </div>
+                                        <div>
+                                                <span class="btn btn-dark btn-file">
+                                                    <span class="fileinput-new"> Chọn Avatar </span>
+                                                    <span class="fileinput-exists"> Thay đổi </span>
+                                                    <input type="file" name="avatar"
+                                                           value="{{ $client->avatar }}">
+                                                </span>
+                                            <a href="" class="btn btn-danger fileinput-exists"
+                                               data-dismiss="fileinput">
+                                                Xoá </a>
+                                        </div>
+                                        <span style="color: red; margin-left: 10px">{{ $errors->first('avatar') }}</span>
+                                    </div>
                                 </div>
 
                                 <hr>
@@ -114,13 +129,56 @@
 
                                 <div class="row clearfix">
                                     <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-primary btn-round">Sửa</button>
-                                        <button type="reset" class="btn btn-default btn-round btn-simple">Huỷ bỏ
-                                        </button>
-                                        <a href={{route('dashboard.clients.index')}} class="btn btn-second btn-round">Quay lại</a>
+                                        <button type="submit" class="btn btn-primary btn-round">{{__('Cập nhật')}}</button>
+                                        <button type="reset" class="btn btn-default btn-round btn-simple">{{__('Huỷ bỏ')}}</button>
+                                        <a href={{route('dashboard.clients.index')}} class="btn btn-second btn-round">{{__('Quay lại')}}</a>
                                     </div>
                                 </div>
                             </form>
+                        </div>
+
+                        <div class="header">
+                            <h2>{{ __('Đăng kí thành viên') }}</h2>
+                        </div>
+                        <div class="body">
+                            @if($subscription)
+                            <form action="{{route('dashboard.subscriptions.update', $subscription->id)}}" method="POST"
+                                  enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="row clearfix">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+                                            <span>{{ __('Tên gói cước') }}</span>
+                                            <input type="text" disabled class="form-control" value="{{ $subscription->plan->slug }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+                                            <span>{{ __('Ngày hết hạn') }}</span>
+                                            <input type="datetime-local" name="active_until" class="form-control" value="{{ $subscription->active_until }}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row clearfix">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary btn-round">{{__('Cập nhật') }}</button>
+                                        <a href={{ route('dashboard.subscriptions.index') }} class="btn btn-second btn-round">{{ __('Quay lại') }}</a>
+                                    </div>
+                                </div>
+                            </form>
+                            @else
+                            <div>
+                                <div class="row clearfix">
+                                    <div class="col-sm-12">
+                                        <span>{{ __('Hiện tại chưa đăng kí thành viên') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -130,24 +188,6 @@
 
     @push('scripts')
         <script src="{{asset('web_files/js/bootstrap-fileinput.js')}}"></script>
-        <script>
-            let file = '';
-
-            $('.select-avatar-file').on('click', function (event) {
-                event.preventDefault();
-
-                file = "avatar-file";
-                window.open('/file-manager/fm-button', 'FileManager', 'width=900,height=600');
-            });
-
-
-            function fmSetLink(url) {
-                if (file === 'avatar-file') {
-                    $('.avatar-file').attr('value', url);
-                    $('.preview-image-avatar').attr('src', url);
-                }
-            }
-        </script>
     @endpush
 
 @endsection

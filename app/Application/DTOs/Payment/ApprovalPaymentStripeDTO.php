@@ -8,5 +8,5 @@ class ApprovalPaymentStripeDTO extends BaseDTO {
     public string $plan_id;
     public string $order_id;
     public string $payment_name;
-    public string $session_id;
+    public string $token;
 }

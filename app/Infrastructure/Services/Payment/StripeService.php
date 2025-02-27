@@ -6,6 +6,7 @@ use App\Application\DTOs\Payment\ApprovalPaymentStripeDTO;
 use App\Shared\Application\DTOs\BaseDTO;
 use App\Application\DTOs\Payment\StripeDTO;
 use App\Shared\Infrastructure\Concerns\ConsumeExternalService;
+use Illuminate\Support\Facades\Crypt;
 use InvalidArgumentException;
 
 class StripeService implements IPaymentService
@@ -31,14 +32,18 @@ class StripeService implements IPaymentService
             throw new InvalidArgumentException('Expected StripeDTO');
         }
 
+        $encryptedData = Crypt::encryptString(json_encode([
+            'plan_id' => $stripeDTO->plan_id,
+            'order_id' => $stripeDTO->order_id,
+            'payment_name' => $stripeDTO->payment_name,
+        ]));
+
         $session = $this->createSesssion(
             $stripeDTO->amount,
             config('services.currency'),
             route('approval', [
-                'plan_id' => $stripeDTO->plan_id,
-                'order_id' => $stripeDTO->order_id,
-                'payment_name' => $stripeDTO->payment_name,
-            ]) . '&session_id={CHECKOUT_SESSION_ID}',
+                'encrypt_data' => $encryptedData,
+            ]) . '&token={CHECKOUT_SESSION_ID}',
             route('cancelled'),
         );
 
@@ -52,7 +57,7 @@ class StripeService implements IPaymentService
         }
 
         try {
-            $session = $this->getSession($approvalDTO->session_id);
+            $session = $this->getSession($approvalDTO->token);
 
             if ($session->status == 'complete') {
                 return $session->payment_intent;
@@ -120,6 +125,9 @@ class StripeService implements IPaymentService
                 'mode' => 'payment',
                 'success_url' => $returnUrl,
                 'cancel_url' => $cancelUrl,
+            ],
+            [
+                'Idempotency-Key' => str()->uuid()->toString()
             ]
         );
 
@@ -205,15 +213,7 @@ class StripeService implements IPaymentService
 
     public function declineAuthorization($authorizeId)
     {
-        return $this->makeRequest(
-            'POST',
-            "/v1/payment_intents/{$authorizeId}/decline",
-            [],
-            [],
-            [
-                'Content-Type' => 'application/json'
-            ],
-        );
+        return $this->cancelPayment($authorizeId);
     }
 
     public function cancelPayment($paymentIntentId)

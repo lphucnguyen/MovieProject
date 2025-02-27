@@ -16,7 +16,7 @@ class CancelOrderHandler
     public function handle(CancelOrderCommand $command)
     {
         $order = $this->repository->get($command->uuid);
-        if ($order->status !== OrderStatus::PROCESSING->value) {
+        if ($order->status === OrderStatus::CANCELED->value || $order->status === OrderStatus::COMPLETED->value) {
             return redirect()->back()->with('error', __('Đơn hàng đã hoàn thành hoặc huỷ'));
         }
 
