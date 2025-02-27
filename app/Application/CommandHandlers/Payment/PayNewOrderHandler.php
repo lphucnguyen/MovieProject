@@ -22,7 +22,10 @@ class PayNewOrderHandler
     public function handle(PayNewOrderCommand $command)
     {
         try {
-            cache()->lock(auth()->user()->id . ':payment:send', 120);
+            $lock = cache()->lock(auth()->user()->id . ':payment:send', 120);
+            if (!$lock->get()) {
+                return throw new Exception(__('Có vấn đề trong yêu cầu thanh toán. Hãy cố gắng lại lần nữa sau ít phút.'));
+            }
 
             $dto = $command->dto;
             $plan = $this->planRepository->get($dto->plan_id);
