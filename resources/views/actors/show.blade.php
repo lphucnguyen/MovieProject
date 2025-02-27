@@ -46,7 +46,7 @@
                                                     <h2>{{$actor->name}}</h2>
                                                 </div>
                                             </div>
-                                            <p style="word-break: break-all">{{$actor->overview}}</p>
+                                            <p style="word-break: break-all">{!! $actor->overview !!}</p>
 
                                         </div>
                                         <div class="col-md-4 col-xs-12 col-sm-12">
@@ -97,39 +97,9 @@
                                                 <h2>{{$actor->name}}</h2>
                                             </div>
                                         </div>
-                                        <p style="word-break: break-all">{{$actor->biography}}</p>
+                                        <p style="word-break: break-all">{!! $actor->biography !!}</p>
                                     </div>
                                 </div>
-                                {{-- <div class="tab" id="filmography">
-                                    <div class="row">
-                                        <div class="rv-hd">
-                                            <div>
-                                                <h3>Các bộ phim đã diễn của</h3>
-                                                <h2>{{$actor->name}}</h2>
-                                            </div>
-
-                                        </div>
-                                        <div class="topbar-filter">
-                                            <p>Tìm thấy <span>{{$actor->films->count()}}</span> phim</p>
-                                        </div>
-                                        <!-- movie cast -->
-                                        <div class="mvcast-item">
-                                            @foreach($films as $film)
-                                                <div class="cast-it">
-                                                    <div class="cast-left cebleb-film">
-                                                        <img alt="" src="{{$film->poster}}" style="height: 75px">
-                                                        <div>
-                                                            <a href="{{url('movies/' . $film->id)}}">{{$film->name}} </a>
-                                                        </div>
-
-                                                    </div>
-                                                    <p>... {{$film->year}}</p>
-                                                </div>
-                                            @endforeach
-                                            {{$films->appends(request()->query())->links()}}
-                                        </div>
-                                    </div>
-                                </div> --}}
                             </div>
                         </div>
                     </div>

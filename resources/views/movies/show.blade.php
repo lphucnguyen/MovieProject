@@ -115,15 +115,17 @@
                                         <div class="row">
                                             <div class="col-md-12 col-sm-12 col-xs-12">
                                                 <h2>Giới thiệu</h2>
-                                                <p>{{$film->overview}}</p>
+                                                <p>{!! $film->overview !!}</p>
                                                 <hr style="background-color: #405266">
                                                 <br>
                                             </div>
                                             <div class="col-md-12 col-sm-12 col-xs-12">
                                             @if(auth()->user())
                                                 @livewire('movies.show-movies', ['id' => $film->id])
+                                            @elseif(!$hasActiveSubscription)
+                                                <p class="text-white">{{ __('Bạn chưa đăng kí') }}</p>
                                             @else
-                                                <p class="text-white">Vui lòng đăng nhập</p>
+                                                <p class="text-white">{{ __('Vui lòng đăng nhập') }}</p>
                                             @endif
                                             </div>
                                         </div>

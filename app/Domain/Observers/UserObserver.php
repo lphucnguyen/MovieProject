@@ -8,6 +8,7 @@ use App\Domain\Events\User\UserUpdated;
 
 use App\Domain\Models\User;
 use App\Shared\Domain\Concerns\ModelUpdateable;
+use Illuminate\Support\Facades\Storage;
 
 class UserObserver
 {
@@ -23,12 +24,12 @@ class UserObserver
         event(new UserCreated($model->id, $model->username, $model->email, $model->first_name, $model->last_name));
     }
 
-    // public function updating(User $model)
-    // {
-    //     if ($model->isDirty('avatar') && $model->getRawOriginal('avatar') !== null) {
-    //         Storage::delete($model->getRawOriginal('avatar'));
-    //     }
-    // }
+    public function updating(User $model)
+    {
+        if ($model->isDirty('avatar') && $model->getRawOriginal('avatar') !== null) {
+            Storage::delete($model->getRawOriginal('avatar'));
+        }
+    }
 
     public function updated(User $model)
     {
@@ -39,14 +40,14 @@ class UserObserver
         event(new UserUpdated($model->id, $model->first_name, $model->last_name));
     }
 
-    // public function deleting(User $model)
-    // {
-    //     $attributes = $model->getAttributes();
+    public function deleting(User $model)
+    {
+        $attributes = $model->getAttributes();
 
-    //     if ($model->getRawOriginal('avatar') !== null) {
-    //         Storage::delete($model->getRawOriginal('avatar'));
-    //     }
-    // }
+        if ($model->getRawOriginal('avatar') !== null) {
+            Storage::delete($model->getRawOriginal('avatar'));
+        }
+    }
 
     public function deleted(User $model)
     {

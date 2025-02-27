@@ -140,10 +140,9 @@
 
                                 <div class="row clearfix">
                                     <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-primary btn-round">Sửa</button>
-                                        <button type="reset" class="btn btn-default btn-round btn-simple">Huỷ bỏ
-                                        </button>
-                                        <a href={{route('dashboard.films.index')}} class="btn btn-second btn-round">Quay lại</a>
+                                        <button type="submit" class="btn btn-primary btn-round">{{__('Cập nhật')}}</button>
+                                        <button type="reset" class="btn btn-default btn-round btn-simple">{{__('Huỷ bỏ')}}</button>
+                                        <a href={{route('dashboard.films.index')}} class="btn btn-second btn-round">{{__('Quay lại')}}</a>
                                     </div>
                                 </div>
                             </form>

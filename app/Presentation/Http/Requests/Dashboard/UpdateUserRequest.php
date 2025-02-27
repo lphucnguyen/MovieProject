@@ -33,14 +33,7 @@ class UpdateUserRequest extends FormRequest
             ],
             'first_name' => 'required|string|max:15|min:3',
             'last_name' => 'required|string|max:15|min:3',
-            'avatar' => ['required', 'string', function ($attribute, $value, $fail) {
-                $parts = explode("/", $value);
-                $file = implode('/', array_slice($parts, -2));
-
-                if (!Storage::exists($file)) {
-                    $fail(__("Avatar không tồn tại"));
-                }
-            }],
+            'avatar' => 'image',
             'password' => 'nullable|string|confirmed|min:6',
         ];
     }

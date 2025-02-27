@@ -109,9 +109,9 @@
 
                                 <div class="row clearfix">
                                     <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-primary btn-round">{{ __('Chỉnh sửa') }}</button>
-                                        {{-- <button type="reset" class="btn btn-default btn-round btn-simple">{{ __('Huỷ bỏ') }}</button> --}}
-                                        <a href={{route('dashboard.actors.index')}} class="btn btn-second btn-round">{{ __('Quay lại') }}</a>
+                                        <button type="submit" class="btn btn-primary btn-round">{{__('Cập nhật')}}</button>
+                                        <button type="reset" class="btn btn-default btn-round btn-simple">{{__('Huỷ bỏ')}}</button>
+                                        <a href={{ route('dashboard.actors.index') }} class="btn btn-second btn-round">{{ __('Quay lại') }}</a>
                                     </div>
                                 </div>
                             </form>

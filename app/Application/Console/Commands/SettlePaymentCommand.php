@@ -2,9 +2,7 @@
 
 namespace App\Application\Console\Commands;
 
-use App\Application\DTOs\Order\OrderSettleDTO;
 use App\Application\Jobs\SettlePaymentJob;
-use App\Domain\Repositories\IOrderRepository;
 use Illuminate\Console\Command;
 
 class SettlePaymentCommand extends Command
@@ -14,18 +12,8 @@ class SettlePaymentCommand extends Command
 
     private $batchSize = 50;
 
-    public function handle(
-        IOrderRepository $orderRepository,
-    ) {
-        do {
-            $orders = collect($orderRepository->getUnpaidOrder($this->batchSize));
-            $orderSettle = $orders->map(function ($order) {
-                return OrderSettleDTO::fromModel($order);
-            })->toArray();
-
-            SettlePaymentJob::dispatch($orderSettle);
-        } while ($orders->count() === $this->batchSize);
-
-        $this->info('Batch settlement process completed.');
+    public function handle() {
+        SettlePaymentJob::dispatch($this->batchSize);
+        $this->info('Batch settlement processing.');
     }
 }

@@ -2,11 +2,9 @@
 
 namespace App\Presentation\Http\Requests\Payment;
 
-use App\Application\Enums\Payment\PaymentName;
-use App\Domain\Enums\Order\OrderStatus;
 use App\Domain\Repositories\IOrderRepository;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Enum;
+use Illuminate\Support\Facades\Crypt;
 
 class ApprovalRequest extends FormRequest
 {
@@ -30,25 +28,18 @@ class ApprovalRequest extends FormRequest
         $this->orderRepository = app(IOrderRepository::class);
 
         return [
-            'plan_id' => ['required', 'exists:plans,id'],
-            'payment_name' => ['required', new Enum(PaymentName::class)],
-            'order_id' => ['required', 'exists:orders,id', function ($attribute, $value, $fail) {
-                $order = $this->orderRepository->get($value);
+            'encrypt_data' => ['required', function ($attribute, $value, $fail) {
+                try {
+                    $decryptedData = json_decode(Crypt::decryptString($value), true);
 
-                if ($order && ($order->status === OrderStatus::COMPLETED->value || $order->status === OrderStatus::CANCELED->value)) {
-                    $fail(__("Đơn hàng không thể thanh toán"));
+                    if (!isset($decryptedData['order_id']) || !isset($decryptedData['payment_name']) || !isset($decryptedData['plan_id'])) {
+                        throw new \Exception();
+                    }
+                } catch (\Exception) {
+                    return $fail();
                 }
             }],
-            'token' => [function ($attribute, $value, $fail) {
-                if (request()->input('payment_name') === PaymentName::PAYPAL->value && !$value) {
-                    $fail(__("Thiếu Token"));
-                }
-            }],
-            'session_id' => [function ($attribute, $value, $fail) {
-                if (request()->input('payment_name') === PaymentName::STRIPE->value && !$value) {
-                    $fail(__("Thiếu Session Id"));
-                }
-            }]
+            'token' => ['required']
         ];
     }
 }

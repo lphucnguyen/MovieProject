@@ -64,6 +64,39 @@
                         </li>
                     @endif
 
+                    @if(auth()->guard('admin')->user()->hasPermission('read_orders'))
+                        <li class="open {{request()->route()->uri == 'dashboard/orders' ? "active": ""}}">
+                            <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-shopping-cart"></i><span>{{ __('Đơn hàng') }}</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li><a href="{{route('dashboard.orders.index')}}">{{ __('Tất cả đơn hàng') }}</a></li>
+                            </ul>
+                        </li>
+                    @endif
+
+                    @if(auth()->guard('admin')->user()->hasPermission('read_plans'))
+                        <li class="open {{request()->route()->uri == 'dashboard/plans' ? "active": ""}}">
+                            <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-tune"></i><span>{{ __('Gói cước') }}</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li><a href="{{route('dashboard.plans.index')}}">{{ __('Tất cả gói cước') }}</a></li>
+                                @if(auth()->guard('admin')->user()->hasPermission('create_plans'))
+                                    <li><a href="{{route('dashboard.plans.create')}}">{{ __('Thêm gói cước') }}</a></li>
+                                @endif
+                            </ul>
+                        </li>
+                    @endif
+
+                    @if(auth()->guard('admin')->user()->hasPermission('read_subscriptions'))
+                        <li class="open {{request()->route()->uri == 'dashboard/subscriptions' ? "active": ""}}">
+                            <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-money"></i><span>{{ __('Subscription') }}</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li><a href="{{route('dashboard.subscriptions.index')}}">{{ __('Tất cả subscription') }}</a></li>
+                            </ul>
+                        </li>
+                    @endif
+
                     @if(auth()->guard('admin')->user()->hasPermission('read_films'))
                         <li class="{{request()->is('dashboard/films*') ? "active": ""}}">
                             <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-movie"></i><span>{{ __('Phim') }}</span>

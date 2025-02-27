@@ -6,6 +6,7 @@ use App\Application\DTOs\Payment\ApprovalPaymentPaypalDTO;
 use App\Shared\Application\DTOs\BaseDTO;
 use App\Application\DTOs\Payment\PaypalDTO;
 use App\Shared\Infrastructure\Concerns\ConsumeExternalService;
+use Illuminate\Support\Facades\Crypt;
 use InvalidArgumentException;
 
 class PaypalService implements IPaymentService
@@ -45,14 +46,19 @@ class PaypalService implements IPaymentService
             throw new InvalidArgumentException('Expected StripeDTO');
         }
 
+        $encryptedData = Crypt::encryptString(json_encode([
+            'plan_id' => $paypalDTO->plan_id,
+            'order_id' => $paypalDTO->order_id,
+            'payment_name' => $paypalDTO->payment_name,
+        ]));
+
+
         $order = $this->createAuthorization(
             $paypalDTO->amount,
             config('services.currency'),
             route('approval',
                 [
-                    'plan_id' => $paypalDTO->plan_id,
-                    'order_id' => $paypalDTO->order_id,
-                    'payment_name' => $paypalDTO->payment_name,
+                    'encrypt_data' => $encryptedData
                 ]
             ),
             route('cancelled')
@@ -103,7 +109,7 @@ class PaypalService implements IPaymentService
     {
         return $this->makeRequest(
             'POST',
-            "/v2/checkout/authorizations/{$authorizeId}/capture",
+            "/v2/payments/authorizations/{$authorizeId}/capture",
             [],
             [],
             [
@@ -129,7 +135,7 @@ class PaypalService implements IPaymentService
     {
         return $this->makeRequest(
             'POST',
-            "/v2/checkout/authorizations/{$authorizeId}/void",
+            "/v2/payments/authorizations/{$authorizeId}/void",
             [],
             [],
             [
@@ -162,7 +168,9 @@ class PaypalService implements IPaymentService
                     'cancel_url' => $cancelUrl,
                 ]
             ],
-            [],
+            [
+                'PayPal-Request-Id' => str()->uuid()->toString()
+            ],
             $isJsonRequest = true,
         );
     }

@@ -4,6 +4,8 @@ namespace App\Application\CommandHandlers\User;
 
 use App\Application\Commands\User\UpdateUserCommand;
 use App\Domain\Repositories\IUserRepository;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UpdateUserHandler
 {
@@ -14,14 +16,31 @@ class UpdateUserHandler
 
     public function handle(UpdateUserCommand $command)
     {
-        $user = $this->repository->get($command->uuid);
+        try {
+            DB::beginTransaction();
+            $user = $this->repository->get($command->uuid);
 
-        $data = $command->data;
-        $parts = explode("/", $data->avatar);
-        $file = implode('/', array_slice($parts, -2));
-        $data->avatar = $file;
-        $data->password = bcrypt($data->password);
+            $data = $command->data;
 
-        $user->update($data->toArray());
+            if ($data->avatar) {
+                $data->avatar = $data->avatar->store('client_avatars');
+            } else {
+                unset($data->avatar);
+            }
+
+            if ($data->password) {
+                $data->password = bcrypt($data->password);
+            } else {
+                unset($data->password);
+            }
+
+            $user->update($data->toArray());
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error($e->getMessage());
+            throw $e;
+        }
     }
 }

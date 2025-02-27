@@ -8,16 +8,10 @@ class CancelledController extends Controller
 {
     public function __invoke()
     {
-        if (session()->has('paymentIntentId')) {
-            session()->forget('paymentIntentId');
-        }
+        $lock = cache()->lock(auth()->user()->id . ':payment:send', 120);
 
-        if (session()->has('paymentPlatformName')) {
-            session()->forget('paymentPlatformName');
-        }
-
-        if (session()->has('approvalId')) {
-            session()->forget('approvalId');
+        if ($lock->get()) {
+            $lock->release();
         }
 
         return redirect()

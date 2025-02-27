@@ -1,7 +1,6 @@
 <div class="col-md-12 col-sm-12 col-xs-12 my-3">
     <h2>{{ __('Video phim') }}</h2>
     <div id="movies-embed"></div>
-    {{-- {!! $currentEpisode->url !!} --}}
     <h3 class="mt-5">{{ __('Danh sách tập phim') }}</h3>
     <ul class="d-flex">
 

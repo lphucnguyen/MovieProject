@@ -9,5 +9,5 @@ class UpdateProfileDTO extends BaseDTO
 {
     public string $first_name;
     public string $last_name;
-    public UploadedFile|null $avatar;
+    public UploadedFile|string|null $avatar;
 }

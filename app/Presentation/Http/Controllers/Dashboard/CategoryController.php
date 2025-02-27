@@ -14,7 +14,6 @@ use App\Presentation\Http\Requests\Dashboard\CreateCategoryRequest;
 use App\Presentation\Http\Requests\Dashboard\UpdateCategoryRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {

@@ -1,22 +1,45 @@
-FROM webdevops/php-nginx:8.2-alpine
+# Use official PHP 8.2 Alpine image
+FROM php:8.2-fpm-alpine
 
-# Install Laravel framework system requirements (https://laravel.com/docs/8.x/deployment#optimizing-configuration-loading)
-RUN apk add oniguruma-dev postgresql-dev libxml2-dev
+# Set working directory
+WORKDIR /var/www/html
+
+# Install system dependencies
+RUN apk add --no-cache \
+    bash \
+    curl \
+    unzip \
+    libpng-dev \
+    libzip-dev \
+    libxml2-dev \
+    oniguruma-dev \
+    postgresql-dev \
+    icu-dev \
+    tzdata
+
+# Install PHP extensions
 RUN docker-php-ext-install \
-        bcmath \
-        ctype \
-        fileinfo \
-        json \
-        mbstring \
-        pdo_mysql \
-        pdo_pgsql \
-        tokenizer \
-        xml \
-        php-dev
+    bcmath \
+    ctype \
+    fileinfo \
+    json \
+    mbstring \
+    pdo_mysql \
+    pdo_pgsql \
+    tokenizer \
+    xml \
+    zip
 
-# Copy Composer binary from the Composer official Docker image
+# Install and enable Redis extension (optional)
+RUN pecl install redis && docker-php-ext-enable redis
+
+# Set timezone
+RUN cp /usr/share/zoneinfo/UTC /etc/localtime && echo "UTC" > /etc/timezone
+
+# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Config Laravel Application
 ENV WEB_DOCUMENT_ROOT=/app/public
 ENV APP_ENV=production
 WORKDIR /app
@@ -32,4 +55,8 @@ RUN php artisan view:cache
 # Create Symlink
 RUN php artisan storage:link
 
-RUN chown -R application:application .
+# Expose port (PHP-FPM listens on this port)
+EXPOSE 9000
+
+# Start PHP-FPM
+CMD ["php-fpm"]

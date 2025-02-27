@@ -2,8 +2,10 @@
 
 namespace App\Presentation\Http\Controllers\Dashboard;
 
+use App\Application\Commands\Subscription\GetSubscriptionByUserIdCommand;
 use App\Application\Commands\User\CreateUserCommand;
 use App\Application\Commands\User\DeleteUserCommand;
+use App\Application\Commands\User\GetUserCommand;
 use App\Application\Commands\User\GetUsersCommand;
 use App\Application\Commands\User\UpdateUserCommand;
 use App\Application\DTOs\User\CreateUserDTO;
@@ -28,8 +30,7 @@ class ClientController extends Controller
 
     public function index(Request $request)
     {
-        $getUsersCommand = new GetUsersCommand($request->searchKey, 10);
-        $clients = Bus::dispatch($getUsersCommand);
+        $clients = Bus::dispatch(new GetUsersCommand($request->searchKey));
 
         return view('dashboard.clients.index', compact('clients'));
     }
@@ -49,9 +50,12 @@ class ClientController extends Controller
         return redirect()->route('dashboard.clients.index')->withSuccess(__('Khách hàng thêm thành công'));
     }
 
-    public function edit(User $client)
+    public function edit(string $uuid)
     {
-        return view('dashboard.clients.edit', compact('client'));
+        $client = Bus::dispatch(new GetUserCommand($uuid));
+        $subscription = Bus::dispatch(new GetSubscriptionByUserIdCommand($uuid));
+
+        return view('dashboard.clients.edit', compact('client', 'subscription'));
     }
 
     public function update(string $uuid, UpdateUserRequest $request)

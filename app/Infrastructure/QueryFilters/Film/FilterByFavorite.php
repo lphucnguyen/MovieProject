@@ -18,7 +18,6 @@ class FilterByFavorite
         $films =  $films->where(function ($query) use ($queryParams) {
             $query->when($queryParams['searchKeyFavorite'], function ($q) use ($queryParams) {
                 return $q->whereHas('favorites', function ($q2) use ($queryParams) {
-                    // dd($queryParams);
                     return $q2->whereIn('user_id', (array)$queryParams['searchKeyFavorite']);
                 });
             });

@@ -73,15 +73,29 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group last mt-5">
-                                    <img class="fileinput-preview fileinput-exists thumbnail preview-image-avatar"
-                                             style="max-width: 200px; max-height: 150px;" src="{{ asset('images/no-image.jpg'); }}">
-                                    <span class="btn btn-dark btn-file select-avatar-file">
-                                        <span class="fileinput-new">{{ __('Chọn Avatar') }}</span>
-                                        <input type="hidden" name="avatar" class="avatar-file"
-                                               value="{{ old('avatar', '') }}">
-                                    </span>
-                                    <span style="color: red; margin-left: 10px; display: block;">{{ $errors->first('avatar') }}</span>
+                                <div class="form-group last">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-new thumbnail"
+                                             style="width: 200px; height: 150px;">
+                                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image"
+                                                 alt=""/>
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail"
+                                             style="max-width: 200px; max-height: 150px;">
+                                        </div>
+                                        <div>
+                                                <span class="btn btn-dark btn-file">
+                                                    <span class="fileinput-new"> {{ __('Chọn Avatar') }} </span>
+                                                    <span class="fileinput-exists"> {{ __('Thay đổi') }} </span>
+                                                    <input type="file" name="avatar"
+                                                           value="{{ old('avatar', '') }}">
+                                                </span>
+                                            <a href="" class="btn btn-danger fileinput-exists"
+                                               data-dismiss="fileinput">
+                                                {{ __('Xoá') }} </a>
+                                        </div>
+                                        <span style="color: red; margin-left: 10px">{{ $errors->first('avatar') }}</span>
+                                    </div>
                                 </div>
 
                                 <hr>
@@ -122,24 +136,6 @@
 
     @push('scripts')
         <script src="{{asset('web_files/js/bootstrap-fileinput.js')}}"></script>
-        <script>
-            let file = '';
-
-            $('.select-avatar-file').on('click', function (event) {
-                event.preventDefault();
-
-                file = "avatar-file";
-                window.open('/file-manager/fm-button', 'FileManager', 'width=900,height=600');
-            });
-
-
-            function fmSetLink(url) {
-                if (file === 'avatar-file') {
-                    $('.avatar-file').attr('value', url);
-                    $('.preview-image-avatar').attr('src', url);
-                }
-            }
-        </script>
     @endpush
 
 @endsection

@@ -20,6 +20,6 @@ class GetUsersHandler
                 ->orWhere('first_name', 'like', '%' . $command->searchKey . '%')
                 ->orWhere('last_name', 'like', '%' . $command->searchKey . '%')
                 ->orWhere('email', 'like', '%' . $command->searchKey . '%');
-        })->latest()->paginate($command->perPage);
+        })->latest()->paginate(config('app.perPage'));
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Presentation\Livewire\Dashboard\Films;
 
-use App\Domain\Models\Film;
+use App\Application\Commands\Film\GetEpisodesCommand;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Bus;
 use Livewire\Component;
 
 class AddEpisode extends Component
@@ -54,7 +55,7 @@ class AddEpisode extends Component
             return;
         }
 
-        $film = Film::findOrFail($id);
-        $this->episodes = collect($film->episodes->toArray());
+        $episodes = Bus::dispatch(new GetEpisodesCommand($id));
+        $this->episodes = collect($episodes->toArray());
     }
 }

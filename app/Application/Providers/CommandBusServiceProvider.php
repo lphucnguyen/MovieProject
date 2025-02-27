@@ -33,6 +33,8 @@ class CommandBusServiceProvider extends ServiceProvider
         Bus::map([
             \App\Application\Commands\Film\GetMovieWithReviewCommand::class =>
             \App\Application\CommandHandlers\Film\GetMovieWithReviewHandler::class,
+            \App\Application\Commands\Film\GetEpisodesCommand::class =>
+            \App\Application\CommandHandlers\Film\GetEpisodesHandler::class,
             \App\Application\Commands\Film\GetMoviesByCategoryNameCommand::class =>
             \App\Application\CommandHandlers\Film\GetMoviesByCategoryNameHandler::class,
             \App\Application\Commands\Film\GetMoviesCommand::class =>
@@ -53,6 +55,10 @@ class CommandBusServiceProvider extends ServiceProvider
             \App\Application\CommandHandlers\Film\UpdateMovieHandler::class,
             \App\Application\Commands\Film\CreateMovieCommand::class =>
             \App\Application\CommandHandlers\Film\CreateMovieHandler::class,
+            \App\Application\Commands\Film\GetRecommendMoviesByMovieCommand::class =>
+            \App\Application\CommandHandlers\Film\GetRecommendMoviesByMovieHandler::class,
+            \App\Application\Commands\Film\GetRecommendMoviesByUserCommand::class =>
+            \App\Application\CommandHandlers\Film\GetRecommendMoviesByUserHandler::class,
         ]);
 
         // Category
@@ -91,6 +97,14 @@ class CommandBusServiceProvider extends ServiceProvider
             \App\Application\CommandHandlers\Message\DeleteMessageHandler::class,
         ]);
 
+        // Order
+        Bus::map([
+            \App\Application\Commands\Order\GetOrdersCommand::class =>
+            \App\Application\CommandHandlers\Order\GetOrdersHandler::class,
+            \App\Application\Commands\Order\GetOrderCommand::class =>
+            \App\Application\CommandHandlers\Order\GetOrderHandler::class,
+        ]);
+
         // Rating
         Bus::map([
             \App\Application\Commands\Rating\GetRatingsCommand::class =>
@@ -107,10 +121,40 @@ class CommandBusServiceProvider extends ServiceProvider
             \App\Application\CommandHandlers\Review\DeleteReviewHandler::class,
         ]);
 
+        // Plan
+        Bus::map([
+            \App\Application\Commands\Plan\GetPlansCommand::class =>
+            \App\Application\CommandHandlers\Plan\GetPlansHandler::class,
+            \App\Application\Commands\Plan\GetPlanCommand::class =>
+            \App\Application\CommandHandlers\Plan\GetPlanHandler::class,
+            \App\Application\Commands\Plan\DeletePlanCommand::class =>
+            \App\Application\CommandHandlers\Plan\DeletePlanHandler::class,
+            \App\Application\Commands\Plan\UpdatePlanCommand::class =>
+            \App\Application\CommandHandlers\Plan\UpdatePlanHandler::class,
+            \App\Application\Commands\Plan\GetPlansWithPaginateCommand::class =>
+            \App\Application\CommandHandlers\Plan\GetPlansWithPaginateHandler::class,
+        ]);
+
+        // Subscription
+        Bus::map([
+            \App\Application\Commands\Subscription\GetSubscriptionCommand::class =>
+            \App\Application\CommandHandlers\Subscription\GetSubscriptionHandler::class,
+            \App\Application\Commands\Subscription\GetSubscriptionsCommand::class =>
+            \App\Application\CommandHandlers\Subscription\GetSubscriptionsHandler::class,
+            \App\Application\Commands\Subscription\DeleteSubscriptionCommand::class =>
+            \App\Application\CommandHandlers\Subscription\DeleteSubscriptionHandler::class,
+            \App\Application\Commands\Subscription\UpdateSubscriptionCommand::class =>
+            \App\Application\CommandHandlers\Subscription\UpdateSubscriptionHandler::class,
+            \App\Application\Commands\Subscription\GetSubscriptionByUserIdCommand::class =>
+            \App\Application\CommandHandlers\Subscription\GetSubscriptionByUserIdHandler::class,
+        ]);
+
         // User
         Bus::map([
             \App\Application\Commands\User\GetUsersCommand::class =>
             \App\Application\CommandHandlers\User\GetUsersHandler::class,
+            \App\Application\Commands\User\GetUserCommand::class =>
+            \App\Application\CommandHandlers\User\GetUserHandler::class,
             \App\Application\Commands\User\CreateUserCommand::class =>
             \App\Application\CommandHandlers\User\CreateUserHandler::class,
             \App\Application\Commands\User\DeleteUserCommand::class =>
@@ -133,8 +177,6 @@ class CommandBusServiceProvider extends ServiceProvider
             \App\Application\CommandHandlers\User\CancelOrderHandler::class,
             \App\Application\Commands\User\UpdateProfileCommand::class =>
             \App\Application\CommandHandlers\User\UpdateProfileHandler::class,
-            \App\Application\Commands\Plan\GetPlansCommand::class =>
-            \App\Application\CommandHandlers\Plan\GetPlansHandler::class,
             \App\Application\Commands\Payment\PayOldOrderCommand::class =>
             \App\Application\CommandHandlers\Payment\PayOldOrderHandler::class,
             \App\Application\Commands\Payment\PayNewOrderCommand::class =>

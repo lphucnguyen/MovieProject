@@ -22,6 +22,8 @@ class CreateFilmsTable extends Migration
             $table->text('poster');
             $table->string('view_count')->default(0);
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

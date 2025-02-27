@@ -24,7 +24,7 @@ return new class extends Migration
                 OrderStatus::COMPLETED->value,
                 OrderStatus::PROCESSING->value,
             ])->default(
-                OrderStatus::PENDING->value
+                OrderStatus::PROCESSING->value
             );
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();
