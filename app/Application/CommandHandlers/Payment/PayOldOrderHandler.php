@@ -7,7 +7,8 @@ use App\Domain\Enums\Order\OrderStatus;
 use App\Domain\Repositories\IOrderRepository;
 use App\Domain\Repositories\IPlanRepository;
 use App\Infrastructure\Services\Payment\PaymentResolver;
-use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PayOldOrderHandler
 {
@@ -21,9 +22,11 @@ class PayOldOrderHandler
     public function handle(PayOldOrderCommand $command)
     {
         try {
+            DB::beginTransaction();
+
             $lock = cache()->lock(auth()->user()->id . ':payment:send', 120);
             if (!$lock->get()) {
-                return throw new Exception(__('Có vấn đề trong yêu cầu thanh toán. Hãy cố gắng lại lần nữa sau ít phút.'));
+                return throw new \Exception(__('Hiện tại đăng có một yêu cầu thanh toán. Hãy cố gắng lại lần nữa sau ít phút.'));
             }
 
             $dto = $command->dto;
@@ -34,10 +37,15 @@ class PayOldOrderHandler
 
             $paymentService = $this->paymentResolver->resolveService($dto->payment_name);
             return $paymentService->handlePayment($dto);
-        } catch(Exception $e) {
+
+            DB::commit();
+        } catch(\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+
             return redirect()
                 ->back()
-                ->with('error', $e->getMessage());
+                ->with('error', __("Không thể huỷ đơn hàng"));
         }
     }
 
@@ -52,14 +60,14 @@ class PayOldOrderHandler
     }
 
     public function handleExistOrder(string $orderId) {
-        $order = $this->orderRepository->get($orderId);
+        $order = $this->orderRepository->getWithLock($orderId);
 
         if (!$this->isCanPay($order->id)) {
-            throw new Exception(__('Bạn đã có một đơn hàng đang được xử lý. Vui lòng chờ đợi.'));
+            throw new \Exception(__('Bạn đã có một đơn hàng đang được xử lý. Vui lòng chờ đợi.'));
         }
 
         if ($order->status === OrderStatus::COMPLETED->value || $order->status === OrderStatus::CANCELED->value) {
-            throw new Exception(__('Đơn hàng đã được xử lý hoặc đã bị hủy.'));
+            throw new \Exception(__('Đơn hàng đã được xử lý hoặc đã bị hủy.'));
         }
 
         return $order;

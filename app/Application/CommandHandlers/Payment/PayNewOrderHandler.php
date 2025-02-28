@@ -8,7 +8,7 @@ use App\Domain\Enums\Order\OrderStatus;
 use App\Domain\Repositories\IOrderRepository;
 use App\Domain\Repositories\IPlanRepository;
 use App\Infrastructure\Services\Payment\PaymentResolver;
-use Exception;
+use Illuminate\Support\Facades\DB;
 
 class PayNewOrderHandler
 {
@@ -22,9 +22,11 @@ class PayNewOrderHandler
     public function handle(PayNewOrderCommand $command)
     {
         try {
+            DB::beginTransaction();
+
             $lock = cache()->lock(auth()->user()->id . ':payment:send', 120);
             if (!$lock->get()) {
-                return throw new Exception(__('Có vấn đề trong yêu cầu thanh toán. Hãy cố gắng lại lần nữa sau ít phút.'));
+                return throw new \Exception(__('Hiện tại đăng có một yêu cầu thanh toán. Hãy cố gắng lại lần nữa sau ít phút.'));
             }
 
             $dto = $command->dto;
@@ -37,7 +39,11 @@ class PayNewOrderHandler
             event(new OrderCreated($order->id));
 
             return $paymentService->handlePayment($dto);
-        } catch(Exception $e) {
+
+            DB::commit();
+        } catch(\Exception $e) {
+            DB::rollBack();
+
             return redirect()
                 ->back()
                 ->with('error', $e->getMessage());
@@ -55,7 +61,7 @@ class PayNewOrderHandler
 
     public function handleNewOrder($planId, $paymentName, $amount) {
         if (!$this->isCanPay()) {
-            throw new Exception(__('Bạn đã có một đơn hàng đang được xử lý. Vui lòng chờ đợi.'));
+            throw new \Exception(__('Bạn đã có một đơn hàng đang được xử lý. Vui lòng chờ đợi.'));
         }
 
         return $this->orderRepository->create([
