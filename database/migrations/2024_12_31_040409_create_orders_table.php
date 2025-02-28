@@ -31,6 +31,8 @@ return new class extends Migration
 
             $table->foreignUuid('user_id')->references('id')->on('users');
             $table->foreignUuid('plan_id')->references('id')->on('plans');
+
+            $table->index(['id', 'user_id', 'status']);
         });
     }
 

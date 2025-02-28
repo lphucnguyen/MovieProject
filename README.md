@@ -7,12 +7,13 @@
 
 <hr>
 
-### Features:
+### Technicals:
 1. Apply Command Bus pattern
 1. Building Infrastructure as code in AWS
 1. Building Dockerfile for this repo
 1. Apply Clean Architecture
-1. Payment Service Gateway
+1. Apply Payment Gateway
+1. Processing abandoned orders
 
 <hr>
 
