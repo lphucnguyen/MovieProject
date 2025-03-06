@@ -25,7 +25,7 @@ class CancelOrderHandler
                 return redirect()->back()->with('error', __('Đơn hàng đã hoàn thành hoặc huỷ'));
             }
 
-            $lock = cache()->lock(auth()->user()->id . ':payment:send', 120);
+            $lock = cache()->lock(auth()->user()->id . ':payment:send', 10);
             if (!$lock->get()) {
                 return redirect()
                     ->back()
@@ -36,16 +36,15 @@ class CancelOrderHandler
                 'status' => OrderStatus::CANCELED->value
             ]);
 
-            return redirect()->back()->withSuccess(__('Đơn hàng huỷ thành công'));
-
             DB::commit();
+            return redirect()->back()->withSuccess(__('Đơn hàng huỷ thành công'));
         } catch(\Exception $e) {
-            DB::rollBack();
             Log::error($e->getMessage());
-
             return redirect()
                 ->back()
                 ->with('error', __("Không thể huỷ đơn hàng"));
+        } finally {
+            $lock->release();
         }
     }
 }

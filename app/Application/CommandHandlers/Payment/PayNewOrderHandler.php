@@ -24,7 +24,7 @@ class PayNewOrderHandler
         try {
             DB::beginTransaction();
 
-            $lock = cache()->lock(auth()->user()->id . ':payment:send', 120);
+            $lock = cache()->lock(auth()->user()->id . ':payment:send', 10);
             if (!$lock->get()) {
                 return throw new \Exception(__('Hiện tại đăng có một yêu cầu thanh toán. Hãy cố gắng lại lần nữa sau ít phút.'));
             }
@@ -47,6 +47,8 @@ class PayNewOrderHandler
             return redirect()
                 ->back()
                 ->with('error', $e->getMessage());
+        } finally {
+            $lock->release();
         }
     }
 

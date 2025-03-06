@@ -1,4 +1,4 @@
-# Use official PHP 8.2 Alpine image
+# Use PHP 8.2 FPM Alpine as base image
 FROM php:8.2-fpm-alpine
 
 # Set working directory
@@ -6,31 +6,18 @@ WORKDIR /var/www/html
 
 # Install system dependencies
 RUN apk add --no-cache \
-    bash \
-    curl \
-    unzip \
-    libpng-dev \
-    libzip-dev \
-    libxml2-dev \
-    oniguruma-dev \
-    postgresql-dev \
-    icu-dev \
-    tzdata
+    bash curl unzip tzdata nginx supervisor \
+    libpng-dev libzip-dev libxml2-dev icu-dev postgresql-dev oniguruma-dev \
+    g++ make autoconf
 
 # Install PHP extensions
 RUN docker-php-ext-install \
-    bcmath \
-    ctype \
-    fileinfo \
-    json \
-    mbstring \
-    pdo_mysql \
-    pdo_pgsql \
-    tokenizer \
-    xml \
-    zip
+    bcmath ctype fileinfo mbstring pdo_mysql pdo_pgsql xml zip
 
-# Install and enable Redis extension (optional)
+# Install intl extension separately
+RUN docker-php-ext-configure intl && docker-php-ext-install intl
+
+# Install Redis extension
 RUN pecl install redis && docker-php-ext-enable redis
 
 # Set timezone
@@ -39,23 +26,26 @@ RUN cp /usr/share/zoneinfo/UTC /etc/localtime && echo "UTC" > /etc/timezone
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Config Laravel Application
-ENV WEB_DOCUMENT_ROOT=/app/public
-ENV APP_ENV=production
-WORKDIR /app
-COPY . .
+# Copy Laravel application
+COPY . /var/www/html
 
+# Set correct permissions for Laravel
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Install Laravel dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev
-# Optimizing Configuration loading
-RUN php artisan config:cache
-# Optimizing Route loading
-RUN php artisan route:cache
-# Optimizing View loading
-RUN php artisan view:cache
-# Create Symlink
-RUN php artisan storage:link
 
-# Expose port (PHP-FPM listens on this port)
+# Optimize Laravel application
+RUN php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache \
+    && php artisan storage:link
+
+# Define the correct WEB DOCUMENT ROOT
+ENV WEB_DOCUMENT_ROOT=/var/www/html/public
+
+# Expose PHP-FPM port
 EXPOSE 9000
 
 # Start PHP-FPM

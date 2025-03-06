@@ -24,7 +24,7 @@ class PayOldOrderHandler
         try {
             DB::beginTransaction();
 
-            $lock = cache()->lock(auth()->user()->id . ':payment:send', 120);
+            $lock = cache()->lock(auth()->user()->id . ':payment:send', 10);
             if (!$lock->get()) {
                 return throw new \Exception(__('Hiện tại đăng có một yêu cầu thanh toán. Hãy cố gắng lại lần nữa sau ít phút.'));
             }
@@ -46,6 +46,8 @@ class PayOldOrderHandler
             return redirect()
                 ->back()
                 ->with('error', __("Không thể huỷ đơn hàng"));
+        } finally {
+            $lock->release();
         }
     }
 
